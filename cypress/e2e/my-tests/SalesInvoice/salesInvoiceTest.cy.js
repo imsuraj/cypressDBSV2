@@ -27,7 +27,7 @@ describe('Open pages suite', () => {
 
     })
 
-    it('Verify Header of Sales Invoice Page', () => {
+    it.only('Verify Header of Sales Invoice Page', () => {
 
 
         cy.getHeaderText('headerText')
