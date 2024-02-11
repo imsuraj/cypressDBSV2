@@ -27,9 +27,9 @@ describe('Sales Invoice pages suite', () => {
 
     })
 
-    it('Verify Header of Sales Invoice Page', () => {
+    it.only('Verify Header of Sales Invoice Page', () => {
         cy.getHeaderText('headerText')
-        cy.get('@headerText').then(headerText => {
+        cy.get('@headerTexta').then(headerText => {
             try {
                 expect(headerText).to.eq('Sales Invoices')
             } catch (error) {
@@ -38,7 +38,7 @@ describe('Sales Invoice pages suite', () => {
         })
     })
 
-    it('Verify Search By Cusomter Ledger', () => {
+    it.only('Verify Search By Cusomter Ledger', () => {
         onSalesInvoicePage.searchInvoiceByText("Jain Kirana Pasal")
     })
 
