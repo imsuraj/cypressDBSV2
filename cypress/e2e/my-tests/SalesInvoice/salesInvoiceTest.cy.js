@@ -13,7 +13,7 @@ const { onCashBookPage } = require("../../../support/PageObjects/Reports/General
 
 
 
-describe('Open pages suite', () => {
+describe('Sales Invoice pages suite', () => {
 
 
     beforeEach('Open App and Login', () => {
@@ -27,7 +27,7 @@ describe('Open pages suite', () => {
 
     })
 
-    it('Verify Header of Sales Invoice Page', () => {
+    it.only('Verify Header of Sales Invoice Page', () => {
         cy.getHeaderText('headerText')
         cy.get('@headerText').then(headerText => {
             try {
