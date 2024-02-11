@@ -31,7 +31,7 @@ describe('Sales Invoice pages suite', () => {
         cy.getHeaderText('headerText')
         cy.get('@headerText').then(headerText => {
             try {
-                expect(headerText).to.eq('Sales Invoices')
+                expect(headerText).to.eq('Sales Invoice')
             } catch (error) {
                 cy.log('Header Text does not match')
             }
