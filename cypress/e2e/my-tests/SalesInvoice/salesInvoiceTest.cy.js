@@ -19,7 +19,7 @@ describe('Open pages suite', () => {
     beforeEach('Open App and Login', () => {
         cy.login(Cypress.env('username'), Cypress.env('password'))
 
-        cy.wait(4000)
+        cy.wait(2000)
         onDashboardPage.hoverMouserOverSales()
         onDashboardPage.clickSalesInvoice()
         onDashboardPage.verifySalesInvoiceUrl()
@@ -36,7 +36,7 @@ describe('Open pages suite', () => {
         })
     })
 
-    it.skip('Verify Search By Cusomter Ledger', () => {
+    it('Verify Search By Cusomter Ledger', () => {
 
 
         onSalesInvoicePage.searchInvoiceByText("Jain Kirana Pasal")
@@ -46,7 +46,7 @@ describe('Open pages suite', () => {
 
     it.only('Verify JV, Sales A/C, Vat A/c, Customer Ledger and IRD Reports after creating a sales invoice using credit payment mode', () => {
         onSalesInvoicePage.clickCreateBtn()
-        cy.wait(4000)
+        cy.wait(2000)
         onSalesInvoicePage.selectPaymentMode("Credit")
         onSalesInvoicePage.clickOnBusinessUnitDropdown()
         onSalesInvoicePage.selectBusinessUnitByValue("Sunfeast")

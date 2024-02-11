@@ -2,7 +2,7 @@ export class UpdatedSalesVatReportPage {
 
     searchByInvoiceNumnber(invoiceNumber) {
         cy.searchByText(invoiceNumber)
-        cy.wait(2000)
+        // cy.wait(2000)
         cy.contains('tbody tr td',invoiceNumber)
     }
 

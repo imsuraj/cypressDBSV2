@@ -233,11 +233,11 @@ export class SalesInvoicePage {
             const discount = parseFloat($row.find('td').eq(8).find('.discount-amt').text().replace(/,/g, ''))
             const netAmount = parseFloat($row.find('td').eq(9).text().replace(/,/g, ''))
 
-            cy.log(discount)
-            cy.log(quantity)
-            cy.log(rate)
-            cy.log(amount)
-            cy.log(netAmount)
+            // cy.log(discount)
+            // cy.log(quantity)
+            // cy.log(rate)
+            // cy.log(amount)
+            // cy.log(netAmount)
 
             expect(formatToTwoDecimalPlaces(amount), "Comparing  Amount with Expected Amount").to.equal((quantity * rate).toFixed(2).toString())
             expect(formatToTwoDecimalPlaces(netAmount), "Comparing SubTotal Amount with Expected subtotal Amount").to.equal(formatToTwoDecimalPlaces(amount - discount).toString())
