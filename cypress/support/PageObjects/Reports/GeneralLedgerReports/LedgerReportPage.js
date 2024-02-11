@@ -2,13 +2,39 @@ export class LedgerReportPage {
 
 
     searchIconEle = '.search-input > div > .sc-jSUZER'
-    searchFieldEle = '#searchId'
+    searchBoxEle = '#searchId'
 
     header = 'h2'
+    
 
+    clickOnSearchIcon() {
+        cy.get(this.searchIconEle).should('be.visible').click({force:true})
+    }
+
+    clearSearchBoxText() {
+        cy.get(this.searchBoxEle).clear()
+    }
+
+    enterValueInSearchBox (value) {
+        cy.get(this.searchBoxEle).type(value+'{enter}',{force:true})
+    }
+
+
+    searchVatBIllDiscTradeDiscLedger(ledgerName) {
+        this.clickOnSearchIcon()
+        cy.wait(1000)
+        this.clickOnSearchIcon()
+        this.enterValueInSearchBox(ledgerName)
+        cy.wait(1000)
+        cy.contains('tbody tr td', ledgerName)
+    }
+    
 
     searchLedgerWithName(ledgerName) {
-        cy.searchByText(ledgerName)
+        cy.get(this.searchIconEle).should('be.visible').click({ force: true })
+        cy.wait(1000)
+        cy.get(this.searchBoxEle).should('be.visible').type(ledgerName+'{enter}', {force: true})
+        cy.wait(1000)
     }
 
     openLedgerReport(ledgerName) {

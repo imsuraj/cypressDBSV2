@@ -44,7 +44,7 @@ describe('Open pages suite', () => {
 
 
 
-    it.only('Verify JV, Sales A/C, Vat A/c, Customer Ledger and IRD Reports after creating a sales invoice using credit payment mode', () => {
+    it('Verify JV, Sales A/C, Vat A/c, Customer Ledger and IRD Reports after creating a sales invoice using credit payment mode', () => {
         onSalesInvoicePage.clickCreateBtn()
         cy.wait(2000)
         onSalesInvoicePage.selectPaymentMode("Credit")
@@ -256,6 +256,12 @@ describe('Open pages suite', () => {
                                                                     }
 
 
+
+
+
+
+
+
                                                                     cy.log('***********************************Verifying CustomerLedger Report Starting***********************************')
                                                                     onDashboardPage.hoverMouseOverReports()
                                                                     onDashboardPage.hoverMouseOverGeneralLedgerReport()
@@ -342,7 +348,7 @@ describe('Open pages suite', () => {
                                                                     onDashboardPage.clickLedgerReport()
 
 
-                                                                    onLedgerReportPage.searchLedgerWithName('VAT A/C')
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('VAT A/C')
                                                                     onLedgerReportPage.openLedgerReport('VAT A/C')
                                                                     onLedgerReportPage.openReconciledDetails()
                                                                     onLedgerReportPage.getHeaderText('headerText')
@@ -351,7 +357,6 @@ describe('Open pages suite', () => {
                                                                     })
 
                                                                     onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
-
                                                                     onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfSVatAc')
                                                                     onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfVatAc')
 
@@ -382,78 +387,78 @@ describe('Open pages suite', () => {
 
 
 
-                                                                    // cy.log('***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************')
-                                                                    // onDashboardPage.hoverMouseOverReports()
-                                                                    // onDashboardPage.hoverMouseOverGeneralLedgerReport()
-                                                                    // onDashboardPage.clickLedgerReport()
-                                                                    // cy.reload()
+                                                                    cy.log('***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************')
+                                                                    onDashboardPage.hoverMouseOverReports()
+                                                                    onDashboardPage.hoverMouseOverGeneralLedgerReport()
+                                                                    onDashboardPage.clickLedgerReport()
 
 
-                                                                    // onLedgerReportPage.searchLedgerWithName('Bill Discount A/c')
-                                                                    // onLedgerReportPage.openLedgerReport('Bill Discount A/c')
-                                                                    // onLedgerReportPage.openReconciledDetails()
-                                                                    // onLedgerReportPage.getHeaderText('headerText')
-                                                                    // cy.get('@headerText').then(headerText => {
-                                                                    //     expect(headerText).to.eq('Bill Discount A/c reconciled')
-                                                                    // })
 
-                                                                    // onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('Bill Discount A/c')
+                                                                    onLedgerReportPage.openLedgerReport('Bill Discount A/c')
+                                                                    onLedgerReportPage.openReconciledDetails()
+                                                                    onLedgerReportPage.getHeaderText('headerText')
+                                                                    cy.get('@headerText').then(headerText => {
+                                                                        expect(headerText).to.eq('Bill Discount A/c reconciled')
+                                                                    })
 
-                                                                    // onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfBillDisctAc')
-                                                                    // onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfBillDiscAc')
+                                                                    onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
 
-                                                                    // cy.get('@debitValueOfBillDisctAc').then(debitValueOfBillDisctAc => {
-                                                                    //     cy.get('@creditValueOfBillDiscAc').then(creditValueOfBillDiscAc => {
+                                                                    onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfBillDisctAc')
+                                                                    onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfBillDiscAc')
 
-                                                                    //         cy.log(debitValueOfBillDisctAc)
-                                                                    //         cy.log(creditValueOfBillDiscAc)
+                                                                    cy.get('@debitValueOfBillDisctAc').then(debitValueOfBillDisctAc => {
+                                                                        cy.get('@creditValueOfBillDiscAc').then(creditValueOfBillDiscAc => {
 
-                                                                    //         let actualDebitValue = parseFloat(debitValueOfBillDisctAc.replace(/,/g, '')).toString()
-                                                                    //         let actualCreditValue = parseFloat(creditValueOfBillDiscAc.replace(/,/g, ''))
+                                                                            cy.log(debitValueOfBillDisctAc)
+                                                                            cy.log(creditValueOfBillDiscAc)
 
-                                                                    //         expect(actualDebitValue).to.equal(expectedBillDiscountAmount)
-                                                                    //         expect(actualCreditValue).to.equal(0)
-                                                                    //     })
+                                                                            let actualDebitValue = parseFloat(debitValueOfBillDisctAc.replace(/,/g, '')).toString()
+                                                                            let actualCreditValue = parseFloat(creditValueOfBillDiscAc.replace(/,/g, ''))
 
-                                                                    // })
-                                                                    // cy.log('***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************')
+                                                                            expect(actualDebitValue).to.equal(expectedBillDiscountAmount)
+                                                                            expect(actualCreditValue).to.equal(0)
+                                                                        })
 
-
-                                                                    // cy.log('***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************')
-
-                                                                    // onDashboardPage.hoverMouseOverReports()
-                                                                    // onDashboardPage.hoverMouseOverGeneralLedgerReport()
-                                                                    // onDashboardPage.clickLedgerReport()
+                                                                    })
+                                                                    cy.log('***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************')
 
 
-                                                                    // onLedgerReportPage.searchLedgerWithName('Trade Discount A/c')
-                                                                    // onLedgerReportPage.openLedgerReport('Trade Discount A/c')
-                                                                    // onLedgerReportPage.openReconciledDetails()
-                                                                    // onLedgerReportPage.getHeaderText('headerText')
-                                                                    // cy.get('@headerText').then(headerText => {
-                                                                    //     expect(headerText).to.eq('Trade Discount A/c reconciled')
-                                                                    // })
+                                                                    cy.log('***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************')
 
-                                                                    // onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
+                                                                    onDashboardPage.hoverMouseOverReports()
+                                                                    onDashboardPage.hoverMouseOverGeneralLedgerReport()
+                                                                    onDashboardPage.clickLedgerReport()
 
-                                                                    // onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfTradeDisctAc')
-                                                                    // onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfTradeDiscAc')
 
-                                                                    // cy.get('@debitValueOfTradeDisctAc').then(debitValueOfTradeDisctAc => {
-                                                                    //     cy.get('@creditValueOfTradeDiscAc').then(creditValueOfTradeDiscAc => {
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('Trade Discount A/c')
+                                                                    onLedgerReportPage.openLedgerReport('Trade Discount A/c')
+                                                                    onLedgerReportPage.openReconciledDetails()
+                                                                    onLedgerReportPage.getHeaderText('headerText')
+                                                                    cy.get('@headerText').then(headerText => {
+                                                                        expect(headerText).to.eq('Trade Discount A/c reconciled')
+                                                                    })
 
-                                                                    //         cy.log(debitValueOfTradeDisctAc)
-                                                                    //         cy.log(creditValueOfTradeDiscAc)
+                                                                    onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
 
-                                                                    //         let actualDebitValue = parseFloat(debitValueOfTradeDisctAc.replace(/,/g, '')).toString()
-                                                                    //         let actualCreditValue = parseFloat(creditValueOfTradeDiscAc.replace(/,/g, ''))
+                                                                    onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfTradeDisctAc')
+                                                                    onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfTradeDiscAc')
 
-                                                                    //         expect(actualDebitValue).to.equal(expectedTradeDiscountAmount)
-                                                                    //         expect(actualCreditValue).to.equal(0)
-                                                                    //     })
+                                                                    cy.get('@debitValueOfTradeDisctAc').then(debitValueOfTradeDisctAc => {
+                                                                        cy.get('@creditValueOfTradeDiscAc').then(creditValueOfTradeDiscAc => {
 
-                                                                    // })
-                                                                    // cy.log('***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************')
+                                                                            cy.log(debitValueOfTradeDisctAc)
+                                                                            cy.log(creditValueOfTradeDiscAc)
+
+                                                                            let actualDebitValue = parseFloat(debitValueOfTradeDisctAc.replace(/,/g, '')).toString()
+                                                                            let actualCreditValue = parseFloat(creditValueOfTradeDiscAc.replace(/,/g, ''))
+
+                                                                            expect(actualDebitValue).to.equal(expectedTradeDiscountAmount)
+                                                                            expect(actualCreditValue).to.equal(0)
+                                                                        })
+
+                                                                    })
+                                                                    cy.log('***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************')
 
 
                                                                     cy.log('*********************************** Verifying Updated Sales VAT Report Starting ***********************************')
@@ -608,7 +613,7 @@ describe('Open pages suite', () => {
     it('Verify user cannot create a sales Invoice without entering bill name for Cash Payment Mode', () => {
 
         onSalesInvoicePage.clickCreateBtn()
-        cy.wait(4000)
+        cy.wait(2000)
         onSalesInvoicePage.selectPaymentMode("Cash")
         onSalesInvoicePage.clickOnBusinessUnitDropdown()
         onSalesInvoicePage.selectBusinessUnitByValue("Sunfeast")
@@ -631,7 +636,7 @@ describe('Open pages suite', () => {
     it('Verify JV, Sales A/C, Vat A/c, Cash A/c and IRD Reports after creating a sales invoice using cash payment mode and without selecting ledger', () => {
 
         onSalesInvoicePage.clickCreateBtn()
-        cy.wait(4000)
+        cy.wait(2000)
         onSalesInvoicePage.selectPaymentMode("Cash")
         onSalesInvoicePage.clickOnBusinessUnitDropdown()
         onSalesInvoicePage.selectBusinessUnitByValue("Sunfeast")
@@ -896,7 +901,7 @@ describe('Open pages suite', () => {
                                                                     onDashboardPage.clickLedgerReport()
 
 
-                                                                    onLedgerReportPage.searchLedgerWithName('VAT A/C')
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('VAT A/C')
                                                                     onLedgerReportPage.openLedgerReport('VAT A/C')
                                                                     onLedgerReportPage.openReconciledDetails()
                                                                     onLedgerReportPage.getHeaderText('headerText')
@@ -933,78 +938,78 @@ describe('Open pages suite', () => {
 
 
 
-                                                                    // cy.log('***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************')
-                                                                    // onDashboardPage.hoverMouseOverReports()
-                                                                    // onDashboardPage.hoverMouseOverGeneralLedgerReport()
-                                                                    // onDashboardPage.clickLedgerReport()
-                                                                    // cy.reload()
+                                                                    cy.log('***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************')
+                                                                    onDashboardPage.hoverMouseOverReports()
+                                                                    onDashboardPage.hoverMouseOverGeneralLedgerReport()
+                                                                    onDashboardPage.clickLedgerReport()
 
 
-                                                                    // onLedgerReportPage.searchLedgerWithName('Bill Discount A/c')
-                                                                    // onLedgerReportPage.openLedgerReport('Bill Discount A/c')
-                                                                    // onLedgerReportPage.openReconciledDetails()
-                                                                    // onLedgerReportPage.getHeaderText('headerText')
-                                                                    // cy.get('@headerText').then(headerText => {
-                                                                    //     expect(headerText).to.eq('Bill Discount A/c reconciled')
-                                                                    // })
 
-                                                                    // onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('Bill Discount A/c')
+                                                                    onLedgerReportPage.openLedgerReport('Bill Discount A/c')
+                                                                    onLedgerReportPage.openReconciledDetails()
+                                                                    onLedgerReportPage.getHeaderText('headerText')
+                                                                    cy.get('@headerText').then(headerText => {
+                                                                        expect(headerText).to.eq('Bill Discount A/c reconciled')
+                                                                    })
 
-                                                                    // onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfBillDisctAc')
-                                                                    // onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfBillDiscAc')
+                                                                    onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
 
-                                                                    // cy.get('@debitValueOfBillDisctAc').then(debitValueOfBillDisctAc => {
-                                                                    //     cy.get('@creditValueOfBillDiscAc').then(creditValueOfBillDiscAc => {
+                                                                    onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfBillDisctAc')
+                                                                    onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfBillDiscAc')
 
-                                                                    //         cy.log(debitValueOfBillDisctAc)
-                                                                    //         cy.log(creditValueOfBillDiscAc)
+                                                                    cy.get('@debitValueOfBillDisctAc').then(debitValueOfBillDisctAc => {
+                                                                        cy.get('@creditValueOfBillDiscAc').then(creditValueOfBillDiscAc => {
 
-                                                                    //         let actualDebitValue = parseFloat(debitValueOfBillDisctAc.replace(/,/g, '')).toString()
-                                                                    //         let actualCreditValue = parseFloat(creditValueOfBillDiscAc.replace(/,/g, ''))
+                                                                            cy.log(debitValueOfBillDisctAc)
+                                                                            cy.log(creditValueOfBillDiscAc)
 
-                                                                    //         expect(actualDebitValue).to.equal(expectedBillDiscountAmount)
-                                                                    //         expect(actualCreditValue).to.equal(0)
-                                                                    //     })
+                                                                            let actualDebitValue = parseFloat(debitValueOfBillDisctAc.replace(/,/g, '')).toString()
+                                                                            let actualCreditValue = parseFloat(creditValueOfBillDiscAc.replace(/,/g, ''))
 
-                                                                    // })
-                                                                    // cy.log('***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************')
+                                                                            expect(actualDebitValue).to.equal(expectedBillDiscountAmount)
+                                                                            expect(actualCreditValue).to.equal(0)
+                                                                        })
 
-
-                                                                    // cy.log('***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************')
-
-                                                                    // onDashboardPage.hoverMouseOverReports()
-                                                                    // onDashboardPage.hoverMouseOverGeneralLedgerReport()
-                                                                    // onDashboardPage.clickLedgerReport()
+                                                                    })
+                                                                    cy.log('***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************')
 
 
-                                                                    // onLedgerReportPage.searchLedgerWithName('Trade Discount A/c')
-                                                                    // onLedgerReportPage.openLedgerReport('Trade Discount A/c')
-                                                                    // onLedgerReportPage.openReconciledDetails()
-                                                                    // onLedgerReportPage.getHeaderText('headerText')
-                                                                    // cy.get('@headerText').then(headerText => {
-                                                                    //     expect(headerText).to.eq('Trade Discount A/c reconciled')
-                                                                    // })
+                                                                    cy.log('***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************')
 
-                                                                    // onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
+                                                                    onDashboardPage.hoverMouseOverReports()
+                                                                    onDashboardPage.hoverMouseOverGeneralLedgerReport()
+                                                                    onDashboardPage.clickLedgerReport()
 
-                                                                    // onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfTradeDisctAc')
-                                                                    // onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfTradeDiscAc')
 
-                                                                    // cy.get('@debitValueOfTradeDisctAc').then(debitValueOfTradeDisctAc => {
-                                                                    //     cy.get('@creditValueOfTradeDiscAc').then(creditValueOfTradeDiscAc => {
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('Trade Discount A/c')
+                                                                    onLedgerReportPage.openLedgerReport('Trade Discount A/c')
+                                                                    onLedgerReportPage.openReconciledDetails()
+                                                                    onLedgerReportPage.getHeaderText('headerText')
+                                                                    cy.get('@headerText').then(headerText => {
+                                                                        expect(headerText).to.eq('Trade Discount A/c reconciled')
+                                                                    })
 
-                                                                    //         cy.log(debitValueOfTradeDisctAc)
-                                                                    //         cy.log(creditValueOfTradeDiscAc)
+                                                                    onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
 
-                                                                    //         let actualDebitValue = parseFloat(debitValueOfTradeDisctAc.replace(/,/g, '')).toString()
-                                                                    //         let actualCreditValue = parseFloat(creditValueOfTradeDiscAc.replace(/,/g, ''))
+                                                                    onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfTradeDisctAc')
+                                                                    onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfTradeDiscAc')
 
-                                                                    //         expect(actualDebitValue).to.equal(expectedTradeDiscountAmount)
-                                                                    //         expect(actualCreditValue).to.equal(0)
-                                                                    //     })
+                                                                    cy.get('@debitValueOfTradeDisctAc').then(debitValueOfTradeDisctAc => {
+                                                                        cy.get('@creditValueOfTradeDiscAc').then(creditValueOfTradeDiscAc => {
 
-                                                                    // })
-                                                                    // cy.log('***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************')
+                                                                            cy.log(debitValueOfTradeDisctAc)
+                                                                            cy.log(creditValueOfTradeDiscAc)
+
+                                                                            let actualDebitValue = parseFloat(debitValueOfTradeDisctAc.replace(/,/g, '')).toString()
+                                                                            let actualCreditValue = parseFloat(creditValueOfTradeDiscAc.replace(/,/g, ''))
+
+                                                                            expect(actualDebitValue).to.equal(expectedTradeDiscountAmount)
+                                                                            expect(actualCreditValue).to.equal(0)
+                                                                        })
+
+                                                                    })
+                                                                    cy.log('***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************')
 
 
                                                                     cy.log('*********************************** Verifying Updated Sales VAT Report Starting ***********************************')
@@ -1152,7 +1157,7 @@ describe('Open pages suite', () => {
     it('Verify JV, Sales A/C, Vat A/c, Cash A/c and IRD Reports after creating a sales invoice using cash payment mode and  selecting ledger', () => {
 
         onSalesInvoicePage.clickCreateBtn()
-        cy.wait(4000)
+        cy.wait(2000)
         onSalesInvoicePage.selectPaymentMode("Cash")
         onSalesInvoicePage.clickOnBusinessUnitDropdown()
         onSalesInvoicePage.selectBusinessUnitByValue("Sunfeast")
@@ -1414,7 +1419,7 @@ describe('Open pages suite', () => {
                                                                     onDashboardPage.clickLedgerReport()
 
 
-                                                                    onLedgerReportPage.searchLedgerWithName('VAT A/C')
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('VAT A/C')
                                                                     onLedgerReportPage.openLedgerReport('VAT A/C')
                                                                     onLedgerReportPage.openReconciledDetails()
                                                                     onLedgerReportPage.getHeaderText('headerText')
@@ -1451,78 +1456,78 @@ describe('Open pages suite', () => {
 
 
 
-                                                                    // cy.log('***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************')
-                                                                    // onDashboardPage.hoverMouseOverReports()
-                                                                    // onDashboardPage.hoverMouseOverGeneralLedgerReport()
-                                                                    // onDashboardPage.clickLedgerReport()
-                                                                    // cy.reload()
+                                                                    cy.log('***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************')
+                                                                    onDashboardPage.hoverMouseOverReports()
+                                                                    onDashboardPage.hoverMouseOverGeneralLedgerReport()
+                                                                    onDashboardPage.clickLedgerReport()
 
 
-                                                                    // onLedgerReportPage.searchLedgerWithName('Bill Discount A/c')
-                                                                    // onLedgerReportPage.openLedgerReport('Bill Discount A/c')
-                                                                    // onLedgerReportPage.openReconciledDetails()
-                                                                    // onLedgerReportPage.getHeaderText('headerText')
-                                                                    // cy.get('@headerText').then(headerText => {
-                                                                    //     expect(headerText).to.eq('Bill Discount A/c reconciled')
-                                                                    // })
 
-                                                                    // onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('Bill Discount A/c')
+                                                                    onLedgerReportPage.openLedgerReport('Bill Discount A/c')
+                                                                    onLedgerReportPage.openReconciledDetails()
+                                                                    onLedgerReportPage.getHeaderText('headerText')
+                                                                    cy.get('@headerText').then(headerText => {
+                                                                        expect(headerText).to.eq('Bill Discount A/c reconciled')
+                                                                    })
 
-                                                                    // onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfBillDisctAc')
-                                                                    // onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfBillDiscAc')
+                                                                    onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
 
-                                                                    // cy.get('@debitValueOfBillDisctAc').then(debitValueOfBillDisctAc => {
-                                                                    //     cy.get('@creditValueOfBillDiscAc').then(creditValueOfBillDiscAc => {
+                                                                    onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfBillDisctAc')
+                                                                    onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfBillDiscAc')
 
-                                                                    //         cy.log(debitValueOfBillDisctAc)
-                                                                    //         cy.log(creditValueOfBillDiscAc)
+                                                                    cy.get('@debitValueOfBillDisctAc').then(debitValueOfBillDisctAc => {
+                                                                        cy.get('@creditValueOfBillDiscAc').then(creditValueOfBillDiscAc => {
 
-                                                                    //         let actualDebitValue = parseFloat(debitValueOfBillDisctAc.replace(/,/g, '')).toString()
-                                                                    //         let actualCreditValue = parseFloat(creditValueOfBillDiscAc.replace(/,/g, ''))
+                                                                            cy.log(debitValueOfBillDisctAc)
+                                                                            cy.log(creditValueOfBillDiscAc)
 
-                                                                    //         expect(actualDebitValue).to.equal(expectedBillDiscountAmount)
-                                                                    //         expect(actualCreditValue).to.equal(0)
-                                                                    //     })
+                                                                            let actualDebitValue = parseFloat(debitValueOfBillDisctAc.replace(/,/g, '')).toString()
+                                                                            let actualCreditValue = parseFloat(creditValueOfBillDiscAc.replace(/,/g, ''))
 
-                                                                    // })
-                                                                    // cy.log('***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************')
+                                                                            expect(actualDebitValue).to.equal(expectedBillDiscountAmount)
+                                                                            expect(actualCreditValue).to.equal(0)
+                                                                        })
 
-
-                                                                    // cy.log('***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************')
-
-                                                                    // onDashboardPage.hoverMouseOverReports()
-                                                                    // onDashboardPage.hoverMouseOverGeneralLedgerReport()
-                                                                    // onDashboardPage.clickLedgerReport()
+                                                                    })
+                                                                    cy.log('***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************')
 
 
-                                                                    // onLedgerReportPage.searchLedgerWithName('Trade Discount A/c')
-                                                                    // onLedgerReportPage.openLedgerReport('Trade Discount A/c')
-                                                                    // onLedgerReportPage.openReconciledDetails()
-                                                                    // onLedgerReportPage.getHeaderText('headerText')
-                                                                    // cy.get('@headerText').then(headerText => {
-                                                                    //     expect(headerText).to.eq('Trade Discount A/c reconciled')
-                                                                    // })
+                                                                    cy.log('***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************')
 
-                                                                    // onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
+                                                                    onDashboardPage.hoverMouseOverReports()
+                                                                    onDashboardPage.hoverMouseOverGeneralLedgerReport()
+                                                                    onDashboardPage.clickLedgerReport()
 
-                                                                    // onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfTradeDisctAc')
-                                                                    // onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfTradeDiscAc')
 
-                                                                    // cy.get('@debitValueOfTradeDisctAc').then(debitValueOfTradeDisctAc => {
-                                                                    //     cy.get('@creditValueOfTradeDiscAc').then(creditValueOfTradeDiscAc => {
+                                                                    onLedgerReportPage.searchVatBIllDiscTradeDiscLedger('Trade Discount A/c')
+                                                                    onLedgerReportPage.openLedgerReport('Trade Discount A/c')
+                                                                    onLedgerReportPage.openReconciledDetails()
+                                                                    onLedgerReportPage.getHeaderText('headerText')
+                                                                    cy.get('@headerText').then(headerText => {
+                                                                        expect(headerText).to.eq('Trade Discount A/c reconciled')
+                                                                    })
 
-                                                                    //         cy.log(debitValueOfTradeDisctAc)
-                                                                    //         cy.log(creditValueOfTradeDiscAc)
+                                                                    onLedgerReportPage.searchInvoiceInReportDetails(invoiceNumber)
 
-                                                                    //         let actualDebitValue = parseFloat(debitValueOfTradeDisctAc.replace(/,/g, '')).toString()
-                                                                    //         let actualCreditValue = parseFloat(creditValueOfTradeDiscAc.replace(/,/g, ''))
+                                                                    onLedgerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValueOfTradeDisctAc')
+                                                                    onLedgerReportPage.getCreditValueByInvoiceNum(invoiceNumber, 'creditValueOfTradeDiscAc')
 
-                                                                    //         expect(actualDebitValue).to.equal(expectedTradeDiscountAmount)
-                                                                    //         expect(actualCreditValue).to.equal(0)
-                                                                    //     })
+                                                                    cy.get('@debitValueOfTradeDisctAc').then(debitValueOfTradeDisctAc => {
+                                                                        cy.get('@creditValueOfTradeDiscAc').then(creditValueOfTradeDiscAc => {
 
-                                                                    // })
-                                                                    // cy.log('***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************')
+                                                                            cy.log(debitValueOfTradeDisctAc)
+                                                                            cy.log(creditValueOfTradeDiscAc)
+
+                                                                            let actualDebitValue = parseFloat(debitValueOfTradeDisctAc.replace(/,/g, '')).toString()
+                                                                            let actualCreditValue = parseFloat(creditValueOfTradeDiscAc.replace(/,/g, ''))
+
+                                                                            expect(actualDebitValue).to.equal(expectedTradeDiscountAmount)
+                                                                            expect(actualCreditValue).to.equal(0)
+                                                                        })
+
+                                                                    })
+                                                                    cy.log('***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************')
 
 
                                                                     cy.log('*********************************** Verifying Updated Sales VAT Report Starting ***********************************')
