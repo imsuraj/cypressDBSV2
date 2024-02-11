@@ -87,6 +87,7 @@ export class DashboardPage {
     verifySalesInvoiceUrl () {
         cy.url().should('include', this.salesInvoiceUrl)
     }
+    
 
     clickSalesReturnInvoice () {
         cy.get(this.salesReturnSubMenu).should("be.visible").click()
