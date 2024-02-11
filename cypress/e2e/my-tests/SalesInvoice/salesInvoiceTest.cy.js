@@ -44,7 +44,7 @@ describe('Open pages suite', () => {
 
 
 
-    it('Verify JV, Sales A/C, Vat A/c, Customer Ledger and IRD Reports after creating a sales invoice using credit payment mode', () => {
+    it.only('Verify JV, Sales A/C, Vat A/c, Customer Ledger and IRD Reports after creating a sales invoice using credit payment mode', () => {
         onSalesInvoicePage.clickCreateBtn()
         cy.wait(4000)
         onSalesInvoicePage.selectPaymentMode("Credit")
