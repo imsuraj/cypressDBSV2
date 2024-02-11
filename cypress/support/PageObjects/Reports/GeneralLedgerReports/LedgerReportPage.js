@@ -21,10 +21,10 @@ export class LedgerReportPage {
 
 
     searchVatBIllDiscTradeDiscLedger(ledgerName) {
+        cy.wait(2000)
         this.clickOnSearchIcon()
         cy.wait(1000)
         this.clickOnSearchIcon()
-        cy.wait(1000)
         this.enterValueInSearchBox(ledgerName)
         cy.wait(1000)
         cy.contains('tbody tr td', ledgerName)

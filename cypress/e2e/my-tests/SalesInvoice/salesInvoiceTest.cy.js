@@ -88,7 +88,6 @@ describe('Open pages suite', () => {
         })
     })
 
-
     it('Verify JV, Sales A/C, Vat A/c, Customer Ledger and IRD Reports after creating a sales invoice using credit payment mode', () => {
         onSalesInvoicePage.clickCreateBtn()
         cy.wait(2000)
@@ -657,7 +656,6 @@ describe('Open pages suite', () => {
             })
         })
     })
-
 
     it('Verify JV, Sales A/C, Vat A/c, Cash A/c and IRD Reports after creating a sales invoice using cash payment mode and without selecting ledger', () => {
 
