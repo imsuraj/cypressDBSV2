@@ -256,12 +256,6 @@ describe('Open pages suite', () => {
                                                                     }
 
 
-
-
-
-
-
-
                                                                     cy.log('***********************************Verifying CustomerLedger Report Starting***********************************')
                                                                     onDashboardPage.hoverMouseOverReports()
                                                                     onDashboardPage.hoverMouseOverGeneralLedgerReport()

@@ -42,7 +42,7 @@ Cypress.Commands.add('login', (email, password) => {
 
 Cypress.Commands.add('searchByText',(text) => {
     cy.get('.search-input > div > .sc-jSUZER').should('be.visible').click({ force: true })
-    cy.get('#searchId').should('be.visible').type(text+'{enter}', {force: true})
+    cy.get('#searchId').should('be.visible').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}'+text+'{enter}', {force: true})
     cy.wait(1000)
 
 })

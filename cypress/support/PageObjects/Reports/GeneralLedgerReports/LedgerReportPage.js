@@ -8,9 +8,7 @@ export class LedgerReportPage {
 
 
     searchLedgerWithName(ledgerName) {
-        cy.get(this.searchIconEle).should('be.visible').click({ force: true })
-        cy.get(this.searchFieldEle).should('be.visible').type(ledgerName+'{enter}', {force: true})
-        cy.wait(1000)
+        cy.searchByText(ledgerName)
     }
 
     openLedgerReport(ledgerName) {
