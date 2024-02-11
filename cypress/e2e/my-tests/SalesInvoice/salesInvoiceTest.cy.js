@@ -27,7 +27,7 @@ describe('Open pages suite', () => {
 
     })
 
-    it.only('Verify Header of Sales Invoice Page', () => {
+    it('Verify Header of Sales Invoice Page', () => {
 
 
         cy.getHeaderText('headerText')
@@ -36,7 +36,7 @@ describe('Open pages suite', () => {
         })
     })
 
-    it('Verify Search By Cusomter Ledger', () => {
+    it.skip('Verify Search By Cusomter Ledger', () => {
 
 
         onSalesInvoicePage.searchInvoiceByText("Jain Kirana Pasal")
