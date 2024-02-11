@@ -15,7 +15,7 @@ const { onCashBookPage } = require("../../../support/PageObjects/Reports/General
 
 describe('Open pages suite', () => {
 
-    
+
     beforeEach('Open App and Login', () => {
         cy.login(Cypress.env('username'), Cypress.env('password'))
 
@@ -28,25 +28,65 @@ describe('Open pages suite', () => {
     })
 
     it('Verify Header of Sales Invoice Page', () => {
-
-
         cy.getHeaderText('headerText')
         cy.get('@headerText').then(headerText => {
             try {
-                expect(headerText).to.eq('Sales Invoices')    
+                expect(headerText).to.eq('Sales Invoices')
             } catch (error) {
                 cy.log('Header Text does not match')
             }
-            
         })
     })
 
     it('Verify Search By Cusomter Ledger', () => {
-
-
         onSalesInvoicePage.searchInvoiceByText("Jain Kirana Pasal")
     })
 
+    it('Verify user cannot create a sales Invoice without entering bill name for Cash Payment Mode', () => {
+
+        onSalesInvoicePage.clickCreateBtn()
+        cy.wait(2000)
+        onSalesInvoicePage.selectPaymentMode("Cash")
+        onSalesInvoicePage.clickOnBusinessUnitDropdown()
+        onSalesInvoicePage.selectBusinessUnitByValue("Sunfeast")
+        onSalesInvoicePage.typeRemarks("Test")
+        onSalesInvoicePage.selectSalesPerson("Sin Cos")
+        onSalesInvoicePage.selectSKU(0, 'Sunfeast 50-50 Top Buttery Bites 200 gm x 20 NPR 50 IN [96889]')
+        onSalesInvoicePage.checkStockOfSelectedSKU(0)
+        onSalesInvoicePage.typeQuantity(0, 5)
+        onSalesInvoicePage.clickOnAddButon()
+
+        onSalesInvoicePage.clickOnSaveBtn()
+        cy.wait(2000)
+
+        onSalesInvoicePage.getBillNameErrorMessage('errorMessage')
+        cy.get('@errorMessage').then(errorMessage => {
+            expect(errorMessage).to.equal('Bill name is required')
+        })
+    })
+
+    it('Verify user cannot create a sales Invoice without selecting ledger for non Cash Payment Mode', () => {
+
+        onSalesInvoicePage.clickCreateBtn()
+        cy.wait(2000)
+        onSalesInvoicePage.selectPaymentMode("Credit")
+        onSalesInvoicePage.clickOnBusinessUnitDropdown()
+        onSalesInvoicePage.selectBusinessUnitByValue("Sunfeast")
+        onSalesInvoicePage.typeRemarks("Test")
+        onSalesInvoicePage.selectSalesPerson("Sin Cos")
+        onSalesInvoicePage.selectSKU(0, 'Sunfeast 50-50 Top Buttery Bites 200 gm x 20 NPR 50 IN [96889]')
+        onSalesInvoicePage.checkStockOfSelectedSKU(0)
+        onSalesInvoicePage.typeQuantity(0, 5)
+        onSalesInvoicePage.clickOnAddButon()
+
+        onSalesInvoicePage.clickOnSaveBtn()
+        cy.wait(2000)
+
+        onSalesInvoicePage.getBillNameErrorMessage('errorMessage')
+        cy.get('@errorMessage').then(errorMessage => {
+            expect(errorMessage).to.equal('Bill name is required')
+        })
+    })
 
 
     it('Verify JV, Sales A/C, Vat A/c, Customer Ledger and IRD Reports after creating a sales invoice using credit payment mode', () => {
@@ -177,7 +217,6 @@ describe('Open pages suite', () => {
                                                                     let vatAmt = parseFloat(expectedVatAmount.replace(/,/g, ''))
 
 
-
                                                                     // let expectedRoundAmount = totalAmt - subTotalAmt - billDiscAmt - tradeDiscAmt + vatAmt
 
                                                                     let actualSalesAcAmount = parseFloat(salesAmount.replace(/,/g, '')).toString()
@@ -260,13 +299,6 @@ describe('Open pages suite', () => {
                                                                         cy.log('Difference is not matching')
                                                                     }
 
-
-
-
-
-
-
-
                                                                     cy.log('***********************************Verifying CustomerLedger Report Starting***********************************')
                                                                     onDashboardPage.hoverMouseOverReports()
                                                                     onDashboardPage.hoverMouseOverGeneralLedgerReport()
@@ -278,11 +310,11 @@ describe('Open pages suite', () => {
                                                                     onCustomerReportPage.getHeaderText('headerText')
                                                                     cy.get('@headerText').then(headerText => {
                                                                         try {
-                                                                            expect(headerText).to.eq('Jain Kirana Pasal reconciled')    
+                                                                            expect(headerText).to.eq('Jain Kirana Pasal reconciled')
                                                                         } catch (error) {
                                                                             cy.log('Header Text does not match')
                                                                         }
-                                                                        
+
                                                                     })
                                                                     onCustomerReportPage.searchInvoiceInReportDetails(invoiceNumber)
                                                                     onCustomerReportPage.getDebitValueByInvoiceNum(invoiceNumber, 'debitValue')
@@ -427,13 +459,11 @@ describe('Open pages suite', () => {
                                                                             let actualCreditValue = parseFloat(creditValueOfBillDiscAc.replace(/,/g, ''))
 
                                                                             try {
-                                                                                expect(actualDebitValue).to.equal(expectedBillDiscountAmount)  
+                                                                                expect(actualDebitValue).to.equal(expectedBillDiscountAmount)
                                                                                 expect(actualCreditValue).to.equal(0)
                                                                             } catch (error) {
                                                                                 cy.log("Debit and Credit amount does not matched for Bill Discount")
-                                                                            } 
-
-                                                                            
+                                                                            }
                                                                         })
 
                                                                     })
@@ -468,14 +498,14 @@ describe('Open pages suite', () => {
                                                                             let actualDebitValue = parseFloat(debitValueOfTradeDisctAc.replace(/,/g, '')).toString()
                                                                             let actualCreditValue = parseFloat(creditValueOfTradeDiscAc.replace(/,/g, ''))
 
-                                                                            
+
                                                                             try {
                                                                                 expect(actualDebitValue).to.equal(expectedTradeDiscountAmount)
                                                                                 expect(actualCreditValue).to.equal(0)
                                                                             } catch (error) {
                                                                                 cy.log('Debit and credit does not matched for Trade Discount')
                                                                             }
-                                                                          
+
                                                                         })
 
                                                                     })
@@ -483,9 +513,6 @@ describe('Open pages suite', () => {
 
 
                                                                     cy.log('*********************************** Verifying Updated Sales VAT Report Starting ***********************************')
-
-
-
 
                                                                     onDashboardPage.hoverMouseOverReports()
                                                                     onDashboardPage.hoverMouseOverIrdReports()
@@ -631,28 +658,6 @@ describe('Open pages suite', () => {
         })
     })
 
-    it('Verify user cannot create a sales Invoice without entering bill name for Cash Payment Mode', () => {
-
-        onSalesInvoicePage.clickCreateBtn()
-        cy.wait(2000)
-        onSalesInvoicePage.selectPaymentMode("Cash")
-        onSalesInvoicePage.clickOnBusinessUnitDropdown()
-        onSalesInvoicePage.selectBusinessUnitByValue("Sunfeast")
-        onSalesInvoicePage.typeRemarks("Test")
-        onSalesInvoicePage.selectSalesPerson("Sin Cos")
-        onSalesInvoicePage.selectSKU(0, 'Sunfeast 50-50 Top Buttery Bites 200 gm x 20 NPR 50 IN [96889]')
-        onSalesInvoicePage.checkStockOfSelectedSKU(0)
-        onSalesInvoicePage.typeQuantity(0, 5)
-        onSalesInvoicePage.clickOnAddButon()
-
-        onSalesInvoicePage.clickOnSaveBtn()
-        cy.wait(2000)
-
-        onSalesInvoicePage.getBillNameErrorMessage('errorMessage')
-        cy.get('@errorMessage').then(errorMessage => {
-            expect(errorMessage).to.equal('Bill name is required')
-        })
-    })
 
     it('Verify JV, Sales A/C, Vat A/c, Cash A/c and IRD Reports after creating a sales invoice using cash payment mode and without selecting ledger', () => {
 
@@ -828,13 +833,6 @@ describe('Open pages suite', () => {
                                                                     } catch (error) {
                                                                         cy.log('Difference is not matching')
                                                                     }
-
-
-
-
-
-
-
 
                                                                     cy.log('***********************************Verifying CASH A/C Report Starting***********************************')
                                                                     onDashboardPage.hoverMouseOverReports()
@@ -1034,9 +1032,6 @@ describe('Open pages suite', () => {
 
 
                                                                     cy.log('*********************************** Verifying Updated Sales VAT Report Starting ***********************************')
-
-
-
 
                                                                     onDashboardPage.hoverMouseOverReports()
                                                                     onDashboardPage.hoverMouseOverIrdReports()
@@ -1348,12 +1343,6 @@ describe('Open pages suite', () => {
                                                                     }
 
 
-
-
-
-
-
-
                                                                     cy.log('***********************************Verifying CustomerLedger Report Starting***********************************')
                                                                     onDashboardPage.hoverMouseOverReports()
                                                                     onDashboardPage.hoverMouseOverGeneralLedgerReport()
@@ -1552,8 +1541,6 @@ describe('Open pages suite', () => {
 
 
                                                                     cy.log('*********************************** Verifying Updated Sales VAT Report Starting ***********************************')
-
-
 
 
                                                                     onDashboardPage.hoverMouseOverReports()
