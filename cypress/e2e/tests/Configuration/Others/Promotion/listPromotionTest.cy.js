@@ -101,6 +101,7 @@ describe("Create Promotion Test", () => {
         cy.get('.filter-contain-group.custom-scroll > div').should("be.visible").wait(1000).each((option) => {
             cy.wrap(option).invoke('text').then((optionText) => {
                 cy.log(optionText);
+                optionText.split
             })
         })
 
