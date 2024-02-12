@@ -6,7 +6,7 @@ const timestamp = currentDate.getTime();
 
 
 describe("Create Promotions Test", () => {
-
+    let title;
 
 
     beforeEach(() => {
@@ -212,7 +212,7 @@ describe("Create Promotions Test", () => {
 
     it("Verify active integrated BU are displayed", () => {
 
-        const desiredBu = ['Real Juice', 'Shreeyana Bu', 'Muna Chiya', "Hershey's", 'VAT BU', 'HFD-TEST', 'Noodles', 'Nails', 'Red Bull India', 'Mama Earth', 'Nepali Brand', 'Lenovo', 'Fix Derma', 'QA BU', 'Sunfeast', 'HFD', 'Mars']
+        const desiredBu = ['Real Juice', 'Shreeyana Bu', 'Muna Chiya', "Hershey's", 'VAT BU', 'Noodles', 'Nails','DFD-TEST', 'Red Bull India', 'Mama Earth', 'Nepali Brand', 'Lenovo', 'Fix Derma', 'QA BU', 'Sunfeast', 'HFD', 'Mars']
 
         onPromotionsPage.clickCreateIcon()
         onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -470,7 +470,7 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
 
                 onCreatePromotionPage.clickSaveBtn()
-                onCreatePromotionPage.getPromotionTypeErrorMessage().should("contain", "Promotion Type is required")
+                onCreatePromotionPage.getPromotionTypeErrorMessage().should("contain", "Promotion type is required")
             })
         })
 
