@@ -1,4 +1,4 @@
-const { onDashboardPage } = require("../../../support/PageObjects/DashboardPage")
+const { onDashboardPage } = require("../../../support/PageObjects/DashboardPage/DashboardPage.po")
 
 
 

@@ -1,5 +1,5 @@
-const { onDashboardPage } = require("../../../../support/PageObjects/DashboardPage")
-const { onCustomerReportPage } = require("../../../../support/PageObjects/Reports/GeneralLedgerReports/CustomerReportPage")
+const { onDashboardPage } = require("../../../../support/PageObjects/DashboardPage/DashboardPage.po")
+const { onCustomerReportPage } = require("../../../../support/PageObjects/Reports/GeneralLedgerReports/CustomerReportPage.po")
 
 describe('Customer Report Test SUite',() => {
 

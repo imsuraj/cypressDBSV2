@@ -7,7 +7,7 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-import CreatePurchaseInvoicePage from "./PageObjects/CreatePurchaseInvoicePage"
+import CreatePurchaseInvoicePage from "./PageObjects/PurchaseInvoicePage/CreatePurchaseInvoicePage"
 
 //
 // -- This is a parent command --

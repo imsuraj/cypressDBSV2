@@ -1,5 +1,5 @@
-const { onDashboardPage } = require("../../../../support/PageObjects/DashboardPage")
-const { onProductSalesReportPage } = require("../../../../support/PageObjects/Reports/SalesReports/ProductSalesReportPage")
+const { onDashboardPage } = require("../../../../support/PageObjects/DashboardPage/DashboardPage.po")
+const { onProductSalesReportPage } = require("../../../../support/PageObjects/Reports/SalesReports/ProductSalesReportPage.po")
 
 describe('PSR Tests',() => {
 

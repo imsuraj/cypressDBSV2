@@ -44,10 +44,24 @@ export class DashboardPage {
     cashBookUrl = '/reports/general-ledger-reports/ledger-cash-report'
     customerReportUrl = '/reports/general-ledger-reports/ledger-customer-report'
 
+    configurationMenuELe = 'ul:nth-child(1) > li:nth-child(10) > button:nth-child(1)'
+    otherSubMenuELe = 'li:nth-child(10) > ul > li:nth-child(4) > button'
+    promotionSubMenuEle = "a[href='/configuration/others/promotion']"
 
-  
 
+    hoverMouseOverConfiguration () {
+        cy.get(this.configurationMenuELe).trigger('mouseover')
+    }
 
+    hoverMouseOverOther () {
+        cy.get(this.otherSubMenuELe).trigger('mouseover')
+    }
+
+    openPromotion () {
+        cy.get(this.promotionSubMenuEle).click({force:true})
+    }
+
+    
 
 
 

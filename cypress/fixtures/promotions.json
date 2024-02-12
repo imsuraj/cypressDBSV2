@@ -1,6 +1,6 @@
 [
     {
-        "bu": "QA HFD",
+        "bu": "HFD",
         "brand": "BOOST",
         "sku": "Boost Jar 500 gm x 24 INR 255 [Promo- Badminton Racket] [UNL00150]",
         "condition": "Quantity",
@@ -10,7 +10,7 @@
         "disbursementValue": "1.5"
     },
     {
-        "bu": "QA HFD",
+        "bu": "HFD",
         "brand": "BOOST",
         "sku": "Boost Jar 500 gm x 24 INR 269 [Promo - Badminton] [UNL00173]",
         "condition": "Quantity",
@@ -20,7 +20,7 @@
         "disbursementValue": "100"
     },
     {
-        "bu": "QA HFD",
+        "bu": "HFD",
         "brand": "BOOST",
         "sku": "Boost Jar 500 gm x 24 INR 269 [Promo - Badminton] [UNL00173]",
         "condition": "Amount",
@@ -30,7 +30,7 @@
         "disbursementValue": "100"
     },
     {
-        "bu": "QA HFD",
+        "bu": "HFD",
         "brand": "BOOST",
         "sku": "Boost Jar 500 gm x 24 INR 269 [UNL00168]",
         "condition": "Amount",

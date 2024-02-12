@@ -1,4 +1,4 @@
-const { onLoginPage } = require("../../../support/PageObjects/LoginPage")
+const { onLoginPage } = require("../../../support/PageObjects/LoginPage/LoginPage.po")
 
 
 describe('Login Test Suite', () => {

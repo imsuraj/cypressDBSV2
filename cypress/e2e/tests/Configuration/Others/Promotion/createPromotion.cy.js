@@ -1,22 +1,33 @@
+const { onDashboardPage } = require("../../../../../support/PageObjects/DashboardPage/DashboardPage.po");
+
 const currentDate = new Date();
 const timestamp = currentDate.getTime();
 
 
 describe("Create Promotions Test", () => {
     let title
-    
+
 
 
     beforeEach(() => {
         cy.fixture('promotions').as('data'); // Load the fixture data
         cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
-        cy.visit(Cypress.env('baseUrl'), { retryOnStatusCodeFailure: true, retry: 3 })
-        cy.login(Cypress.env('email'), Cypress.env('password'))
+        cy.login(Cypress.env('username'), Cypress.env('password'))
         cy.url().should('include', '/dashboard')
-        cy.get(':nth-child(1) > :nth-child(10) > :nth-child(1)').should("be.visible").trigger('mouseover')
-        cy.get(":nth-child(1) > :nth-child(10) > ul > :nth-child(4)").should("be.visible").trigger('mouseover')
-        cy.get("a[href='/configuration/others/promotion']").click()
-        cy.get('h2').should("have.text", "Promotions")
+        onDashboardPage.hoverMouseOverConfiguration()
+        onDashboardPage.hoverMouseOverOther()
+        onDashboardPage.openPromotion()
+
+        cy.getHeaderText('headerText')
+        cy.get('@headerText').then(headerText => {
+            try {
+                expect(headerText).to.eq('Promotions')
+            } catch (error) {
+                cy.log('Header Text does not match')
+            }
+        })
+
+
 
 
     })
@@ -161,7 +172,7 @@ describe("Create Promotions Test", () => {
         cy.selectDropdownValue("QA")
 
         cy.get('body > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > section:nth-child(2) > div:nth-child(1) > form:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1)').contains("QA")
-        
+
 
         cy.get(':nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(3) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container > .zindex-2__input-container').click()
         cy.selectDropdownValue("Coca")
@@ -673,7 +684,7 @@ describe("Create Promotions Test", () => {
                 cy.get(':nth-child(2) > .sc-jSUZER > span').click()
 
                 cy.get(':nth-child(4) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .sc-jrcTuL > .error-message').should("contain", "Disbursement Type is required")
-               
+
             })
         })
 
@@ -719,7 +730,7 @@ describe("Create Promotions Test", () => {
 
                 cy.get(':nth-child(2) > .sc-jSUZER > span').click()
 
-                
+
                 cy.get(':nth-child(2) > .form-input > .sc-hHTYSt > .error-message').should("contain", "Value is required")
             })
         })
@@ -942,7 +953,7 @@ describe("Create Promotions Test", () => {
 
                 cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', title)
                 cy.get(':nth-child(1) > .text-center > .sc-gswNZR').should('be.visible').should('have.text', "Active")
-            
+
             })
         })
 

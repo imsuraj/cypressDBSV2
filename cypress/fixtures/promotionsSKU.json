@@ -1,20 +1,10 @@
 [
     {
-        "bu": "QA HFD",
-        "brand": "QA",
-        "sku": "Coca",
+        "bu": "Sunfeast",
+        "brand": "Good Day",
+        "sku": "Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]",
         "condition": "Amount",
-        "criteria": "= E",
-        "criteriaValue": "12.5",
-        "disbursementType": "Amount",
-        "disbursementValue": "2.11"
-    },
-    {
-        "bu": "QA BU",
-        "brand": "QA Brand",
-        "sku": "QA SKU 100001",
-        "condition": "Amount",
-        "criteria": "= E",
+        "criteria": ">= (GREATER THAN EQUALS)",
         "criteriaValue": "12.5",
         "disbursementType": "Amount",
         "disbursementValue": "2.11"

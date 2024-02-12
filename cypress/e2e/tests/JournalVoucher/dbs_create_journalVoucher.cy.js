@@ -1,4 +1,4 @@
-import CreateJournalVoucher from "../../../support/PageObjects/JournalVoucherPage";
+import CreateJournalVoucher from "../../../support/PageObjects/JournalVoucherPage/JournalVoucherPage";
 const currentDate = new Date();
 const timestamp = currentDate.getTime();
 

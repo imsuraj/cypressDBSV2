@@ -1,12 +1,12 @@
-const { onDashboardPage } = require("../../../support/PageObjects/DashboardPage")
-const { onSalesInvoicePage } = require("../../../support/PageObjects/SalesInvoicePage")
-const { onJVPage } = require("../../../support/PageObjects/JournalVoucherPage")
-const { onJvDetailPage } = require("../../../support/PageObjects/JournalVoucherDetailPage")
-const { onCustomerReportPage } = require("../../../support/PageObjects/Reports/GeneralLedgerReports/CustomerReportPage")
-const { onLedgerReportPage } = require("../../../support/PageObjects/Reports/GeneralLedgerReports/LedgerReportPage")
-const { onUpdateSalesVatReport } = require("../../../support/PageObjects/Reports/IRDReports/UpdagteSalesVatReportPage")
-const { onSalesVatReport } = require("../../../support/PageObjects/Reports/IRDReports/SalesVatReportPage")
-const { onCashBookPage } = require("../../../support/PageObjects/Reports/GeneralLedgerReports/CashBookPage")
+const { onDashboardPage } = require("../../../support/PageObjects/DashboardPage/DashboardPage.po")
+const { onSalesInvoicePage } = require("../../../support/PageObjects/SalesInvoicePage/SalesInvoicePage.po")
+const { onJVPage } = require("../../../support/PageObjects/JournalVoucherPage/JournalVoucherPage")
+const { onJvDetailPage } = require("../../../support/PageObjects/JournalVoucherPage/JournalVoucherDetailPage")
+const { onCustomerReportPage } = require("../../../support/PageObjects/Reports/GeneralLedgerReports/CustomerReportPage.po")
+const { onLedgerReportPage } = require("../../../support/PageObjects/Reports/GeneralLedgerReports/LedgerReportPage.po")
+const { onUpdateSalesVatReport } = require("../../../support/PageObjects/Reports/IRDReports/UpdagteSalesVatReportPage.po")
+const { onSalesVatReport } = require("../../../support/PageObjects/Reports/IRDReports/SalesVatReportPage.po")
+const { onCashBookPage } = require("../../../support/PageObjects/Reports/GeneralLedgerReports/CashBookPage.po")
 
 
 

@@ -1,6 +1,6 @@
-import Dashboard from "../../../support/PageObjects/DashboardPage";
-import PurchaseInvoice from "../../../support/PageObjects/PurchaseInvoicePage";
-import CreatePurchaseInvoice from "../../../support/PageObjects/CreatePurchaseInvoicePage";
+import Dashboard from "../../../support/PageObjects/DashboardPage/DashboardPage.po";
+import PurchaseInvoice from "../../../support/PageObjects/PurchaseInvoicePage/PurchaseInvoicePage";
+import CreatePurchaseInvoice from "../../../support/PageObjects/PurchaseInvoicePage/CreatePurchaseInvoicePage";
 
 
 const currentDate = new Date();

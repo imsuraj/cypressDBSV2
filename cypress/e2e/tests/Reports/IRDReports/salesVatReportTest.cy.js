@@ -1,6 +1,6 @@
-const { onDashboardPage } = require("../../../../support/PageObjects/DashboardPage")
-const { onSalesVatReport } = require("../../../../support/PageObjects/Reports/IRDReports/SalesVatReportPage")
-const { onUpdateSalesVatReport } = require("../../../../support/PageObjects/Reports/IRDReports/UpdagteSalesVatReportPage")
+const { onDashboardPage } = require("../../../../support/PageObjects/DashboardPage/DashboardPage.po")
+const { onSalesVatReport } = require("../../../../support/PageObjects/Reports/IRDReports/SalesVatReportPage.po")
+const { onUpdateSalesVatReport } = require("../../../../support/PageObjects/Reports/IRDReports/UpdagteSalesVatReportPage.po")
 
 describe('Updated Sales Vat Report Test', () => {
 
