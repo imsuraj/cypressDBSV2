@@ -27,7 +27,34 @@ describe("daf", () => {
 
     cy.log(billWithoutCommas + tradeWithoutCommas)
   })
+
+
+
+
+  it('should sort an array of strings in alphabetical order', () => {
+    // Your array of strings (replace with your actual array)
+    const unsortedArray = ['Banana', 'Apple', 'Orange', 'Grapes'];
+
+    // Sort the array in alphabetical order
+    const sortedArray = unsortedArray.slice().sort();
+
+    // Log the original and sorted arrays
+    cy.log('Original Array:', unsortedArray);
+    cy.log('Sorted Array:', sortedArray);
+
+    // Example: Perform assertions based on the sorted array
+    // expect(sortedArray).to.deep.equal(['Apple', 'Banana', 'Grapes', 'Orange']);
+
+    // Example: Perform actions based on each string in the sorted array
+    // sortedArray.forEach((str) => {
+    //   // Perform actions based on each string
+    //   // For example, cy.log(str), cy.contains(str).click(), etc.
+    // });
+  });
+
+
 })
+
 
 
 

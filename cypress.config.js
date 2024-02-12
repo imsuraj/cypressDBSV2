@@ -26,7 +26,7 @@ module.exports = defineConfig({
 
 
   e2e: {
-    "watchForFileChanges": true,
+    "watchForFileChanges": false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       require('cypress-mochawesome-reporter/plugin')(on);

@@ -8,7 +8,6 @@ const timestamp = currentDate.getTime();
 describe("Create Promotions Test", () => {
     let title;
 
-
     beforeEach(() => {
         cy.fixture('promotions').as('data'); // Load the fixture data
         cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
@@ -27,10 +26,6 @@ describe("Create Promotions Test", () => {
                 cy.log('Header Text does not match')
             }
         })
-
-
-
-
     })
 
     it("Verify mandatory message is displayed", () => {
@@ -212,7 +207,7 @@ describe("Create Promotions Test", () => {
 
     it("Verify active integrated BU are displayed", () => {
 
-        const desiredBu = ['Real Juice', 'Shreeyana Bu', 'Muna Chiya', "Hershey's", 'VAT BU', 'Noodles', 'Nails','DFD-TEST', 'Red Bull India', 'Mama Earth', 'Nepali Brand', 'Lenovo', 'Fix Derma', 'QA BU', 'Sunfeast', 'HFD', 'Mars']
+        const desiredBu = ['Real Juice', 'Shreeyana Bu', 'Muna Chiya', "Hershey's", 'VAT BU', 'Noodles', 'Nails', 'DFD-TEST', 'Red Bull India', 'Mama Earth', 'Nepali Brand', 'Lenovo', 'Fix Derma', 'QA BU', 'Sunfeast', 'HFD', 'Mars']
 
         onPromotionsPage.clickCreateIcon()
         onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -706,7 +701,6 @@ describe("Create Promotions Test", () => {
 
     })
 
-
     it("Verify user can Create Promotions for a brand", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
@@ -1066,10 +1060,10 @@ describe("Create Promotions Test", () => {
             data.forEach((promotion) => {
                 let time = timestamp
                 let titleText = "Buy" + " " + promotion.brand + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " "
-                let title = titleText+ " "+time
-                
-                
-                
+                let title = titleText + " " + time
+
+
+
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
                 onCreatePromotionPage.isSaveBtnDisplayed()
