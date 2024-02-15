@@ -7,7 +7,7 @@ const timestamp = currentDate.getTime();
 
 
 
-describe("Create Promotion Test", () => {
+describe("Delete Promotion Test", () => {
     let title
 
     beforeEach(() => {
@@ -44,8 +44,8 @@ describe("Create Promotion Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
                 onCreatePromotionPage.clickBusinessUnitDropdown()
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)

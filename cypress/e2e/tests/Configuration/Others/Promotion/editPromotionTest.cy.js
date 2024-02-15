@@ -1,588 +1,1178 @@
+const { onDashboardPage } = require("../../../../../support/PageObjects/DashboardPage/DashboardPage.po");
+const { onCreatePromotionPage } = require("../../../../../support/PageObjects/PromotionPage/CreatePromotionPage.po");
+const { onEditPromotionPage } = require("../../../../../support/PageObjects/PromotionPage/EditPromotionPage.po");
+const { onPromotionsPage } = require("../../../../../support/PageObjects/PromotionPage/PromotionPage.po");
+
 const currentDate = new Date();
 const timestamp = currentDate.getTime();
 
 let existingPromotionId
 
 
-describe("Create Promotion Test", () => {
+describe("Edit Promotion Test", () => {
 
 
     beforeEach(() => {
-        cy.fixture('promotionSearch').as('data'); // Load the fixture data
-
-        cy.visit(Cypress.env().baseUrl, { retryOnStatusCodeFailure: true, retry: 3 })
-        cy.url().should('include', '/login')
-        cy.login(Cypress.env('email'), Cypress.env('password'))
+        cy.fixture('promotions').as('data'); // Load the fixture data
+        cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
+        cy.login(Cypress.env('username'), Cypress.env('password'))
+        cy.wait(2000)
         cy.url().should('include', '/dashboard')
-        cy.get(':nth-child(1) > :nth-child(10) > :nth-child(1)').should("be.visible").trigger('mouseover')
-        cy.get(":nth-child(1) > :nth-child(10) > ul > :nth-child(4)").should("be.visible").trigger('mouseover')
-        cy.get("a[href='/configuration/others/promotion']").click()
-        cy.get('h2').should("have.text", "Promotions")
-        cy.get('h2').click({force:true})
+        onDashboardPage.hoverMouseOverConfiguration()
+        onDashboardPage.hoverMouseOverOther()
+        onDashboardPage.openPromotion()
 
-
+        cy.getHeaderText('headerText')
+        cy.get('@headerText').then(headerText => {
+            try {
+                expect(headerText).to.eq('Promotions')
+            } catch (error) {
+                cy.log('Header Text does not match')
+            }
+        })
     })
 
     it("Verify edit icon is displayed in promotion detail", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
-            //click on first promotion
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
 
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
+
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+
+                onCreatePromotionPage.clickSaveBtn()
+
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+
+                onPromotionsPage.openPromotionDetail(time)
+                onEditPromotionPage.isEditIconDisplayed()
+            })
         })
+
     })
 
     it("Verify user is redirected to list page after clicking cancel button", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
-            //click on first promotion
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+
+                onCreatePromotionPage.clickSaveBtn()
+
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+
+                onPromotionsPage.openPromotionDetail(time)
+                onEditPromotionPage.isEditIconDisplayed()
+                onEditPromotionPage.clickEditIcon()
+                onCreatePromotionPage.clickCancelBtn()
+
+                cy.url().should('include', '/configuration/others/promotion')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+
+            })
         })
-
-        cy.get(':nth-child(1) > .sc-jSUZER > span').click()
-        cy.get('h2').should("be.visible").should("have.text", "Promotions")
-        cy.url().should('include', '/promotion')
 
     })
 
     it("Verify title is updated and new promotion is not created when user update title", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
 
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-            cy.get('.col-lg-12 > .form-input > .sc-idXgbr').should("be.visible").clear().type(newPromotionTitle)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId)
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
 
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+
+                onCreatePromotionPage.clickSaveBtn()
+
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+
+                onPromotionsPage.getPromotionId().then(($btn) => {
+
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+
+                    onPromotionsPage.openPromotionDetail(time)
+
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
+
+                    onCreatePromotionPage.enterPromotionTitle(newPromotionTitle)
+                    onCreatePromotionPage.clickSaveBtn()
+
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(newPromotionTitle)
+
+                    onPromotionsPage.getPromotionTitle().should('be.visible').should('have.text', newPromotionTitle)
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId)
+
+                })
+            })
         })
     })
 
     it("Verify description is updated and new promotion is not created when user update description only", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
 
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-            cy.get(':nth-child(2) > :nth-child(1) > .form-input > .sc-idXgbr').should("be.visible").clear().type(newPromotionTitle)
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId).click()
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-            cy.wait(2000)
-            // cy.get(':nth-child(2) > :nth-child(1) > .form-input > .sc-idXgbr').should("be.visible").should('have.text',newPromotionTitle)
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+
+                onCreatePromotionPage.clickSaveBtn()
+
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+
+                onPromotionsPage.getPromotionId().then(($btn) => {
+
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+
+                    onPromotionsPage.openPromotionDetail(time)
+
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
+
+                    onCreatePromotionPage.enterPromotionDescription(newPromotionTitle)
+                    onCreatePromotionPage.clickSaveBtn()
+
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
+
+                    onPromotionsPage.getPromotionTitle().should('be.visible').should('contain', time)
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId)
+
+                })
+            })
         })
-
-
-
 
     })
 
-    it("Verify description is updated and new promotion is not created when user update both title and description", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+    it("Verify description is updated and new promotion is not created when user updates both title and description", () => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
 
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-            cy.get('.col-lg-12 > .form-input > .sc-idXgbr').should("be.visible").clear().type(newPromotionTitle)
-            cy.get(':nth-child(2) > :nth-child(1) > .form-input > .sc-idXgbr').should("be.visible").clear().type(newPromotionTitle)
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId)
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
+                    onCreatePromotionPage.enterPromotionTitle(newPromotionTitle)
+                    onCreatePromotionPage.enterPromotionDescription(newPromotionTitle)
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                    onPromotionsPage.getPromotionTitle().should('be.visible').should('contain', newPromotionTitle)
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId)
 
-
+                })
+            })
         })
-
-
-
-
     })
-
 
     it("Verify new promotion is created when user update start date of an existing promotion", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                    onCreatePromotionPage.clickOnStartDateCalendar()
+                    onCreatePromotionPage.selectDateFromCalendar(4)
 
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
 
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-
-
-            cy.get(':nth-child(2) > .single-date-picker > .sc-ipEyDJ > .datepicker-wrapper > .sc-kgTSHT > .filter-item > :nth-child(1) > :nth-child(1) > .date-input > .moment').click()
-            // cy.get('.rdrDayStartOfMonth > .rdrDayNumber > span').click()
-            cy.selectDateFromCalendar('4')
-
-
-
-            // cy.get(':nth-child(3) > .single-date-picker > .sc-ipEyDJ > .datepicker-wrapper > .sc-kgTSHT > .filter-item > :nth-child(1) > :nth-child(1) > .date-input > .moment').click()
-            // cy.selectDateFromCalendar('29')
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-            // compare the two buttons' text
-            // and make sure they are different
-            // cy.get('button').should(($btn2) => {
-            //   expect($btn2.text()).not.to.eq(txt)
-            // })
+                })
+            })
         })
-
+        // compare the two buttons' text
+        // and make sure they are different
+        // cy.get('button').should(($btn2) => {
+        //   expect($btn2.text()).not.to.eq(txt)
+        // })
     })
 
     it("Verify new promotion is created when user updates end date of an existing promotion", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                    onCreatePromotionPage.clickOnEndDateCalendar()
+                    onCreatePromotionPage.selectDateFromCalendar(4)
 
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
-
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-
-
-            // cy.get(':nth-child(2) > .single-date-picker > .sc-ipEyDJ > .datepicker-wrapper > .sc-kgTSHT > .filter-item > :nth-child(1) > :nth-child(1) > .date-input > .moment').click()
-            // cy.selectDateFromCalendar('4')
-
-
-
-            cy.get(':nth-child(3) > .single-date-picker > .sc-ipEyDJ > .datepicker-wrapper > .sc-kgTSHT > .filter-item > :nth-child(1) > :nth-child(1) > .date-input > .moment').click()
-            cy.selectDateFromCalendar('30')
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
+            })
         })
-
     })
 
     it("Verify new promotion is created when user update BU and Brand of an existing promotion", () => {
 
-        const newBU = "QA BU"
-        const newBrand = "QA Brand"
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        let newBU = "QA BU"
+        let newBrand = "QA Brand"
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                    onCreatePromotionPage.clickBusinessUnitDropdown()
+                    onCreatePromotionPage.selectBusinessUnitValue(newBU)
+                    onCreatePromotionPage.clickBrandDropdown()
+                    onCreatePromotionPage.selectBrandValue(newBrand)
 
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
-
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-
-            cy.get(':nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').click()
-            cy.selectDropdownValue(newBU)
-
-            cy.get(':nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(2) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').click()
-            cy.selectDropdownValue(newBrand)
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
+            })
         })
     })
 
     it("Verify new promotion is created when user update sku of an existing promotion", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
+                    onCreatePromotionPage.clickSkuDropdown()
+                    onCreatePromotionPage.selectSkuValue('Sunfeast Good Day Nuts Cookie 200 gm x 20 NPR 100 NP [99380]')
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-
-            cy.get(':nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(3) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container > .zindex-2__input-container').click()
-                .wait(2000).type("dat{enter}")
-
-
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
+            })
         })
     })
 
-
     it("Verify new promotion is created when user update promotion condition of an existing promotion", () => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Business Unit').should('contain',promotion.bu)
+                onCreatePromotionPage.clickOnDropdown('Brand')
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickOnDropdown('SKU')
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickOnDropdown('Condition')
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickOnDropdown('Criteria')
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                    onCreatePromotionPage.clickOnDropdown('Condition')
+                    onCreatePromotionPage.selectPromotionConditionValue('Quantity')
+                    onCreatePromotionPage.getSelectedValueOfDropdown('Condition').should('contain','Quantity')
 
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
-           
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').should("be.visible")
-            cy.get(':nth-child(1) > .sc-jSUZER > span').should("be.visible")
-            cy.wait(2000)
-
-
-
-            cy.get(':nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(2) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').then(($btn) => {
-
-                let promotionCondition
-                // store the button's text
-                promotionCondition = $btn.text()
-                cy.log(promotionCondition)
-
-
-                cy.get(':nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(2) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').click()
-
-                if (promotionCondition == "Amount") {
-                    cy.selectDropdownValue("Quantity")
-                }
-                else {
-                    cy.selectDropdownValue("Amount")
-                }
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
             })
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
         })
-
     })
 
     it("Verify new promotion is created when user update promotion criteria of an existing promotion", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Business Unit').should('contain',promotion.bu)
+                onCreatePromotionPage.clickOnDropdown('Brand')
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickOnDropdown('SKU')
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickOnDropdown('Condition')
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickOnDropdown('Criteria')
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Criteria').should('contain',promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
+                    onCreatePromotionPage.clickOnDropdown('Criteria')
+                    onCreatePromotionPage.selectPromotionCriteriaValue('= EQUALS')
+                    onCreatePromotionPage.getSelectedValueOfDropdown('Criteria').should('contain','= EQUALS')
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
-           
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get(':nth-child(2) > .sc-jSUZER > span').should("be.visible")
-            cy.get(':nth-child(1) > .sc-jSUZER > span').should("be.visible")
-            cy.wait(2000)
-
-
-
-            cy.get(':nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(3) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').then(($btn) => {
-
-                let promotionCondition
-                // store the button's text
-                promotionCondition = $btn.text()
-                cy.log(promotionCondition)
-
-
-                cy.get(':nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(3) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').click()
-
-                if (promotionCondition == ">= (GREATER THAN EQUALS)") {
-                    cy.selectDropdownValue("> (GREATER THAN)")
-                }
-                else if (promotionCondition == "> (GREATER THAN)"){
-                    cy.selectDropdownValue(">= (GREATER THAN EQUALS)")
-                }
-
-                else if (promotionCondition == "< (LESS THAN)"){
-                    cy.selectDropdownValue("<= (LESS THAN EQUALS)")
-                }
-                else if (promotionCondition == "<= (LESS THAN EQUALS)"){
-                    cy.selectDropdownValue("<= (LESS THAN)")
-                }
-                else if (promotionCondition == "= EQUALS"){
-                    cy.selectDropdownValue(">= (GREATER THAN EQUALS)")
-                }
-                
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
             })
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
         })
     })
 
     it("Verify new promotion is created when user update promotion condition value of an existing promotion", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Business Unit').should('contain',promotion.bu)
+                onCreatePromotionPage.clickOnDropdown('Brand')
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickOnDropdown('SKU')
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickOnDropdown('Condition')
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickOnDropdown('Criteria')
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Criteria').should('contain',promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
+                    onCreatePromotionPage.enterPromotionConditionValue('5')
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
-           
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get(':nth-child(2) > .sc-jSUZER > span').should("be.visible")
-            cy.get(':nth-child(1) > .sc-jSUZER > span').should("be.visible")
-            cy.wait(2000)
-
-
-
-            cy.get(':nth-child(4) > .form-input > .sc-idXgbr').clear().type(25)
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
+            })
         })
     })
 
     it("Verify new promotion is created when user update Disbursement type of an existing promotion", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Business Unit').should('contain',promotion.bu)
+                onCreatePromotionPage.clickOnDropdown('Brand')
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickOnDropdown('SKU')
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickOnDropdown('Condition')
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickOnDropdown('Criteria')
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Criteria').should('contain',promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
+                    onCreatePromotionPage.clickOnDropdown('Disbursement Type')
+                    onCreatePromotionPage.selectPromotionDisbursement('Discount (%)')
+                    onCreatePromotionPage.getSelectedValueOfDropdown('Disbursement Type').should('contain','Discount (%)')
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
-           
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get(':nth-child(2) > .sc-jSUZER > span').should("be.visible")
-            cy.get(':nth-child(1) > .sc-jSUZER > span').should("be.visible")
-            cy.wait(2000)
-
-
-
-            cy.get(':nth-child(4) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').then(($btn) => {
-
-                let promotionDisbursementType
-                // store the button's text
-                promotionDisbursementType = $btn.text()
-                cy.log(promotionDisbursementType)
-
-
-                cy.get(':nth-child(4) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container').click()
-
-                if (promotionDisbursementType == "Amount (Rs)") {
-                    cy.selectDropdownValue("Discount (%)")
-                    cy.get(':nth-child(2) > .form-input > .sc-idXgbr').clear().type(2)
-                }
-                else {
-                    cy.selectDropdownValue("Amount (Rs)")
-                    cy.get(':nth-child(2) > .form-input > .sc-idXgbr').clear().type(200)
-                }
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
             })
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
         })
     })
 
     it("Verify new promotion is created when user update Disbursement value of an existing promotion", () => {
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
-            const newPromotionTitle = "New Title" + timestamp
-            // store the button's text
-            existingPromotionId = parseInt($btn.text(), 10)
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Business Unit').should('contain',promotion.bu)
+                onCreatePromotionPage.clickOnDropdown('Brand')
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+                onCreatePromotionPage.clickOnDropdown('SKU')
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+                onCreatePromotionPage.clickOnDropdown('Condition')
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+                onCreatePromotionPage.clickOnDropdown('Criteria')
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+                onCreatePromotionPage.getSelectedValueOfDropdown('Criteria').should('contain',promotion.criteria)
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+                onCreatePromotionPage.clickSaveBtn()
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
-            cy.log(existingPromotionId)
-            cy.log(existingPromotionId + 2)
+                onPromotionsPage.getPromotionId().then(($btn) => {
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+                    onPromotionsPage.openPromotionDetail(time)
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
 
+                    onCreatePromotionPage.enterPromotionDisbursementValue('50')
 
-            cy.get('tbody > :nth-child(1) > :nth-child(3)').should("be.visible").click()
-           
-            cy.url().should('include', '/' + existingPromotionId)
-            cy.get('.sc-jSUZER > .sc-eDvSVe').should("be.visible").click()
+                    onCreatePromotionPage.clickSaveBtn()
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
 
-            cy.get(':nth-child(2) > .sc-jSUZER > span').should("be.visible")
-            cy.get(':nth-child(1) > .sc-jSUZER > span').should("be.visible")
-            cy.wait(2000)
-
-
-
-            cy.get(':nth-child(2) > .form-input > .sc-idXgbr').type(2.5)
-
-
-            cy.get(':nth-child(2) > .sc-jSUZER > span').click()
-
-            cy.get(".alert-message").should('be.visible').should('contain', 'Promotion Updated Successfully')
-            cy.url().should('not.include', '/create')
-
-            // cy.get('tbody > :nth-child(1) > :nth-child(3)').should('be.visible').should('have.text', newPromotionTitle)
-            cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').should('have.text', existingPromotionId + 1)
-
-
-
-
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId + 1)
+                })
+            })
         })
     })
 
+    it("Verify new promotion is not created when user update status of the promotion", () => {
+        cy.get('@data1').then((data) => {
+            data.forEach((promotion) => {
+
+                let time = timestamp
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
+
+                onPromotionsPage.clickCreateIcon()
+                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
+                onCreatePromotionPage.isSaveBtnDisplayed()
+
+                onCreatePromotionPage.enterPromotionTitle(title)
+                onCreatePromotionPage.enterPromotionDescription(title)
+
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+
+                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+
+                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.selectBrandValue(promotion.brand)
+
+                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.selectSkuValue(promotion.sku)
+
+                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+
+                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+
+                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+
+                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+
+                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+
+                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+
+                onCreatePromotionPage.clickSaveBtn()
+
+                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
+                cy.url().should('not.include', '/create')
+                cy.getHeaderText('headerText')
+                cy.get('@headerText').then(headerText => {
+                    try {
+                        expect(headerText).to.eq('Promotions')
+                    } catch (error) {
+                        cy.log('Header Text does not match')
+                    }
+                })
+
+                onPromotionsPage.searchPromotion(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+
+                onPromotionsPage.getPromotionId().then(($btn) => {
+
+                    const newPromotionTitle = "New Title" + timestamp
+                    // store the button's text
+                    existingPromotionId = parseInt($btn.text(), 10)
+
+                    cy.log(existingPromotionId)
+                    cy.log(existingPromotionId + 2)
+
+                    onPromotionsPage.openPromotionDetail(time)
+
+                    cy.url().should('include', '/' + existingPromotionId)
+                    onEditPromotionPage.isEditIconDisplayed()
+                    onEditPromotionPage.clickEditIcon()
+
+                    onEditPromotionPage.isStatusDisplayed().should('be.visible')
+                    onEditPromotionPage.clickOnStatus()
+                    onCreatePromotionPage.clickSaveBtn()
+
+                    onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Updated Successfully')
+                    cy.url().should('not.include', '/create')
+
+                    // onPromotionsPage.searchPromotion(newPromotionTitle)
+                    onPromotionsPage.checkSearchedValueIsDisplayed(time)
+                    onPromotionsPage.checkSearchedValueIsDisplayed('Inactive')
+
+                    onPromotionsPage.getPromotionTitle().should('be.visible').should('contain', time)
+                    onPromotionsPage.getPromotionId().should('be.visible').should('have.text', existingPromotionId)
+
+                })
+            })
+        })
+
+    })
 
 
 

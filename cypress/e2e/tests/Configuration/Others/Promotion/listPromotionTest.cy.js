@@ -1,7 +1,7 @@
 const { onDashboardPage } = require("../../../../../support/PageObjects/DashboardPage/DashboardPage.po");
 const { onPromotionsPage } = require("../../../../../support/PageObjects/PromotionPage/PromotionPage.po");
 
-describe("Create Promotion Test", () => {
+describe("List Promotion Test", () => {
 
 
     beforeEach(() => {

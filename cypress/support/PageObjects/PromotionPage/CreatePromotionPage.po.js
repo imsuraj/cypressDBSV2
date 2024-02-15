@@ -98,22 +98,33 @@ export class CreatePromotionPage {
 
 
     enterPromotionTitle(title) {
-        cy.get(this.txtTitle).type(title)
+        cy.get(this.txtTitle).should('be.visible').clear().type(title)
     }
 
     enterPromotionDescription(description) {
-        cy.get(this.txtDescription).type(description)
+        cy.get(this.txtDescription).should('be.visible').clear().type(description)
+    }
+
+    clickOnStartDateCalendar() {
+        cy.get(this.calendarStartDate).eq(0).click()
     }
 
     selectStartDate() {
-        cy.get(this.calendarStartDate).eq(0).click()
+        this.clickOnStartDateCalendar()
         cy.get(this.dateStartDate).click()
     }
 
+    clickOnEndDateCalendar() {
+        cy.get(this.calendarStartDate).eq(1).click()
+    }
 
     selectEndDate() {
-        cy.get(this.calendarStartDate).eq(1).click()
+        this.clickOnEndDateCalendar()
         cy.get(this.dateEndDate).click()
+    }
+
+    selectDateFromCalendar (value) {
+        cy.get('.rdrDays').find('button.rdrDay:not(.rdrDayPassive):not(.rdrDayDisabled)>span.rdrDayNumber>span').contains(value).click()
     }
 
 
@@ -169,7 +180,7 @@ export class CreatePromotionPage {
     }
 
     enterPromotionConditionValue(value) {
-        cy.get(this.txtPromotionConditionVal).eq(0).type(value)
+        cy.get(this.txtPromotionConditionVal).eq(0).clear().type(value)
     }
 
     clickPromotionDisbursementDropdown() {
@@ -182,7 +193,7 @@ export class CreatePromotionPage {
     }
 
     enterPromotionDisbursementValue(value) {
-        cy.get(this.txtDisbursementVal).eq(1).type(value)
+        cy.get(this.txtDisbursementVal).eq(1).clear().type(value)
     }
 
     getAlertMessage() {
@@ -214,7 +225,12 @@ export class CreatePromotionPage {
             .find('.zindex-2__input-container')
             // Click on the div with class "zindex-2__input-container"
             .click()
+    }
 
+    getSelectedValueOfDropdown(labelText) {
+       return cy.contains('label', labelText)
+            .parents('div.sc-hhOBVt')
+            .find('div.zindex-2__single-value')
     }
 
 

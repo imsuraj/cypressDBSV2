@@ -15,7 +15,7 @@ export class PromotionsPage {
     threeDotMenuEle = 'tbody tr td'
     deleteEle = '[class="sc-dmctIk fxpFKY"]'
     dialogHeaderText = "header[class='evolve-dialog__header'] div h2"
-    dialogMessageEle = ".evolve-dialog__body > span"
+    dialogMessageEle = ".evolve-dialog__body"
     okButtonEle = ".dSdSlu"
     cancelButtonEle = ".gvjoda"
     alertMessageEle = ".alert-message"
@@ -129,15 +129,19 @@ export class PromotionsPage {
 
     clickCreateIcon() {
         cy.get(this.createIconEle).should('be.visible').click()
+        cy.wait(1000)
     }
 
 
     searchPromotion(text) {
+        cy.wait(1000)
         this.clickOnSearchIcon()
+        cy.wait(1000)
         this.enterValueInSearchBox(text)
     }
 
     checkSearchedValueIsDisplayed(text) {
+        cy.wait(1000)
         cy.contains('tbody tr td', text)
     }
 
@@ -146,11 +150,13 @@ export class PromotionsPage {
     }
 
     enterValueInSearchBox(text) {
-        cy.get(this.searchBoxEle).should('be.visible').type(text + '{enter}', { force: true })
         cy.wait(1000)
+        cy.get(this.searchBoxEle).should('be.visible').type(text + '{enter}', { force: true })
+       
     }
 
     openPromotionDetail(text) {
+        cy.wait(1000)
         cy.contains('tbody tr td', text).click({ force: true })
     }
 
@@ -226,6 +232,18 @@ export class PromotionsPage {
         return cy.get('thead tr th').eq(index).should('be.visible')
     }
 
+
+    getPromotionId () {
+       return cy.get('tbody > :nth-child(1) > :nth-child(2)')
+    }
+
+    getPromotionTitle () {
+       return  cy.get('tbody > :nth-child(1) > :nth-child(3)')
+    }
+
+    openPromotionDetail(title) {
+        cy.contains('tbody tr td',title).click({force:true})
+    }
 
 
 
