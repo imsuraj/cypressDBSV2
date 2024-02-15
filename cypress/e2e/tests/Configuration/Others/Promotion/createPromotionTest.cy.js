@@ -28,6 +28,7 @@ describe("Create Promotions Test", () => {
         })
     })
 
+
     it("Verify mandatory message is displayed", () => {
 
         onPromotionsPage.clickCreateIcon()
@@ -69,7 +70,7 @@ describe("Create Promotions Test", () => {
 
     })
 
-    it("Verify user is redirected to list page on click on cancel button without entering data", () => {
+    it("Verify user is redirected to list page on click of cancel button without entering data", () => {
         onPromotionsPage.clickCreateIcon()
 
 
@@ -88,37 +89,39 @@ describe("Create Promotions Test", () => {
         })
     })
 
-    it("Verify user is redirected to list page on click on cancel button after entering data", () => {
+    it("Verify user is redirected to list page on click of cancel button after entering data", () => {
         onPromotionsPage.clickCreateIcon()
 
         onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
         onCreatePromotionPage.isSaveBtnDisplayed()
-        onCreatePromotionPage.enterPromotionTitle("Multiple sku promotion")
-        onCreatePromotionPage.enterPromotionDescription("Multiple sku promotion")
-        // onCreatePromotionPage.selectStartDate()
-        // onCreatePromotionPage.selectEndDate()
-        onCreatePromotionPage.clickBusinessUnitDropdown()
+        // onCreatePromotionPage.enterPromotionTitle("Multiple sku promotion")
+        onCreatePromotionPage.enterValueFor('Promotion Title','Multiple sku promotion')
+        onCreatePromotionPage.enterValueFor('Description','Multiple sku promotion')
+        // onCreatePromotionPage.enterPromotionDescription("Multiple sku promotion")
+        onCreatePromotionPage.selectStartDate()
+        onCreatePromotionPage.selectEndDate()
+        onCreatePromotionPage.clickOnDropdown('Business Unit')
         onCreatePromotionPage.selectBusinessUnitValue("Sunfeast")
 
-        onCreatePromotionPage.clickBrandDropdown()
+        onCreatePromotionPage.clickOnDropdown('Brand')
         onCreatePromotionPage.selectBrandValue("Good Day")
 
-        onCreatePromotionPage.clickSkuDropdown()
+        onCreatePromotionPage.clickOnDropdown('SKU')
         onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]")
         // onCreatePromotionPage.selectSkuValue("Fanta")
         // onCreatePromotionPage.selectSkuValue("Dates")
-        onCreatePromotionPage.clickPromotionTypeDropdown()
+        onCreatePromotionPage.clickOnDropdown('Promotion Type')
         onCreatePromotionPage.selectPromotionTypeValue("Normal")
 
-        onCreatePromotionPage.clickPromotionConditionDropdown()
+        onCreatePromotionPage.clickOnDropdown('Condition')
         onCreatePromotionPage.selectPromotionConditionValue("Quantity")
 
-        onCreatePromotionPage.clickPromotionCriteriaDropdown()
+        onCreatePromotionPage.clickOnDropdown('Criteria')
         onCreatePromotionPage.selectPromotionCriteriaValue(">= (GREATER THAN EQUALS)")
 
         onCreatePromotionPage.enterPromotionConditionValue(12)
 
-        onCreatePromotionPage.clickPromotionDisbursementDropdown()
+        onCreatePromotionPage.clickOnDropdown('Disbursement Type')
         onCreatePromotionPage.selectPromotionDisbursement("Discount")
 
         onCreatePromotionPage.enterPromotionDisbursementValue(2)
@@ -161,34 +164,34 @@ describe("Create Promotions Test", () => {
         onCreatePromotionPage.enterPromotionTitle("Multiple sku promotion")
         onCreatePromotionPage.enterPromotionDescription("Multiple sku promotion")
 
-        // onCreatePromotionPage.selectStartDate()
-        // onCreatePromotionPage.selectEndDate()
+        onCreatePromotionPage.selectStartDate()
+        onCreatePromotionPage.selectEndDate()
 
-        onCreatePromotionPage.clickBusinessUnitDropdown()
+        onCreatePromotionPage.clickOnDropdown('Business Unit')
         onCreatePromotionPage.selectBusinessUnitValue("Sunfeast")
 
-        onCreatePromotionPage.clickBrandDropdown()
+        onCreatePromotionPage.clickOnDropdown('Brand')
         onCreatePromotionPage.selectBrandValue("Good Day")
 
-        onCreatePromotionPage.clickSkuDropdown()
+        onCreatePromotionPage.clickOnDropdown('SKU')
         onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]")
 
-        onCreatePromotionPage.clickSkuDropdown()
+        onCreatePromotionPage.clickOnDropdown('SKU')
         onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 25+8 gm x 168 NPR 10 NP [9000031]")
 
 
-        onCreatePromotionPage.clickPromotionTypeDropdown()
+        onCreatePromotionPage.clickOnDropdown('Promotion Type')
         onCreatePromotionPage.selectPromotionTypeValue("Normal")
 
-        onCreatePromotionPage.clickPromotionConditionDropdown()
+        onCreatePromotionPage.clickOnDropdown('Condition')
         onCreatePromotionPage.selectPromotionConditionValue("Quantity")
 
-        onCreatePromotionPage.clickPromotionCriteriaDropdown()
+        onCreatePromotionPage.clickOnDropdown('Criteria')
         onCreatePromotionPage.selectPromotionCriteriaValue(">= (GREATER THAN EQUALS)")
 
         onCreatePromotionPage.enterPromotionConditionValue(0.00)
 
-        onCreatePromotionPage.clickPromotionDisbursementDropdown()
+        onCreatePromotionPage.clickOnDropdown('Disbursement Type')
         onCreatePromotionPage.selectPromotionDisbursement("Discount")
 
         onCreatePromotionPage.enterPromotionDisbursementValue(0.00)
@@ -207,13 +210,14 @@ describe("Create Promotions Test", () => {
 
     it("Verify active integrated BU are displayed", () => {
 
-        const desiredBu = ['Real Juice', 'Shreeyana Bu', 'Muna Chiya', "Hershey's", 'VAT BU', 'Noodles', 'Nails', 'DFD-TEST', 'Red Bull India', 'Mama Earth', 'Nepali Brand', 'Lenovo', 'Fix Derma', 'QA BU', 'Sunfeast', 'HFD', 'Mars']
+        const desiredBu = ['Real Juice', 'Shreeyana Bu', 'Muna Chiya', "Hershey's", 'VAT BU', 'Noodles', 'Nails', 'DFD-TEST','QTY', 'Red Bull India', 'Mama Earth', 'Nepali Brand', 'Lenovo', 'Fix Derma', 'QA BU', 'Sunfeast', 'HFD', 'Mars']
 
         onPromotionsPage.clickCreateIcon()
         onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
         onCreatePromotionPage.isSaveBtnDisplayed()
-        onCreatePromotionPage.clickBusinessUnitDropdown()
-        onCreatePromotionPage.checkBusinessUnitValues(desiredBu)
+        onCreatePromotionPage.clickOnDropdown('Business Unit')
+        onCreatePromotionPage.checkDropdownValues(desiredBu)
+
     })
 
     it("Verify active brand for BU are displayed", () => {
@@ -222,11 +226,11 @@ describe("Create Promotions Test", () => {
         onPromotionsPage.clickCreateIcon()
         onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
         onCreatePromotionPage.isSaveBtnDisplayed()
-        onCreatePromotionPage.clickBusinessUnitDropdown()
+        onCreatePromotionPage.clickOnDropdown('Business Unit')
         onCreatePromotionPage.selectBusinessUnitValue('HFD')
         cy.wait(1000)
-        onCreatePromotionPage.clickBrandDropdown()
-        onCreatePromotionPage.checkBusinessUnitValues(desiredBrand)
+        onCreatePromotionPage.clickOnDropdown('Brand')
+        onCreatePromotionPage.checkDropdownValues(desiredBrand)
     })
 
     it("Verify current date promotion is created without selecting both start and end date", () => {
@@ -242,27 +246,27 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionDescription(title)
 
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
 
@@ -293,27 +297,27 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.selectEndDate()
 
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
 
@@ -343,27 +347,27 @@ describe("Create Promotions Test", () => {
 
                 onCreatePromotionPage.selectStartDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
 
@@ -391,29 +395,29 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                // onCreatePromotionPage.clickBrandDropdown()
+                // onCreatePromotionPage.clickOnDropdown('Brand')
                 // onCreatePromotionPage.selectBrandValue(promotion.brand)
-                // onCreatePromotionPage.clickSkuDropdown()
+                // onCreatePromotionPage.clickOnDropdown('SKU')
                 // onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
@@ -437,29 +441,29 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                // onCreatePromotionPage.clickPromotionTypeDropdown()
+                // onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 // onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
@@ -483,29 +487,29 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                // onCreatePromotionPage.clickPromotionConditionDropdown()
+                // onCreatePromotionPage.clickOnDropdown('Condition')
                 // onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
@@ -529,29 +533,29 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                // onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                // onCreatePromotionPage.clickOnDropdown('Criteria')
                 // onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
@@ -575,29 +579,29 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 // onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
@@ -621,29 +625,29 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                // onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                // onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 // onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
@@ -667,29 +671,29 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
                 // onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
@@ -701,7 +705,7 @@ describe("Create Promotions Test", () => {
 
     })
 
-    it("Verify user can Create Promotions for a brand", () => {
+    it("Verify user can Create Promotions for a brand without selecting sku", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + timestamp
@@ -713,31 +717,31 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-                // onCreatePromotionPage.clickSkuDropdown()
+                // onCreatePromotionPage.clickOnDropdown('SKU')
                 // onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
 
@@ -766,31 +770,31 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
 
@@ -827,33 +831,33 @@ describe("Create Promotions Test", () => {
         onCreatePromotionPage.isSaveBtnDisplayed()
         onCreatePromotionPage.enterPromotionTitle(title)
         onCreatePromotionPage.enterPromotionDescription(title)
-        // onCreatePromotionPage.selectStartDate()
-        // onCreatePromotionPage.selectEndDate()
-        onCreatePromotionPage.clickBusinessUnitDropdown()
+        onCreatePromotionPage.selectStartDate()
+        onCreatePromotionPage.selectEndDate()
+        onCreatePromotionPage.clickOnDropdown('Business Unit')
         onCreatePromotionPage.selectBusinessUnitValue("Sunfeast")
 
-        onCreatePromotionPage.clickBrandDropdown()
+        onCreatePromotionPage.clickOnDropdown('Brand')
         onCreatePromotionPage.selectBrandValue("Good Day")
 
-        onCreatePromotionPage.clickSkuDropdown()
+        onCreatePromotionPage.clickOnDropdown('SKU')
         onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]")
 
-        onCreatePromotionPage.clickSkuDropdown()
+        onCreatePromotionPage.clickOnDropdown('SKU')
         onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 25+8 gm x 168 NPR 10 NP [9000031]")
 
 
-        onCreatePromotionPage.clickPromotionTypeDropdown()
+        onCreatePromotionPage.clickOnDropdown('Promotion Type')
         onCreatePromotionPage.selectPromotionTypeValue("Normal")
 
-        onCreatePromotionPage.clickPromotionConditionDropdown()
+        onCreatePromotionPage.clickOnDropdown('Condition')
         onCreatePromotionPage.selectPromotionConditionValue("Quantity")
 
-        onCreatePromotionPage.clickPromotionCriteriaDropdown()
+        onCreatePromotionPage.clickOnDropdown('Criteria')
         onCreatePromotionPage.selectPromotionCriteriaValue(">= (GREATER THAN EQUALS)")
 
         onCreatePromotionPage.enterPromotionConditionValue(12)
 
-        onCreatePromotionPage.clickPromotionDisbursementDropdown()
+        onCreatePromotionPage.clickOnDropdown('Disbursement Type')
         onCreatePromotionPage.selectPromotionDisbursement("Discount")
 
         onCreatePromotionPage.enterPromotionDisbursementValue(2)
@@ -948,33 +952,33 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.isSaveBtnDisplayed()
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue("Sunfeast")
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue("Good Day")
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]")
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 25+8 gm x 168 NPR 10 NP [9000031]")
 
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue("Normal")
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue("Quantity")
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(">= (GREATER THAN EQUALS)")
 
                 onCreatePromotionPage.enterPromotionConditionValue(12)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement("Discount")
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(2)
@@ -1002,33 +1006,33 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.isSaveBtnDisplayed()
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue("Sunfeast")
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue("Good Day")
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]")
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue("Sunfeast Good Day Butter Cookies 25+8 gm x 168 NPR 10 NP [9000031]")
 
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue("Normal")
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue("Quantity")
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(">= (GREATER THAN EQUALS)")
 
                 onCreatePromotionPage.enterPromotionConditionValue(12)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement("Discount")
 
                 onCreatePromotionPage.enterPromotionDisbursementValue(2)
@@ -1071,31 +1075,31 @@ describe("Create Promotions Test", () => {
                 onCreatePromotionPage.enterPromotionTitle(title)
                 onCreatePromotionPage.enterPromotionDescription(title)
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+                onCreatePromotionPage.selectStartDate()
+                onCreatePromotionPage.selectEndDate()
 
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
+                onCreatePromotionPage.clickOnDropdown('Business Unit')
                 onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
 
-                onCreatePromotionPage.clickBrandDropdown()
+                onCreatePromotionPage.clickOnDropdown('Brand')
                 onCreatePromotionPage.selectBrandValue(promotion.brand)
 
-                onCreatePromotionPage.clickSkuDropdown()
+                onCreatePromotionPage.clickOnDropdown('SKU')
                 onCreatePromotionPage.selectSkuValue(promotion.sku)
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
+                onCreatePromotionPage.clickOnDropdown('Promotion Type')
                 onCreatePromotionPage.selectPromotionTypeValue('Normal')
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
+                onCreatePromotionPage.clickOnDropdown('Condition')
                 onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
+                onCreatePromotionPage.clickOnDropdown('Criteria')
                 onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
 
                 onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
+                onCreatePromotionPage.clickOnDropdown('Disbursement Type')
                 onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
 
 

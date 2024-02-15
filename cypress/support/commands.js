@@ -66,6 +66,29 @@ Cypress.Commands.add('selectDropdownValue', (value) => {
 })
 
 
+Cypress.Commands.add('compareTwoArrayValue', (locator, expectedValue) => {
+    cy.get(locator).then(($listItems) => {
+        // Extract text content from the list elements
+        const actualValue = $listItems.map((index, element) => Cypress.$(element).text().trim()).get();
+
+        const expectedValueWithoutSpace = expectedValue.map((value) => value.trim())
+        const sortedExpecteValue = expectedValueWithoutSpace.slice().sort((a, b) => a.localeCompare(b))
+        const sortedActualValue = actualValue.slice().sort((a, b) => a.localeCompare(b))
+
+        if(sortedExpecteValue.length == sortedActualValue.length) {
+            cy.log("SortedActualValue "+sortedActualValue)
+            cy.log("SortedExpectedValue "+sortedExpecteValue)
+            expect(sortedActualValue).to.deep.equal(sortedExpecteValue)
+            // cy.wrap(sortedExpecteValue).should('deep.equal',sortedActualValue)
+        }
+        else {
+            cy.log("Arrays are not equal")
+            cy.log("SortedActualValue "+sortedActualValue)
+            cy.log("SortedExpectedValue "+sortedExpecteValue)
+        }
+    })
+})
+
 /**
  * Trim text and assign it to the alias  
  */

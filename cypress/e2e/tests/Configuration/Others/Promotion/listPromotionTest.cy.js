@@ -25,6 +25,7 @@ describe("Create Promotion Test", () => {
     })
 
     it("Verify table header of promotion list page", () => {
+        onPromotionsPage.getTableHeaderText(2).click()
         onPromotionsPage.getTableHeaderText(0).should('have.attr','class','checkbox')
         onPromotionsPage.getTableHeaderText(1).should("have.text", "ID")
         onPromotionsPage.getTableHeaderText(2).should("have.text", "Promotion Title")
@@ -67,54 +68,9 @@ describe("Create Promotion Test", () => {
         })
     })
 
-
-    it.skip("Active BU are displayed in the filter", () => {
-        const desiredBu = ['HFD','Patanjali','ON-DEMAND','UPAYA TRANSPORT','sandeshTester','Red Bull India','P&G','Real Juice','Britania','Parle G','Ethiglow','Amazon','Bu1','Business ALias','a','Procter & Gamble','For stock ','Bu2','Bu3','Test','Mama Earth','Nepali Brand','Lenovo','QA HFD','Fix Derma','Moto','test-unit','test1','BU-test','k','Valuation SKU','OB Test','OBTest','Keshav','Segment3','MERO UPAYA','UPAYA FULFILLMENT','Upaya Connect','Local','Apple','Nepali Perfume','Masala Brand','handsome','test','jkl','QA','Kelloggs']
-        cy.get('.filter-icon > .sc-jSUZER').should("be.visible").click()
-        cy.get("div[class='filter-btn add'] span[class='sc-eDvSVe Dpiax']").click()
-        cy.get(".filter-select__value-container.css-1d8n9bt").should('be.visible').click()
-        cy.selectDropdownValueForFilter("Business Unit")
-
-        cy.get(".filter-contain-group.custom-scroll").should("be.visible")
-
-        cy.get('.filter-contain-group.custom-scroll > div').should("be.visible").wait(1000).each((option) => {
-            cy.wrap(option).invoke('text').then((optionText) => {
-                cy.log(optionText);
-            })
-        })
-
-        cy.get('.filter-contain-group.custom-scroll > div').each((option, index) => {
-            cy.wrap(option).invoke('text').should('eq', desiredBu[index]);
-        });
-
-    })
-
-    it.skip("Active Brands are displayed", () => {
-        const desiredBu = [ " BU3","50-50","Apple","Apple","Apple","Apple","Apple","Apple Microfiber","Ariel","BOOST","Bourbon","Brand","Brand-cat","Bravo","Bu2","Cake","Collin","Digestive","Gillette","Good Day","HORLICKS","Head & Shoulders","Head & Shoulders","Herbal Essence","Inhaler","Island","Juice","Kellogg's All Bran","Kellogg's Chocos","Kellogg's K Pak","Kellogg's Muesli","Kellogg's Oats","Keshav","Latest Brand","Lenovo","Little Hearts","Local","Marie Gold","Milk Bikis","Milk Rusk","Miscellaneous","Mixed Juice","Moto","Nepali","New Brand","Nutrichoice","Nutro","OBtest","OLD SPICE","Olay","Old Spice","Oral B","Others","Packet","Pampers","Pantene","Pantene","Parle","Promotional SKUs","QA","QA","QA Brand","QA Brand","Red Bull","Rolls","Skin Care","Suji Toast","Test","Tide","Tiger","Treat","VIVA","Vicks","Vicks","Wheat Rusk","Whisper","bu1","check","nepali","popo","sdf","test-brand"]
-        cy.get('.filter-icon > .sc-jSUZER').should("be.visible").click()
-        cy.get("div[class='filter-btn add'] span[class='sc-eDvSVe Dpiax']").click()
-        cy.get(".filter-select__value-container.css-1d8n9bt").should('be.visible').click()
-        cy.selectDropdownValueForFilter("Brand")
-
-        cy.get(".filter-contain-group.custom-scroll").should("be.visible")
-
-        cy.get('.filter-contain-group.custom-scroll > div').should("be.visible").wait(1000).each((option) => {
-            cy.wrap(option).invoke('text').then((optionText) => {
-                cy.log(optionText);
-                optionText.split
-            })
-        })
-
-        cy.get('.filter-contain-group.custom-scroll > div').each((option, index) => {
-            cy.wrap(option).invoke('text').should('eq', desiredBu[index]);
-        });
-
-
-
-    })
-
-    it.only("Active BU are displayed in the filter", () => {
-        const desiredBu = ['HFD','Patanjali','ON-DEMAND','UPAYA TRANSPORT','sandeshTester','Red Bull India','P&G','Real Juice','Britania','Parle G','Ethiglow','Amazon','Bu1','Business ALias','a','Procter & Gamble','For stock ','Bu2','Bu3','Test','Mama Earth','Nepali Brand','Lenovo','QA HFD','Fix Derma','Moto','test-unit','test1','BU-test','k','Valuation SKU','OB Test','OBTest','Keshav','Segment3','MERO UPAYA','UPAYA FULFILLMENT','Upaya Connect','Local','Apple','Nepali Perfume','Masala Brand','handsome','test','jkl','QA','Kelloggs']
+    it("Check active BU are displayed in the filter", () => {
+        //select "name"  from business_companies bc ;
+        const desiredBu = ['QTY','Real Juice','Shreeyana Bu','Muna Chiya',"Hershey's",'UPAYA TRANSPORT','P&G','VAT BU','Noodles','Nails','DFD-TEST','HFD','Patanjali','ON-DEMAND','sandeshTester','Red Bull India','Britania','a','Parle G','Ethiglow','Amazon','Business ALias','For stock ','Test','Mama Earth','Nepali Brand','Lenovo','Fix Derma','Moto','test-unit','test1','k','Valuation SKU','OB Test','OBTest','Keshav','Segment3','MERO UPAYA','UPAYA FULFILLMENT','Upaya Connect','Apple','Nepali Perfume','Masala Brand','Kelloggs','QA BU','Bu1','Bu2','Bu3','Local','handsome','test','jkl','Sunfeast','HFD','Mars','BU-test','Procter & Gamble']
         
         onPromotionsPage.clickOnStandardFilter()
         onPromotionsPage.clickOnPlusIconOfFilter()
@@ -122,37 +78,20 @@ describe("Create Promotion Test", () => {
         onPromotionsPage.selectDropDownValue('Business Unit')
         
         onPromotionsPage.isfilterItemValueDisplayed().should("be.visible")
-
-        onPromotionsPage.getFilterItemValue('itemValue')
-
-        cy.get('@itemValue').then(itemValue => {
-            cy.log(itemValue)
-        })
-
-        onPromotionsPage.testArray()
+        onPromotionsPage.checkAndCompareFilterValue(desiredBu)
 
     })
 
-    it("Active Brands are displayed", () => {
-        const desiredBu = [ " BU3","50-50","Apple","Apple","Apple","Apple","Apple","Apple Microfiber","Ariel","BOOST","Bourbon","Brand","Brand-cat","Bravo","Bu2","Cake","Collin","Digestive","Gillette","Good Day","HORLICKS","Head & Shoulders","Head & Shoulders","Herbal Essence","Inhaler","Island","Juice","Kellogg's All Bran","Kellogg's Chocos","Kellogg's K Pak","Kellogg's Muesli","Kellogg's Oats","Keshav","Latest Brand","Lenovo","Little Hearts","Local","Marie Gold","Milk Bikis","Milk Rusk","Miscellaneous","Mixed Juice","Moto","Nepali","New Brand","Nutrichoice","Nutro","OBtest","OLD SPICE","Olay","Old Spice","Oral B","Others","Packet","Pampers","Pantene","Pantene","Parle","Promotional SKUs","QA","QA","QA Brand","QA Brand","Red Bull","Rolls","Skin Care","Suji Toast","Test","Tide","Tiger","Treat","VIVA","Vicks","Vicks","Wheat Rusk","Whisper","bu1","check","nepali","popo","sdf","test-brand"]
-        cy.get('.filter-icon > .sc-jSUZER').should("be.visible").click()
-        cy.get("div[class='filter-btn add'] span[class='sc-eDvSVe Dpiax']").click()
-        cy.get(".filter-select__value-container.css-1d8n9bt").should('be.visible').click()
-        cy.selectDropdownValueForFilter("Brand")
-
-        cy.get(".filter-contain-group.custom-scroll").should("be.visible")
-
-        cy.get('.filter-contain-group.custom-scroll > div').should("be.visible").wait(1000).each((option) => {
-            cy.wrap(option).invoke('text').then((optionText) => {
-                cy.log(optionText);
-            })
-        })
-
-        cy.get('.filter-contain-group.custom-scroll > div').each((option, index) => {
-            cy.wrap(option).invoke('text').should('eq', desiredBu[index]);
-        });
-
-
+    it.only("Check if active Brands are displayed", () => {
+        const desiredBrand = ['Pick list',"Vicks","50-50","Ariel","Gillette","Head & Shoulders","Herbal Essence","OLD SPICE","Olay","Old Spice","Oral B","Pampers","Pantene","Tide","Vicks","Whisper","Bourbon","Bravo","Cake","Digestive","Good Day","Island","Little Hearts","Marie Gold","Milk Bikis","Milk Rusk","Nutrichoice","Nutro","Rolls","Suji Toast","Tiger","Treat","Wheat Rusk","Juice","Mixed Juice","Inhaler","Parle","Kellogg's All Bran","Kellogg's Chocos","Kellogg's K Pak","Kellogg's Muesli","Kellogg's Oats","Skin Care","Others","Latest Brand","Red Bull","New Brand","Moto","Head & Shoulders","QA Brand","test-brand","check","Test","OBtest","Keshav","popo","QA","QA Brand","Nepali Brand","Collin","QA","nepali","Lenovo","bu1","Bu2","Packet","BU3","BOOST","HORLICKS","Promotional SKUs","VIVA","Local","Miscellaneous","New Brand","50-50","Cake","Digestive","Good Day","Little Hearts","Marie Gold","Milk Bikis","Milk Rusk","Nutrichoice","Suji Toast","Tiger","Treat","Wheat Rusk","Muna-Masala Tea","Muna-Normal Tea","Milk Chocolate","Dark chocolate","Choco lava","Fruits","VAT BU","Horlicks","waiwai","nails","Fruits"]
+        // select title  from business_catalog_details bcd where catalog_id = 3 and active  order by lower(title), title ;
+        onPromotionsPage.clickOnStandardFilter()
+        onPromotionsPage.clickOnPlusIconOfFilter()
+        onPromotionsPage.clickOnFilterDropdown()
+        onPromotionsPage.selectDropDownValue('Brand')
+        
+        onPromotionsPage.isfilterItemValueDisplayed().should("be.visible")
+        onPromotionsPage.checkAndCompareFilterValue(desiredBrand)
 
     })
 

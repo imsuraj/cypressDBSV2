@@ -201,8 +201,6 @@ describe("Create Promotion Test", () => {
 
     })
 
-
-
     it("Verify new promotion is created when user updates end date of an existing promotion", () => {
         cy.get('tbody > :nth-child(1) > :nth-child(2)').should('be.visible').then(($btn) => {
 

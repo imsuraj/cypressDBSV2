@@ -44,7 +44,7 @@ export class CreatePromotionPage {
         return cy.get(this.pageheader)
     }
 
-    isSaveBtnDisplayed (){
+    isSaveBtnDisplayed() {
         cy.get(this.btnSave).should("be.visible")
     }
 
@@ -118,80 +118,80 @@ export class CreatePromotionPage {
 
 
     clickBusinessUnitDropdown() {
-        cy.get(this.dropdownELe).eq(0).click({force:true})
+        cy.get(this.dropdownELe).eq(0).click({ force: true })
     }
 
     selectBusinessUnitValue(buName) {
-        cy.get(this.bUDropdownValEle).contains(buName).click({force:true})
+        cy.get(this.bUDropdownValEle).contains(buName).click({ force: true })
     }
 
 
     clickBrandDropdown() {
-        cy.get(this.dropdownELe).eq(1).click({force:true})
+        cy.get(this.dropdownELe).eq(1).click({ force: true })
     }
 
     selectBrandValue(brandName) {
-        cy.get(this.bUDropdownValEle).contains(brandName).click({force:true})
+        cy.get(this.bUDropdownValEle).contains(brandName).click({ force: true })
     }
 
     clickSkuDropdown() {
-        cy.get(this.dropdownELe).eq(2).click({force:true})
+        cy.get(this.dropdownELe).eq(2).click({ force: true })
     }
 
 
 
     selectSkuValue(skuName) {
-        cy.get(this.bUDropdownValEle).contains(skuName).click({force:true})
+        cy.get(this.bUDropdownValEle).contains(skuName).click({ force: true })
     }
 
     clickPromotionTypeDropdown() {
-        cy.get(this.dropdownELe).eq(3).click({force:true})
+        cy.get(this.dropdownELe).eq(3).click({ force: true })
     }
 
     selectPromotionTypeValue(promotionType) {
-        cy.get(this.bUDropdownValEle).contains(promotionType).click({force:true})
+        cy.get(this.bUDropdownValEle).contains(promotionType).click({ force: true })
     }
 
     clickPromotionConditionDropdown() {
-        cy.get(this.dropdownELe).eq(4).click({force:true})
+        cy.get(this.dropdownELe).eq(4).click({ force: true })
     }
 
     selectPromotionConditionValue(condition) {
-        cy.get(this.bUDropdownValEle).contains(condition).click({force:true})
+        cy.get(this.bUDropdownValEle).contains(condition).click({ force: true })
     }
 
     clickPromotionCriteriaDropdown() {
-        cy.get(this.dropdownELe).eq(5).click({force:true})
+        cy.get(this.dropdownELe).eq(5).click({ force: true })
     }
 
     selectPromotionCriteriaValue(criteria) {
-        cy.get(this.bUDropdownValEle).contains(criteria).click({force:true})
+        cy.get(this.bUDropdownValEle).contains(criteria).click({ force: true })
     }
 
     enterPromotionConditionValue(value) {
         cy.get(this.txtPromotionConditionVal).eq(0).type(value)
     }
-    
+
     clickPromotionDisbursementDropdown() {
-        cy.get(this.dropdownELe).eq(6).click({force:true})
+        cy.get(this.dropdownELe).eq(6).click({ force: true })
     }
 
 
     selectPromotionDisbursement(disbursement) {
-        cy.get(this.bUDropdownValEle).contains(disbursement).click({force:true})
+        cy.get(this.bUDropdownValEle).contains(disbursement).click({ force: true })
     }
 
     enterPromotionDisbursementValue(value) {
         cy.get(this.txtDisbursementVal).eq(1).type(value)
     }
 
-    getAlertMessage () {
+    getAlertMessage() {
         return cy.get(this.alertMessage)
     }
 
 
     checkBusinessUnitValues(desiredBu) {
-         cy.get(this.bUDropdownValEle).should("be.visible").wait(1000).each((option) => {
+        cy.get(this.bUDropdownValEle).should("be.visible").wait(1000).each((option) => {
             cy.wrap(option).invoke('text').then((optionText) => {
                 cy.log(optionText);
             })
@@ -199,6 +199,30 @@ export class CreatePromotionPage {
         cy.get(this.bUDropdownValEle).each((option, index) => {
             cy.wrap(option).invoke('text').should('eq', desiredBu[index]);
         });
+    }
+
+    checkDropdownValues(value) {
+        cy.compareTwoArrayValue(this.bUDropdownValEle,value)
+    }
+
+
+
+    clickOnDropdown(labelText) {
+        cy.contains('label', labelText)
+            // Find the parent div with class "sc-hhOBVt" and then find the child div with class "zindex-2__input-container"
+            .parents('div.sc-hhOBVt')
+            .find('.zindex-2__input-container')
+            // Click on the div with class "zindex-2__input-container"
+            .click()
+
+    }
+
+
+    enterValueFor(labelText, value) {
+        cy.contains('label',labelText)
+            .parent('div.form-input')
+            .find('[type="text"]')
+            .type(value)
     }
 
 }

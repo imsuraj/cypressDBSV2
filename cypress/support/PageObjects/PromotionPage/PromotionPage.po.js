@@ -40,57 +40,94 @@ export class PromotionsPage {
         return cy.get(this.standardFilterEle)
     }
 
+    isExistingPromotionDisplayed () {
+        return cy.get('tbody tr')
+    }
     clickOnStandardFilter() {
-        cy.get(this.standardFilterEle).should('be.visible').click({force:true})
+        cy.get(this.standardFilterEle).should('be.visible').click({ force: true })
     }
 
-    clickOnPlusIconOfFilter () {
-        cy.get(this.filtePlusIconEle).should('be.visible').click({force:true})
+    clickOnPlusIconOfFilter() {
+        cy.get(this.filtePlusIconEle).should('be.visible').click({ force: true })
     }
 
     clickOnFilterDropdown() {
-        cy.get(this.filterDropdownEle).should('be.visible').click({force:true})
+        cy.get(this.filterDropdownEle).should('be.visible').click({ force: true })
     }
 
     selectDropDownValue(value) {
-        cy.contains(this.filterDropDownValueEle,value).click({force:true})
+        cy.contains(this.filterDropDownValueEle, value).click({ force: true })
     }
-    
-    isfilterItemValueDisplayed () {
+
+    isfilterItemValueDisplayed() {
         return cy.get(this.filterItemValueELe)
     }
 
-    getFilterItemValue(aliasName) {
-        cy.get(this.filterItemValueELe).invoke('text').then((itemValue) => {
-            cy.wrap(itemValue).as(aliasName)
+
+
+    verifyFilterItemValue(desiredValue) {
+
+        cy.get(this.filterItemValueELe).each((option, index) => {
+            cy.wrap(option).invoke('text').should('eq', desiredValue[index]);
+        })
+    }
+
+    /**
+     * This functions will check if the list are sorted or not
+     */
+    checkSortingOfFilterItemValue() {
+        cy.get(this.filterItemValueELe).then(($listItems) => {
+            // Extract text content from the list elements
+            const textArray = $listItems.map((index, element) => Cypress.$(element).text().trim()).get();
+
+            // Check if the array is sorted alphabetically
+            const isSorted = this.isAlphabeticallySorted(textArray);
+            cy.log(textArray)
+            cy.wrap(isSorted).should('be.true');
         })
     }
 
 
-    testArray () {
-        cy.get(this.filterItemValueELe)
-            .invoke('text')
-            .then((dropdownValues) => {
-                const dropdownArray = dropdownValues.split(', ');
+    /**
+     * 
+     * @param {*} expectedValue This function will compare the expected Array with Actual Array
+     */
+    checkAndCompareFilterValue(expectedValue) {
+        cy.compareTwoArrayValue(this.filterItemValueELe,expectedValue)
+    }
 
-                // Sort the dropdown values alphabetically
-                const sortedDropdownArray = dropdownArray.slice().sort();
-        
-                // Log the original and sorted dropdown values
-                cy.log('Original Dropdown Values:', dropdownArray);
-                cy.log('Sorted Dropdown Values:', sortedDropdownArray);
 
-                let a = ['asdf','sdfdf','sdfsdfsdf']
-                console.log(a)
-            })
+    /**
+     * 
+     * @param {*} unsortedArray This function will sort an unsorted Array
+     */
+    sortItemValues(unsortedArray) {
+        const sortedArray = unsortedArray.slice().sort((a, b) => a.localeCompare(b));
 
+        // Log the sorted array
+        cy.log('Before Sorting:', unsortedArray);
+        cy.log('After SOrting:', sortedArray);
+    }
+
+    /**
+     * 
+     * @param {*} array This function will check if the array is sorted or not and retun true or false
+     * @returns 
+     */
+    isAlphabeticallySorted(array) {
+        for (let i = 0; i < array.length - 1; i++) {
+            if (array[i].localeCompare(array[i + 1]) > 0) {
+                return false; // Not sorted alphabetically
+            }
+        }
+        return true; // Sorted alphabetically
     }
 
     isCreatIconDisplayed() {
         return cy.get(this.createIconEle)
     }
 
-    clickCreateIcon () {
+    clickCreateIcon() {
         cy.get(this.createIconEle).should('be.visible').click()
     }
 
@@ -101,34 +138,34 @@ export class PromotionsPage {
     }
 
     checkSearchedValueIsDisplayed(text) {
-        cy.contains('tbody tr td',text)
+        cy.contains('tbody tr td', text)
     }
 
     clickOnSearchIcon() {
-        cy.get(this.searchIconELe).should('be.visible').click({force:true})
+        cy.get(this.searchIconELe).should('be.visible').click({ force: true })
     }
 
     enterValueInSearchBox(text) {
-        cy.get(this.searchBoxEle).should('be.visible').type(text+'{enter}', {force:true})
+        cy.get(this.searchBoxEle).should('be.visible').type(text + '{enter}', { force: true })
         cy.wait(1000)
     }
 
     openPromotionDetail(text) {
-        cy.contains('tbody tr td',text).click({force:true})
+        cy.contains('tbody tr td', text).click({ force: true })
     }
 
     /**
      * This function will click on three dot menu
      */
-    clickThreeDotMenu () {
-        cy.get('.filter-item > :nth-child(1) > :nth-child(1) > .sc-jSUZER > .sc-eDvSVe').click({force:true})
+    clickThreeDotMenu() {
+        cy.get('.filter-item > :nth-child(1) > :nth-child(1) > .sc-jSUZER > .sc-eDvSVe').click({ force: true })
     }
 
     /**
      * This function will click on Delete 
      */
     clickDelete() {
-        cy.get(this.deleteEle).click({force:true})
+        cy.get(this.deleteEle).click({ force: true })
     }
 
     /**
@@ -151,21 +188,21 @@ export class PromotionsPage {
      * Click on OK button
      */
     clickOkButton() {
-        cy.get(this.okButtonEle).click({force:true})
+        cy.get(this.okButtonEle).click({ force: true })
     }
 
     /**
      * Click on Cancel Button
      */
     clickCancelButton() {
-        cy.get(this.cancelButtonEle).click({force:true})
+        cy.get(this.cancelButtonEle).click({ force: true })
     }
 
     /**
      * 
      * @returns Alert Message
      */
-    getAlertMessage () {
+    getAlertMessage() {
         return cy.get(this.alertMessageEle)
     }
 
@@ -178,16 +215,23 @@ export class PromotionsPage {
      * @param {index} index This function select checkbox as per index number
      */
     selectCheckBoxes(index) {
-        cy.get(this.checkBoxELe).eq(index).click({force:true})
+        cy.get(this.checkBoxELe).eq(index).click({ force: true })
     }
 
     clickOnDeleteIcon() {
-        cy.get(this.deleteIconEle).should('be.visible').click({force:true})
+        cy.get(this.deleteIconEle).should('be.visible').click({ force: true })
     }
 
     getTableHeaderText(index) {
         return cy.get('thead tr th').eq(index).should('be.visible')
     }
+
+
+
+
+
+    
+    
 }
 
 
