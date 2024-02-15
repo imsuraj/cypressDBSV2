@@ -27,8 +27,8 @@ import CreatePurchaseInvoicePage from "./PageObjects/PurchaseInvoicePage/CreateP
 
 
 Cypress.Commands.add('openLoginPage', () => {
-    // cy.visit('/')
     cy.visit('/')
+    // cy.visit(Cypress.env("baseUrl"))
 })
 
 // Cypress.Commands.add('login', (email, password) => {
