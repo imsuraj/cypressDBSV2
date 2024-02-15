@@ -4,7 +4,7 @@ const { onEditPromotionPage } = require("../../../../../support/PageObjects/Prom
 const { onPromotionsPage } = require("../../../../../support/PageObjects/PromotionPage/PromotionPage.po");
 
 const currentDate = new Date();
-const timestamp = currentDate.getTime();
+// const timestamp = currentDate.getTime();
 
 let existingPromotionId
 
@@ -16,8 +16,8 @@ describe("Edit Promotion Test", () => {
         cy.fixture('promotions').as('data'); // Load the fixture data
         cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
         cy.login(Cypress.env('username'), Cypress.env('password'))
+        cy.visit('/')
         cy.wait(2000)
-        cy.url().should('include', '/dashboard')
         onDashboardPage.hoverMouseOverConfiguration()
         onDashboardPage.hoverMouseOverOther()
         onDashboardPage.openPromotion()
@@ -33,12 +33,10 @@ describe("Edit Promotion Test", () => {
     })
 
     it("Verify edit icon is displayed in promotion detail", () => {
-
-
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -97,14 +95,13 @@ describe("Edit Promotion Test", () => {
                 onEditPromotionPage.isEditIconDisplayed()
             })
         })
-
     })
 
     it("Verify user is redirected to list page after clicking cancel button", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -184,7 +181,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -241,7 +238,7 @@ describe("Edit Promotion Test", () => {
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
 
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
 
@@ -275,7 +272,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -332,7 +329,7 @@ describe("Edit Promotion Test", () => {
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
 
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
 
@@ -367,7 +364,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -414,7 +411,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed(time)
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -441,7 +438,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update start date of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -482,7 +479,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -516,7 +513,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user updates end date of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -557,7 +554,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -588,7 +585,7 @@ describe("Edit Promotion Test", () => {
         let newBrand = "QA Brand"
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -658,7 +655,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update sku of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -700,7 +697,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -728,7 +725,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update promotion condition of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -771,7 +768,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -799,7 +796,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update promotion criteria of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -843,7 +840,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -871,7 +868,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update promotion condition value of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -915,7 +912,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -941,7 +938,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update Disbursement type of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -985,7 +982,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -1013,7 +1010,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update Disbursement value of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -1057,7 +1054,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.checkSearchedValueIsDisplayed("Active")
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
@@ -1084,7 +1081,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -1141,7 +1138,7 @@ describe("Edit Promotion Test", () => {
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
 
-                    const newPromotionTitle = "New Title" + timestamp
+                    const newPromotionTitle = "New Title" + currentDate.getTime()
                     // store the button's text
                     existingPromotionId = parseInt($btn.text(), 10)
 
@@ -1173,14 +1170,4 @@ describe("Edit Promotion Test", () => {
         })
 
     })
-
-
-
-
-
-
-
-
-
-
 })

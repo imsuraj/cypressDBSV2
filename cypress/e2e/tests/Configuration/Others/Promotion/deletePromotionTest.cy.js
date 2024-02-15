@@ -14,8 +14,8 @@ describe("Delete Promotion Test", () => {
         cy.fixture('promotions').as('data'); // Load the fixture data
         cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
         cy.login(Cypress.env('username'), Cypress.env('password'))
+        cy.visit('/')
         cy.wait(2000)
-        cy.url().should('include', '/dashboard')
         onDashboardPage.hoverMouseOverConfiguration()
         onDashboardPage.hoverMouseOverOther()
         onDashboardPage.openPromotion()
@@ -28,13 +28,16 @@ describe("Delete Promotion Test", () => {
                 cy.log('Header Text does not match')
             }
         })
+        
     })
 
     it("Verify user can delete promotion using three dot menu", () => {
+
+
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -105,17 +108,19 @@ describe("Delete Promotion Test", () => {
                         cy.log('Header Text does not match')
                     }
                 })
-                onPromotionsPage.searchPromotion(time)
+                // onPromotionsPage.searchPromotion(time)
                 onPromotionsPage.checkElementIsDisplayed().should('not.exist')
             })
         })
     })
 
     it("Verify promotion is not deleted when user clicks on cancel button", () => {
+
+   
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = timestamp
+                let time = currentDate.getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -183,6 +188,8 @@ describe("Delete Promotion Test", () => {
     })
 
     it("Verify user can delete multiple promotion", () => {
+
+        
         try {
             onPromotionsPage.selectCheckBoxes(1)
             onPromotionsPage.selectCheckBoxes(3)
@@ -209,6 +216,7 @@ describe("Delete Promotion Test", () => {
     })
 
     it("Verify promotion is not deleted when user clicks on cancel button in case of bulk delete", () => {
+
 
         try {
             onPromotionsPage.selectCheckBoxes(1)

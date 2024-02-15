@@ -8,8 +8,8 @@ describe("List Promotion Test", () => {
         cy.fixture('promotions').as('data'); // Load the fixture data
         cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
         cy.login(Cypress.env('username'), Cypress.env('password'))
+        cy.visit('/')
         cy.wait(2000)
-        cy.url().should('include', '/dashboard')
         onDashboardPage.hoverMouseOverConfiguration()
         onDashboardPage.hoverMouseOverOther()
         onDashboardPage.openPromotion()
@@ -42,9 +42,7 @@ describe("List Promotion Test", () => {
     })
 
     it("search promotion using title", () => {
-
         const promotionTitle = "Buy";
-        
         try {
             onPromotionsPage.searchPromotion(promotionTitle)
             onPromotionsPage.checkSearchedValueIsDisplayed(promotionTitle)
@@ -53,7 +51,6 @@ describe("List Promotion Test", () => {
         } catch (error) {
             cy.log('Promotion with the given title '+promotionTitle+' does not seem to be created yet')
         }
-      
 
     })
 
@@ -92,7 +89,6 @@ describe("List Promotion Test", () => {
         
         onPromotionsPage.isfilterItemValueDisplayed().should("be.visible")
         onPromotionsPage.checkAndCompareFilterValue(desiredBrand)
-
     })
 
 

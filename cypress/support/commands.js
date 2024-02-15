@@ -26,23 +26,47 @@ import CreatePurchaseInvoicePage from "./PageObjects/PurchaseInvoicePage/CreateP
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 
-Cypress.Commands.add('openLoginPage',  () => {
+Cypress.Commands.add('openLoginPage', () => {
     // cy.visit('/')
     cy.visit(Cypress.env('baseUrl'))
 })
 
+// Cypress.Commands.add('login', (email, password) => {
+
+//     cy.visit(Cypress.env('baseUrl'))
+//     cy.get("input[placeholder='Email']").type(email)
+//     cy.get("input[placeholder='Password']").type(password)
+//     cy.get('button').click()
+//     cy.wait(2000)
+// })
+
+
 Cypress.Commands.add('login', (email, password) => {
-    
-    cy.visit(Cypress.env('baseUrl'))
-    cy.get("input[placeholder='Email']").type(email)
-    cy.get("input[placeholder='Password']").type(password)
-    cy.get('button').click()
+
+    cy.session([email, password], () => {
+        cy.visit('/')
+        cy.get("input[placeholder='Email']").type(email)
+        cy.get("input[placeholder='Password']").type(password)
+        cy.get('button').click()
+        cy.wait(3000)
+        cy.url().should('include', '/dashboard')
+    },
+        {
+            cacheAcrossSpecs: true
+        }
+    )
+
 })
 
 
-Cypress.Commands.add('searchByText',(text) => {
+
+
+
+
+
+Cypress.Commands.add('searchByText', (text) => {
     cy.get('.search-input > div > .sc-jSUZER').should('be.visible').click({ force: true })
-    cy.get('#searchId').should('be.visible').type(text+'{enter}', {force: true})
+    cy.get('#searchId').should('be.visible').type(text + '{enter}', { force: true })
     cy.wait(1000)
 
 })
@@ -52,13 +76,13 @@ Cypress.Commands.add('getHeaderText', (alias) => {
         cy.wrap(headerText).as(alias)
     })
 })
-    
+
 
 Cypress.on('uncaught:exception', (err, runnable) => {
     // returning false here prevents Cypress from
     // failing the test
     return false
-  })
+})
 
 
 Cypress.Commands.add('selectDropdownValue', (value) => {
@@ -75,16 +99,16 @@ Cypress.Commands.add('compareTwoArrayValue', (locator, expectedValue) => {
         const sortedExpecteValue = expectedValueWithoutSpace.slice().sort((a, b) => a.localeCompare(b))
         const sortedActualValue = actualValue.slice().sort((a, b) => a.localeCompare(b))
 
-        if(sortedExpecteValue.length == sortedActualValue.length) {
-            cy.log("SortedActualValue "+sortedActualValue)
-            cy.log("SortedExpectedValue "+sortedExpecteValue)
+        if (sortedExpecteValue.length == sortedActualValue.length) {
+            cy.log("SortedActualValue " + sortedActualValue)
+            cy.log("SortedExpectedValue " + sortedExpecteValue)
             expect(sortedActualValue).to.deep.equal(sortedExpecteValue)
             // cy.wrap(sortedExpecteValue).should('deep.equal',sortedActualValue)
         }
         else {
             cy.log("Arrays are not equal")
-            cy.log("SortedActualValue "+sortedActualValue)
-            cy.log("SortedExpectedValue "+sortedExpecteValue)
+            cy.log("SortedActualValue " + sortedActualValue)
+            cy.log("SortedExpectedValue " + sortedExpecteValue)
         }
     })
 })
@@ -93,7 +117,7 @@ Cypress.Commands.add('compareTwoArrayValue', (locator, expectedValue) => {
  * Trim text and assign it to the alias  
  */
 
-Cypress.Commands.add('getTextAndAlias',(elementSelector, aliasName) => {
+Cypress.Commands.add('getTextAndAlias', (elementSelector, aliasName) => {
     cy.get(elementSelector)
         .invoke('text')
         .then((text) => {
@@ -114,10 +138,10 @@ Cypress.Commands.add('selectDateFromCalendar', (value) => {
 
 Cypress.Commands.add('getTextAndStore', (selector, variableName) => {
     cy.get(selector).invoke('text').then((text) => {
-      cy.wrap(text).as(variableName);
+        cy.wrap(text).as(variableName);
     });
-  });
-  
+});
+
 
 
 
@@ -126,28 +150,28 @@ Cypress.Commands.add('getTextAndStore', (selector, variableName) => {
 Cypress.Commands.add('addSKUforPRN', (skuTitle, batchName, sellable, damages, shortages, rate, excise, lineDisc) => {
 
     cy.get('tr > :nth-child(2) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container > .zindex-2__input-container')
-    .click()
-    .type(skuTitle + "{enter}")
+        .click()
+        .type(skuTitle + "{enter}")
 
     cy.get('tr > :nth-child(3) > .sc-ftTHYK > .form-select-input')
-    .click()
-    .type(batchName + "{enter}")
+        .click()
+        .type(batchName + "{enter}")
 
     cy.get('tr > :nth-child(6) > .form-input > .sc-idXgbr')
-    .click().clear()
-    .type(sellable)
-    
+        .click().clear()
+        .type(sellable)
+
     cy.get('tr > :nth-child(7) > .form-input > .sc-idXgbr')
-    .click().clear()
-    .type(damages)
+        .click().clear()
+        .type(damages)
 
     cy.get('tr > :nth-child(8) > .form-input > .sc-idXgbr')
-    .click().clear()
-    .type(shortages)
+        .click().clear()
+        .type(shortages)
 
     cy.get('tr > :nth-child(11) > .form-input > .sc-idXgbr')
-    .click().clear()
-    .type(rate)
+        .click().clear()
+        .type(rate)
 
     //Add bill terms
     // cy.get('.td-discount > .sc-jSUZER').click()
