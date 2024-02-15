@@ -2,9 +2,11 @@ const { onDashboardPage } = require("../../../../../support/PageObjects/Dashboar
 const { onCreatePromotionPage } = require("../../../../../support/PageObjects/PromotionPage/CreatePromotionPage.po");
 const { onPromotionsPage } = require("../../../../../support/PageObjects/PromotionPage/PromotionPage.po");
 
-const currentDate = new Date();
-const timestamp = currentDate.getTime();
-
+function getTime () {
+    let currentDate = new Date();
+    let timestamp = currentDate.getTime();
+    return timestamp
+}
 
 
 describe("Delete Promotion Test", () => {
@@ -37,7 +39,7 @@ describe("Delete Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -120,7 +122,7 @@ describe("Delete Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()

@@ -48,7 +48,7 @@ Cypress.Commands.add('login', (email, password) => {
         cy.get("input[placeholder='Email']").type(email)
         cy.get("input[placeholder='Password']").type(password)
         cy.get('button').click()
-        // cy.wait(3000)
+        cy.wait(2000)
         cy.url().should('include', '/dashboard')
     },
         {
@@ -57,8 +57,6 @@ Cypress.Commands.add('login', (email, password) => {
     )
 
 })
-
-
 
 
 

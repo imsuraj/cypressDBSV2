@@ -3,8 +3,12 @@ const { onCreatePromotionPage } = require("../../../../../support/PageObjects/Pr
 const { onEditPromotionPage } = require("../../../../../support/PageObjects/PromotionPage/EditPromotionPage.po");
 const { onPromotionsPage } = require("../../../../../support/PageObjects/PromotionPage/PromotionPage.po");
 
-const currentDate = new Date();
-// const timestamp = currentDate.getTime();
+
+function getTime () {
+    let currentDate = new Date();
+    let timestamp = currentDate.getTime();
+    return timestamp
+}
 
 let existingPromotionId
 
@@ -36,7 +40,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -101,7 +105,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -181,7 +185,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -272,7 +276,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -364,7 +368,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -438,7 +442,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update start date of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -513,7 +517,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user updates end date of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -585,7 +589,7 @@ describe("Edit Promotion Test", () => {
         let newBrand = "QA Brand"
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -655,7 +659,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update sku of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -725,7 +729,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update promotion condition of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -796,7 +800,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update promotion criteria of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -868,7 +872,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update promotion condition value of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -938,7 +942,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update Disbursement type of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -1010,7 +1014,7 @@ describe("Edit Promotion Test", () => {
     it("Verify new promotion is created when user update Disbursement value of an existing promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -1081,7 +1085,7 @@ describe("Edit Promotion Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()

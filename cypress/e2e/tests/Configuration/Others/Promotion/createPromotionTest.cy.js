@@ -1,8 +1,12 @@
 import { onDashboardPage } from "../../../../../support/PageObjects/DashboardPage/DashboardPage.po.js";
 import { onCreatePromotionPage } from "../../../../../support/PageObjects/PromotionPage/CreatePromotionPage.po.js";
 import { onPromotionsPage } from "../../../../../support/PageObjects/PromotionPage/PromotionPage.po.js";
-const currentDate = new Date();
-const timestamp = currentDate.getTime();
+
+function getTime () {
+    let currentDate = new Date();
+    let timestamp = currentDate.getTime();
+    return timestamp
+}
 
 
 describe("Create Promotions Test", () => {
@@ -27,7 +31,6 @@ describe("Create Promotions Test", () => {
             }
         })
     })
-
 
     it("Verify mandatory message is displayed", () => {
 
@@ -236,7 +239,7 @@ describe("Create Promotions Test", () => {
     it("Verify current date promotion is created without selecting both start and end date", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -285,7 +288,7 @@ describe("Create Promotions Test", () => {
     it("Verify promotion is created without selecting start date", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -336,7 +339,7 @@ describe("Create Promotions Test", () => {
     it("Verify promotion is created without selecting end date", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -386,7 +389,7 @@ describe("Create Promotions Test", () => {
     it("Verify user cannot Create Promotions without a brand", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -432,7 +435,7 @@ describe("Create Promotions Test", () => {
     it("Verify user cannot Create Promotions without promotion type", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -478,7 +481,7 @@ describe("Create Promotions Test", () => {
     it("Verify user cannot Create Promotions without promotion condition", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -524,7 +527,7 @@ describe("Create Promotions Test", () => {
     it("Verify user cannot Create Promotions without promotion criteria", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -570,7 +573,7 @@ describe("Create Promotions Test", () => {
     it("Verify user cannot Create Promotions without promotion condition value", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -616,7 +619,7 @@ describe("Create Promotions Test", () => {
     it("Verify user cannot Create Promotions without promotion disbursement type", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -662,7 +665,7 @@ describe("Create Promotions Test", () => {
     it("Verify user cannot Create Promotions without promotion disbursement value", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -708,7 +711,7 @@ describe("Create Promotions Test", () => {
     it("Verify user can Create Promotions for a brand without selecting sku", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
 
                 onPromotionsPage.clickCreateIcon()
                 onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
@@ -760,7 +763,7 @@ describe("Create Promotions Test", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
-                let time = currentDate.getTime()
+                let time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -823,7 +826,7 @@ describe("Create Promotions Test", () => {
     })
 
     it("Verify user can Create Promotions for a multiple skus", () => {
-        title = "Multiple sku promotion" + currentDate.getTime()
+        title = "Multiple sku promotion" + getTime()
 
         onPromotionsPage.clickCreateIcon()
 
@@ -883,7 +886,7 @@ describe("Create Promotions Test", () => {
     it.skip("verify Limit for value fields", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                title = "Buy" + " " + promotion.bu + " " + promotion.brand + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + currentDate.getTime()
+                title = "Buy" + " " + promotion.bu + " " + promotion.brand + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + getTime()
                 cy.get(':nth-child(4) > .sc-jSUZER').click()
                 cy.get('h2').should("have.text", "Create Promotions")
                 cy.get(':nth-child(2) > .sc-jSUZER > span').should("be.visible")
@@ -943,7 +946,7 @@ describe("Create Promotions Test", () => {
     it("Verify user can Create Promotions with same title", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
-                const time = currentDate.getTime()
+                const time = getTime()
                 let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
 
                 onPromotionsPage.clickCreateIcon()
@@ -1062,7 +1065,7 @@ describe("Create Promotions Test", () => {
     it("Create Promotions for each condition and disbursement for a sku", () => {
         cy.get('@data').then((data) => {
             data.forEach((promotion) => {
-                let time = currentDate.getTime()
+                let time = getTime()
                 let titleText = "Buy" + " " + promotion.brand + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " "
                 let title = titleText + " " + time
 
