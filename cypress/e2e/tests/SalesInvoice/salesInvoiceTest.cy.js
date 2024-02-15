@@ -18,7 +18,6 @@ describe('Sales Invoice pages suite', () => {
 
     beforeEach('Open App and Login', () => {
         cy.login(Cypress.env('username'), Cypress.env('password'))
-
         cy.visit('/')
         cy.wait(2000)
         onDashboardPage.hoverMouserOverSales()
