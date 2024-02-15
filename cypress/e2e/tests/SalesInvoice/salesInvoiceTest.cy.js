@@ -27,7 +27,7 @@ describe('Sales Invoice pages suite', () => {
 
     })
 
-    it.only('Verify Header of Sales Invoice Page', () => {
+    it('Verify Header of Sales Invoice Page', () => {
         cy.getHeaderText('headerText')
         cy.get('@headerText').then(headerText => {
             try {
