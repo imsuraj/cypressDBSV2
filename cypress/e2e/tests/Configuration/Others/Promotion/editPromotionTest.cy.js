@@ -10,7 +10,6 @@ function getTime () {
     return timestamp
 }
 
-let existingPromotionId
 
 
 describe("Edit Promotion Test", () => {
@@ -244,7 +243,7 @@ describe("Edit Promotion Test", () => {
 
                     const newPromotionTitle = "New Title" + time
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
 
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
@@ -335,7 +334,7 @@ describe("Edit Promotion Test", () => {
 
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
 
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
@@ -420,7 +419,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + time
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -487,7 +486,7 @@ describe("Edit Promotion Test", () => {
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -562,7 +561,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -633,7 +632,7 @@ describe("Edit Promotion Test", () => {
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -705,7 +704,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -776,7 +775,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -848,7 +847,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -920,7 +919,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -990,7 +989,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -1062,7 +1061,7 @@ describe("Edit Promotion Test", () => {
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     const newPromotionTitle = "New Title" + getTime()
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)
                     onPromotionsPage.openPromotionDetail(time)
@@ -1144,7 +1143,7 @@ describe("Edit Promotion Test", () => {
 
                 onPromotionsPage.getPromotionId().then(($btn) => {
                     // store the button's text
-                    existingPromotionId = parseInt($btn.text(), 10)
+                    let existingPromotionId = parseInt($btn.text(), 10)
 
                     cy.log(existingPromotionId)
                     cy.log(existingPromotionId + 2)

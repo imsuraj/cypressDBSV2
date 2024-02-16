@@ -234,6 +234,7 @@ export class PromotionsPage {
 
 
     getPromotionId () {
+        cy.wait(1000)
        return cy.get('tbody > :nth-child(1) > :nth-child(2)')
     }
 
