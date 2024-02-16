@@ -1,0 +1,19 @@
+stages:
+  - test
+
+test:
+  stage: e2e-test
+  image: 
+    name: cypress/included
+    entrypoint: [""]
+  parallel: 5
+  script:
+    # install dependencies
+    - npm ci
+    # run Cypress tests
+    - DBS_USERNAME="suraj+amazon@evolveasia.co" DBS_PASSWORD="Evolve@123" npm run cy:run_process
+  artifacts:
+    paths:
+      - cypress/screenshots/
+      - cypress/videos/
+      - cypress/reports/
