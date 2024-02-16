@@ -1083,7 +1083,7 @@ describe("Edit Promotion Test", () => {
         })
     })
 
-    it.only("Verify new promotion is not created when user update status of the promotion", () => {
+    it("Verify new promotion is not created when user update status of the promotion", () => {
         cy.get('@data1').then((data) => {
             data.forEach((promotion) => {
 
