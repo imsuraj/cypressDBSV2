@@ -24,6 +24,7 @@ export class EditPromotionPage {
     }
 
     clickOnStatus() {
+        cy.get('[aria-checked="true"]').should('be.visible')
         cy.get(this.statusToggleEle).should('be.visible').click({force:true})
     }
 

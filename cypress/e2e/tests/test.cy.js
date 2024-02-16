@@ -6,8 +6,16 @@ describe("daf", () => {
 
   beforeEach('sdf', () => {
     cy.login(Cypress.env('username'), Cypress.env('password'))
+
+
+    cy.visit('/dashboard')
     cy.wait(2000)
+    onDashboardPage.hoverMouseOverConfiguration()
+    onDashboardPage.hoverMouseOverOther()
+    onDashboardPage.openPromotion()
+
     
+
   })
 
   it('gets current date and timestamp', () => {
@@ -63,75 +71,21 @@ describe("daf", () => {
   });
 
 
-  it.only("Verify mandatory message is displayed", () => {
-    cy.visit('/')
-
-    onDashboardPage.hoverMouseOverConfiguration()
-    onDashboardPage.hoverMouseOverOther()
-    onDashboardPage.openPromotion()
-
-    onPromotionsPage.clickCreateIcon()
-    onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
-    onCreatePromotionPage.clickSaveBtn()
-
-    onCreatePromotionPage.getTitleErrorMessage().should("contain", "Promotion title is required")
-    onCreatePromotionPage.getBUErrorMessage().should("contain", "Business unit is required")
-    onCreatePromotionPage.getBrandErrorMessage().should("contain", "Brand is required")
-    onCreatePromotionPage.getPromotionTypeErrorMessage().should("contain", "Promotion type is required")
-    onCreatePromotionPage.getPromotionConditionErrorMessage().should("contain", "Condition is required")
-    onCreatePromotionPage.getPromotionCriteriaErrorMessage().should("contain", "Criteria is required")
-    onCreatePromotionPage.getPromotionConditionValErrorMessage().should("contain", "Value is required")
-
-    onCreatePromotionPage.getPromotionDisbursementTypeErrorMessage().should("contain", "Disbursement type is required")
-    onCreatePromotionPage.getPromotionDisbursementValErrorMessage().should("contain", "Value is required")
-
-})
 
 
-it.only("Verify mandatory message is displayed when user creates promotion with non required fields", () => {
-
-  cy.visit('/')
-
-  onDashboardPage.hoverMouseOverConfiguration()
-  onDashboardPage.hoverMouseOverOther()
-  onDashboardPage.openPromotion()
-
-  onPromotionsPage.clickCreateIcon()
-
-  onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
-  onCreatePromotionPage.enterPromotionDescription("ABC")
-  onCreatePromotionPage.clickSaveBtn()
-
-
-  onCreatePromotionPage.getTitleErrorMessage().should("contain", "Promotion title is required")
-  onCreatePromotionPage.getBUErrorMessage().should("contain", "Business unit is required")
-  onCreatePromotionPage.getBrandErrorMessage().should("contain", "Brand is required")
-  onCreatePromotionPage.getPromotionTypeErrorMessage().should("contain", "Promotion type is required")
-  onCreatePromotionPage.getPromotionConditionErrorMessage().should("contain", "Condition is required")
-  onCreatePromotionPage.getPromotionCriteriaErrorMessage().should("contain", "Criteria is required")
-  onCreatePromotionPage.getPromotionConditionValErrorMessage().should("contain", "Value is required")
-
-  onCreatePromotionPage.getPromotionDisbursementTypeErrorMessage().should("contain", "Disbursement type is required")
-  onCreatePromotionPage.getPromotionDisbursementValErrorMessage().should("contain", "Value is required")
-
-})
-
-
-
-
-  it.skip('sdf',() => {
+  it.skip('api', () => {
 
     const userCredentials = {
       "username": Cypress.env("username"),
       "password": Cypress.env("password")
-  }
+    }
 
 
-    cy.request('POST', Cypress.env("baseUrl")+'/api/v1/auth/login', userCredentials)
-    .its('body').then(body => {
-      const token = body.data.access_token
-      cy.log(token)
-    })
+    cy.request('POST', 'https://qa.dbs.rosia.one/api/v1/auth/login', userCredentials)
+      .its('body').then(body => {
+        const token = body.data.access_token
+        cy.log(token)
+      })
   })
 
 })

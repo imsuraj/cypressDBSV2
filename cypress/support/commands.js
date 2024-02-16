@@ -51,12 +51,41 @@ Cypress.Commands.add('login', (email, password) => {
         cy.wait(2000)
         cy.url().should('include', '/dashboard')
     },
+    {
+        cacheAcrossSpecs: true
+    }
+    )
+
+})
+
+
+Cypress.Commands.add('loginApi', (email, password) => {
+
+    const userCredentials = {
+        "username": email,
+        "password": password
+    }
+
+    cy.session([email, password], () => {
+        cy.request('POST', 'https://qa.dbs.rosia.one/api/v1/auth/login', userCredentials)
+            .its('body').then(body => {
+                const token = body.data.access_token
+                cy.log(token)
+
+                    cy.visit('/dashboard')
+                        window.localStorage.setItem('access_token', token)
+
+
+            })
+    },
         {
             cacheAcrossSpecs: true
         }
     )
 
 })
+
+
 
 
 
