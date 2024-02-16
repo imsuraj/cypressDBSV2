@@ -12,6 +12,8 @@ test:
     - npm ci
     # run Cypress tests
     - DBS_USERNAME="suraj+amazon@evolveasia.co" DBS_PASSWORD="Evolve@123" npm run cy:run_process
+  only:
+    - automation
   artifacts:
     paths:
       - cypress/screenshots/
