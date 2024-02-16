@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress");
+const getspecFiles = require("cypress-gitlab-parallel-runner")
 
 module.exports = defineConfig({
 
@@ -32,6 +33,7 @@ module.exports = defineConfig({
     "watchForFileChanges": false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      getspecFiles("./cypress/e2e/tests",true)
       require('cypress-mochawesome-reporter/plugin')(on);
       const username = process.env.ROSIA_USERNAME
       const password = process.env.ROSIA_PASSWORD
