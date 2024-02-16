@@ -4,6 +4,9 @@ module.exports = defineConfig({
 
   viewportWidth: 1920,
   viewportHeight: 1080,
+  pageLoadTimeout: 120000,
+  video: true,
+  // retries: {openMode:2, runMode: 1},
 
   reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
@@ -25,17 +28,18 @@ module.exports = defineConfig({
 
 
   e2e: {
-    "watchForFileChanges": true,
+    baseUrl: 'https://qa.dbs.rosia.one',
+    "watchForFileChanges": false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       require('cypress-mochawesome-reporter/plugin')(on);
       const username = process.env.ROSIA_USERNAME
       const password = process.env.ROSIA_PASSWORD
-      const baseUrl = process.env.ROSIA_URL
+      // const baseUrl = process.env.ROSIA_URL
       // if(!password) {
       //   throw new Error('Missing PASSWORD environment variable')
       // }
-      config.env = { username, password,baseUrl }
+      config.env = { username, password }
       return config
 
     },
@@ -44,7 +48,7 @@ module.exports = defineConfig({
   },
 
   env: {
-    "baseUrl": 'https://qa.dbs.rosia.one',
+    
     "email": "admin@dbs.rosia.one",
     "password": "Evolve@123"
   }
