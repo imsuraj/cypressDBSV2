@@ -12,8 +12,12 @@
     "cypress:e2e": "npx cypress run",
     "cy:open_qa": "npx cypress open --env username=abc,password=ancd ",
     "cy:open_process": "npx cypress open --env username=$DBS_USERNAME,password=$DBS_PASSWORD",
+    "cy:open_process_qa": "npx cypress open --env username=$DBS_USERNAME,password=$DBS_PASSWORD --config-file=qa.config.js",
+    "cy:open_process_staging": "npx cypress open --env username=$DBS_USERNAME,password=$DBS_PASSWORD --config-file=staging.config.js",
+    "cy:run_process_qa": "npm run prereport && cypress run --config-file=qa.config.js --browser chrome  --env username=$DBS_USERNAME,password=$DBS_PASSWORD  --spec 'cypress/e2e/tests/Login/loginTest.cy.js'",
+    "cy:run_process_staging": "npm run prereport && cypress run --config-file=staging.config.js --browser chrome  --env username=$DBS_USERNAME,password=$DBS_PASSWORD  --spec 'cypress/e2e/tests/Login/loginTest.cy.js'",
     "cy:run_process": "npm run prereport && cypress run --browser chrome --headed --env username=$DBS_USERNAME,password=$DBS_PASSWORD  --spec 'cypress/e2e/tests/Login/loginTest.cy.js,cypress/e2e/tests/SalesInvoice/salesInvoiceTest.cy.js,cypress/e2e/tests/Configuration/Others/Promotion/*.cy.js'",
-    "cy:run_processWithReport": "npm run prereport && cypress run --env username=$DBS_USERNAME,password=$DBS_PASSWORD,baseUrl=$DBS_URL --browser chrome --spec 'cypress/e2e/ßtests/SalesInvoice/salesInvoiceTest.cy.js';npm run junit:merge; npm run mochawesome:merge"
+    "cy:run_processWithReport": "npm run prereport && cypress run --env username=$DBS_USERNAME,password=$DBS_PASSWORD,baseUrl=$DBS_URL --browser chrome --spec 'cypress/e2e/tests/SalesInvoice/salesInvoiceTest.cy.js';npm run junit:merge; npm run mochawesome:merge"
   },
   "author": "Suraj",
   "license": "ISC",

@@ -48,10 +48,4 @@ module.exports = defineConfig({
     excludeSpecPattern: ['**/cypress/e2e/1-getting-started', '**/cypress/e2e/2-advanced-examples'],
     spectPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}	',
   },
-
-  env: {
-    
-    "email": "admin@dbs.rosia.one",
-    "password": "Evolve@123"
-  }
 });
