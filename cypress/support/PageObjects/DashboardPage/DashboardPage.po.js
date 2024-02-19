@@ -196,9 +196,19 @@ export class DashboardPage {
         cy.contains('Updated Sales VAT').click({ force: true })
     }
 
+    openUpdatedPurchaseVatReport() {
+        // cy.get(this.updateSalesVatReportEle).should("be.visible").click()
+        cy.contains('Updated Purchase VAT').click({ force: true })
+    }
+
     openSalesVatReport() {
         // cy.get(this.salesVatReportEle).should("be.visible").click()
         cy.contains('Sales VAT Report').click({ force: true })
+    }
+
+    openPurchaseVatReport() {
+        // cy.get(this.salesVatReportEle).should("be.visible").click()
+        cy.contains('Purchase VAT Report').click({ force: true })
     }
 
     hoverMouseOverCatalog() {

@@ -80,6 +80,12 @@ export class CreatePurchaseInvoicePage {
     clickSaveButton () {
         cy.get(this.saveBtn).should('be.visible').click({force:true})
     }
+
+    checkSaveBtnIsDisabled() {
+        cy.get(this.saveBtn)
+            .parent()
+            .should('have.class','disabled')
+    }
     
     verifySuccessMessage(message) {
         cy.url().should('include', '/purchase/purchase-invoice')
@@ -88,7 +94,7 @@ export class CreatePurchaseInvoicePage {
 
 
     selectPaymentMode(mode) {
-        cy.get(this.paymentMode).contains(mode).click()
+        cy.get(this.paymentMode).should('be.visible').contains(mode).click()
     }
 
 
