@@ -1,72 +1,29 @@
 [
     {
-        "skuTitle": "Boost Jar 500 gm x 24 INR 279 [UNL00186]",
-        "batchName": "1012RAPH",
+        "skuTitle": "Sunfeast 50-50 Top Buttery Bites 200 gm x 20 NPR 50 IN [96889]",
+        "sellable": 100,
+        "damages": 5,
+        "shortages": 2,
+        "rate": 5000,
+        "excise": 5,
+        "lineDisc": 2
+    },
+    {
+        "skuTitle": "Sunfeast Gobbles Choco Chill 30 gm x 72 NPR 50 IN [9000992]",
         "sellable": 10,
-        "damages": 1,
-        "shortages": 2,
-        "rate": 20,
+        "damages": 2,
+        "shortages": 1,
+        "rate": 455.55,
         "excise": 10,
-        "lineDisc": 2
+        "lineDisc": 2.2
     },
     {
-        "skuTitle": "Boost Refill 500 gm x 24 INR 238 [Promo] [UNL00070]",
-        "batchName": "Defult",
-        "sellable": 12,
+        "skuTitle": "Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]",
+        "sellable": 50,
         "damages": 1,
         "shortages": 2,
-        "rate": 80,
-        "excise": 10,
-        "lineDisc": 2
-    },
-    {
-        "skuTitle": "Boost Refill 500 gm x 24 INR 264 [Promo- Badminton Racket] [UNL00177]",
-        "batchName": "220609RA2H",
-        "sellable": 12,
-        "damages": 1,
-        "shortages": 2,
-        "rate": 15,
-        "excise": 10,
-        "lineDisc": 2
-    },
-    {
-        "skuTitle": "Diabetes Plus 400gm [UNL00090]",
-        "batchName": "26BA1B",
-        "sellable": 11,
-        "damages": 1,
-        "shortages": 2,
-        "rate": 60,
-        "excise": 10,
-        "lineDisc": 2
-    },
-    {
-        "skuTitle": "Horlicks Classic Malt Jar 1 kg x 12 INR 510 [UNL00166]",
-        "batchName": "0810BA4B",
-        "sellable": 15,
-        "damages": 1,
-        "shortages": 2,
-        "rate": 6,
-        "excise": 10,
-        "lineDisc": 2
-    },
-    {
-        "skuTitle": "Women's Horlicks Jar Caramel 400 gm x 24 INR 345 [UNL00195]",
-        "batchName": "1117BA5B",
-        "sellable": 15,
-        "damages": 1,
-        "shortages": 2,
-        "rate": 6,
-        "excise": 10,
-        "lineDisc": 2
-    },
-    {
-        "skuTitle": "Horlicks Classic Malt Pouch 900 gm x 12 INR 399 [UNL00193]",
-        "batchName": "1015GA1G",
-        "sellable": 15,
-        "damages": 1,
-        "shortages": 2,
-        "rate": 6,
-        "excise": 10,
+        "rate": 300,
+        "excise": 0,
         "lineDisc": 2
     }
 ]

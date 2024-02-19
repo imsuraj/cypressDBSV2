@@ -88,13 +88,4 @@ describe("List Promotion Test", () => {
         onPromotionsPage.isfilterItemValueDisplayed().should("be.visible")
         onPromotionsPage.checkAndCompareFilterValue(desiredBrand)
     })
-
-
-
-
-
-
-
-
-
 })
