@@ -103,7 +103,7 @@ describe('Create Purchase Invoice Test', () => {
 
 
 
-    it('Verify JV, Ledger Report and IRD report after creating a PI for Cash', () => {
+    it.only('Verify JV, Ledger Report and IRD report after creating a PI for Cash', () => {
 
         const adjustedDate = getAdjustedDateValues(0)
         const vendorInvoiceNum = 'ARI' + getTime()
@@ -656,7 +656,7 @@ describe('Create Purchase Invoice Test', () => {
 
     })
 
-    it.only('Verify JV, Ledger Report and IRD report after creating a PI for Credit', () => {
+    it('Verify JV, Ledger Report and IRD report after creating a PI for Credit', () => {
         onCreatePI.checkSaveBtnIsDisabled()
     })
 
