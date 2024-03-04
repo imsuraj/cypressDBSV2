@@ -17,9 +17,16 @@ describe('Sales Invoice pages suite', () => {
 
 
     beforeEach('Open App and Login', () => {
+        // Login using provided username and password
         cy.login(Cypress.env('username'), Cypress.env('password'))
+
+        //Visit the homepage
         cy.visit('/')
+
+        // Wait for 2000 milliseconds
         cy.wait(2000)
+
+        // Hover mouse over Sales in the dashboard, click on Sales Invoice, and verify the URL
         onDashboardPage.hoverMouserOverSales()
         onDashboardPage.clickSalesInvoice()
         onDashboardPage.verifySalesInvoiceUrl()
@@ -27,7 +34,10 @@ describe('Sales Invoice pages suite', () => {
 
     })
 
+
+    // Test case to verify the header text on the Sales Invoice page
     it('Verify Header of Sales Invoice Page', () => {
+        // Get the header text and assert it to be 'Sales Invoices'
         cy.getHeaderText('headerText')
         cy.get('@headerText').then(headerText => {
             try {
