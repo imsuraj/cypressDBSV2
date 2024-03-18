@@ -15,9 +15,8 @@ pipeline {
         
         stage('Checkout') {
             steps {
-                git branch: 'automation', 
-                credentialsId: 'CredentialForGitHub', 
-                url: 'https://github.com/imsuraj/cypressDBSV2.git'
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'CredentialForGitHub', url: 'https://github.com/imsuraj/cypressDBSV2.git']])
+
             }
         }
 
