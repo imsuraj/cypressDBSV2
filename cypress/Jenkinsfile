@@ -1,0 +1,56 @@
+pipeline {
+    
+    
+    agent any   
+
+    stages {
+        stage('Preparation') {
+            steps {
+                script {
+                    // Set Hudson model DirectoryBrowserSupport CSP to empty stringa
+                    System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", " ")
+                }
+            }
+        }
+        
+        stage('Checkout') {
+            steps {
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'CredentialForGitHub', url: 'https://github.com/imsuraj/cypressDBSV2.git']])
+
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                // Install Node.js and dependencies
+                script {
+                     sh 'npm ci'
+                }
+            }
+        }
+
+        stage('Run Cypress Tests') {
+            steps {
+                // Run Cypress tests
+                script {
+                    sh 'DBS_USERNAME="suraj+amazon@evolveasia.co" DBS_PASSWORD="Evolve@123" npm run cy:run_process'
+                }
+            }
+        }
+    }
+    
+     post ('Publish HTML Report') {
+            always {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'cypress/reports/',
+                    reportFiles: '*.html',
+                    reportName: 'Cypress HTML Report',
+                    useWrapperFileDirectly: true
+                ])               
+            }
+    
+}
+}
