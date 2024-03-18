@@ -38,7 +38,7 @@ module.exports = defineConfig({
       const username = process.env.ROSIA_USERNAME
       const password = process.env.ROSIA_PASSWORD
       // const baseUrl = process.env.ROSIA_URL
-      // if(!password) {
+      //// if(!password) {
       //   throw new Error('Missing PASSWORD environment variable')
       // }
       config.env = { username, password }
