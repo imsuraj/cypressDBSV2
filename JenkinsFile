@@ -7,7 +7,7 @@ pipeline {
         stage('Preparation') {
             steps {
                 script {
-                    // Set Hudson model DirectoryBrowserSupport CSP to empty string
+                    // Set Hudson model DirectoryBrowserSupport CSP to empty stringa
                     System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", " ")
                 }
             }
