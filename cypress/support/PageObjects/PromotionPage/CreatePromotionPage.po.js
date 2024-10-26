@@ -2,25 +2,6 @@ export class CreatePromotionPage {
   pageheader = "h2";
   btnSave = ":nth-child(2) > .sc-jSUZER > span";
   btnCancel = ":nth-child(1) > .sc-jSUZER > span";
-  errPromotionTitle = ".col-lg-12 > .form-input > .sc-iJnaPW > .error-message";
-  errPromotionDesc =
-    ":nth-child(2) > :nth-child(1) > .form-input > .form-error > .error-message";
-
-  errBU =
-    ":nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-gYbzsP > .form-select-input > .sc-cjibBx > .error-message";
-  errBrand =
-    ":nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(2) > .sc-hhOBVt > .form-select-input > .sc-cCjUiG > .error-message";
-  errPromotionType =
-    ":nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-hhOBVt > .form-select-input > .sc-cCjUiG > .error-message";
-  erroCondition =
-    ":nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(2) > .sc-hhOBVt > .form-select-input > .sc-cCjUiG > .error-message";
-  errorCriteria =
-    ":nth-child(3) > .sc-hhOBVt > .form-select-input > .sc-cCjUiG > .error-message";
-  errConditionVal = ":nth-child(4) > .form-input > .sc-iJnaPW > .error-message";
-  errDisbursementType =
-    ":nth-child(4) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-hhOBVt > .form-select-input > .sc-cCjUiG > .error-message";
-  errDisbursementVal =
-    ":nth-child(2) > .form-input > .sc-iJnaPW > .error-message";
 
   txtTitle = '.form-input > input[placeholder="Promotion Title"]';
   txtDescription = '.form-input > input[placeholder="Description"]';
@@ -34,18 +15,6 @@ export class CreatePromotionPage {
   dropdownELe = '[class="zindex-2__input-container css-ackcql"]';
   bUDropdownValEle = "div.zindex-2__option ";
 
-  dropdownBU =
-    ":nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container";
-  dropdownBrand =
-    ":nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(2) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container";
-  dropdownSKU =
-    ":nth-child(2) > .config-panel-card > .config-panel-contents > .row > :nth-child(3) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container";
-  dropdownPromotionType =
-    ":nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container > .zindex-2__input-container";
-  dropdownPromotionCondition =
-    ":nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(2) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container > .zindex-2__input-container";
-  dropdownPromotionCriteria =
-    ":nth-child(3) > .config-panel-card > .config-panel-contents > .row > :nth-child(3) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container > .zindex-2__input-container";
   txtPromotionConditionVal = '.form-input > input[placeholder="Value"]';
   dropdownPromotionDisbursementType =
     ":nth-child(4) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container";
@@ -69,44 +38,86 @@ export class CreatePromotionPage {
     cy.get(this.btnCancel).should("be.visible").click();
   }
 
+  // Generalized method to retrieve error messages based on label, container class, and index
+  getErrorMessageByLabelAndContainer(
+    label,
+    containerClass = ".form-input",
+    index = 0
+  ) {
+    return cy
+      .get(`label:contains("${label}")`)
+      .eq(index) // Select the specified instance of the label by index
+      .closest(containerClass) // Traverse to the specified parent container
+      .find(".form-error .error-message") // Find the error message within the container
+      .invoke("text")
+      .then((text) => cy.wrap(text.trim()));
+  }
+
+  // Specific functions for each form field using the generalized method
   getTitleErrorMessage() {
-    return cy.get(this.errPromotionTitle);
+    return this.getErrorMessageByLabelAndContainer("Promotion Title");
   }
 
   getDescErrorMessage() {
-    return cy.get(this.errPromotionDesc);
+    return this.getErrorMessageByLabelAndContainer("Description");
   }
 
   getBUErrorMessage() {
-    return cy.get(this.errBU);
+    return this.getErrorMessageByLabelAndContainer(
+      "Business Unit",
+      ".form-select-input"
+    );
   }
 
   getBrandErrorMessage() {
-    return cy.get(this.errBrand);
+    return this.getErrorMessageByLabelAndContainer(
+      "Brand",
+      ".form-select-input"
+    );
   }
 
   getPromotionTypeErrorMessage() {
-    return cy.get(this.errPromotionType);
+    return this.getErrorMessageByLabelAndContainer(
+      "Promotion Type",
+      ".form-select-input"
+    );
   }
 
   getPromotionConditionErrorMessage() {
-    return cy.get(this.erroCondition);
+    return this.getErrorMessageByLabelAndContainer(
+      "Condition",
+      ".form-select-input"
+    );
   }
 
   getPromotionCriteriaErrorMessage() {
-    return cy.get(this.errorCriteria);
+    return this.getErrorMessageByLabelAndContainer(
+      "Criteria",
+      ".form-select-input"
+    );
   }
 
   getPromotionConditionValErrorMessage() {
-    return cy.get(this.errConditionVal);
+    return this.getErrorMessageByLabelAndContainer(
+      "Value",
+      ".form-input-value"
+    );
   }
 
   getPromotionDisbursementTypeErrorMessage() {
-    return cy.get(this.errDisbursementType);
+    return this.getErrorMessageByLabelAndContainer(
+      "Disbursement Type",
+      ".form-select-input"
+    );
   }
 
+  // Using an index of 1 to target the second instance of the "Value" label
   getPromotionDisbursementValErrorMessage() {
-    return cy.get(this.errDisbursementVal);
+    return this.getErrorMessageByLabelAndContainer(
+      "Value",
+      ".form-input-value",
+      1
+    );
   }
 
   enterPromotionTitle(title) {
@@ -117,17 +128,27 @@ export class CreatePromotionPage {
     cy.get(this.txtDescription).should("be.visible").clear().type(description);
   }
 
-  clickOnStartDateCalendar() {
-    cy.get(this.calendarStartDate).eq(0).click();
+  clickOnCalendarByLabel(labelText) {
+    return cy
+      .contains("label", labelText) // Find the label with the specified text
+      .closest(".single-date-picker") // Navigate to the closest parent container
+      .find("input") // Find the input element using the placeholder
+      .click(); // Click the input to open the calendar
   }
 
-  selectStartDate() {
+  clickOnStartDateCalendar() {
+    this.clickOnCalendarByLabel("Start Date");
+  }
+
+  selectStartDate(day) {
     this.clickOnStartDateCalendar();
-    cy.get(this.dateStartDate).click();
+    cy.wait(2000);
+    cy.contains(day) // Find the span that contains the specified day text
+      .click({ force: true }); // Click on it to select
   }
 
   clickOnEndDateCalendar() {
-    cy.get(this.calendarStartDate).eq(1).click();
+    this.clickOnCalendarByLabel("End Date");
   }
 
   selectEndDate() {
@@ -144,8 +165,17 @@ export class CreatePromotionPage {
       .click();
   }
 
+  clickDropdownByLabel(label, index = 0) {
+    return cy
+      .get(`label:contains("${label}")`)
+      .eq(index) // Select the specified instance of the label by index
+      .closest(".form-select-input") // Traverse to the container with the dropdown
+      .find(".zindex-2__control") // Find the clickable dropdown container
+      .click({ force: true }); // Click the dropdown to open it
+  }
+
   clickBusinessUnitDropdown() {
-    cy.get(this.dropdownELe).eq(0).click({ force: true });
+    this.clickDropdownByLabel("Business Unit");
   }
 
   selectBusinessUnitValue(buName) {
@@ -153,7 +183,7 @@ export class CreatePromotionPage {
   }
 
   clickBrandDropdown() {
-    cy.get(this.dropdownELe).eq(1).click({ force: true });
+    this.clickDropdownByLabel("Brand");
   }
 
   selectBrandValue(brandName) {
@@ -161,7 +191,7 @@ export class CreatePromotionPage {
   }
 
   clickSkuDropdown() {
-    cy.get(this.dropdownELe).eq(2).click({ force: true });
+    this.clickDropdownByLabel("SKU");
   }
 
   selectSkuValue(skuName) {
@@ -169,7 +199,7 @@ export class CreatePromotionPage {
   }
 
   clickPromotionTypeDropdown() {
-    cy.get(this.dropdownELe).eq(3).click({ force: true });
+    this.clickDropdownByLabel("Promotion Type");
   }
 
   selectPromotionTypeValue(promotionType) {
@@ -179,7 +209,7 @@ export class CreatePromotionPage {
   }
 
   clickPromotionConditionDropdown() {
-    cy.get(this.dropdownELe).eq(4).click({ force: true });
+    this.clickDropdownByLabel("Condition");
   }
 
   selectPromotionConditionValue(condition) {
@@ -187,7 +217,7 @@ export class CreatePromotionPage {
   }
 
   clickPromotionCriteriaDropdown() {
-    cy.get(this.dropdownELe).eq(5).click({ force: true });
+    this.clickDropdownByLabel("Criteria");
   }
 
   selectPromotionCriteriaValue(criteria) {
@@ -199,7 +229,7 @@ export class CreatePromotionPage {
   }
 
   clickPromotionDisbursementDropdown() {
-    cy.get(this.dropdownELe).eq(6).click({ force: true });
+    this.clickDropdownByLabel("Disbursement Type");
   }
 
   selectPromotionDisbursement(disbursement) {
