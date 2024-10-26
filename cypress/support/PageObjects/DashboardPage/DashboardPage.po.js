@@ -1,6 +1,6 @@
 export class DashboardPage {
     pageheader = "h2"
-    
+
     purchaseMenu = "ul:nth-child(1) > li:nth-child(4) > button:nth-child(1)"
     purchaseInvoiceSubMenu = "a[href='/purchase/purchase-invoice']"
     purchaseInvoiceSubMenuUrl = 'purchase/purchase-invoice'
@@ -48,20 +48,24 @@ export class DashboardPage {
     otherSubMenuELe = 'li:nth-child(10) > ul > li:nth-child(4) > button'
     promotionSubMenuEle = "a[href='/configuration/others/promotion']"
 
+    catalogMenuELe = 'li:nth-child(10) > ul > li:nth-child(3) > button'
+    businessUnitsELe = "a[href='/configuration/catalog/business-units']"
 
-    hoverMouseOverConfiguration () {
+
+
+    hoverMouseOverConfiguration() {
         cy.get(this.configurationMenuELe).trigger('mouseover')
     }
 
-    hoverMouseOverOther () {
+    hoverMouseOverOther() {
         cy.get(this.otherSubMenuELe).trigger('mouseover')
     }
 
-    openPromotion () {
-        cy.get(this.promotionSubMenuEle).click({force:true})
+    openPromotion() {
+        cy.get(this.promotionSubMenuEle).click({ force: true })
     }
 
-    
+
 
 
 
@@ -69,21 +73,21 @@ export class DashboardPage {
         cy.get(this.purchaseMenu).trigger('mouseover')
     }
 
-    clickPurchaseInvoice () {
+    clickPurchaseInvoice() {
         cy.get(this.purchaseInvoiceSubMenu).should("be.visible").click()
     }
 
-    verifyPurchaseInvoiceUrl () {
+    verifyPurchaseInvoiceUrl() {
         cy.url().should('include', this.purchaseInvoiceSubMenuUrl)
     }
 
 
-    clickPurchaseReturnInvoice () {
+    clickPurchaseReturnInvoice() {
         cy.get(this.purchaseReturnSubMenu).should("be.visible").click()
     }
 
 
-    clickServicePurchase () {
+    clickServicePurchase() {
         cy.get(this.servicePurchaseSubMenu).should("be.visible").click()
     }
 
@@ -94,21 +98,21 @@ export class DashboardPage {
         cy.get(this.salesMenu).trigger('mouseover')
     }
 
-    clickSalesInvoice () {
+    clickSalesInvoice() {
         cy.get(this.salesInvoiceSubMenu).should("be.visible").click()
     }
 
-    verifySalesInvoiceUrl () {
+    verifySalesInvoiceUrl() {
         cy.url().should('include', this.salesInvoiceUrl)
     }
-    
 
-    clickSalesReturnInvoice () {
+
+    clickSalesReturnInvoice() {
         cy.get(this.salesReturnSubMenu).should("be.visible").click()
     }
 
 
-    clickServiceInvoice () {
+    clickServiceInvoice() {
         cy.get(this.serviceInvocieSubMenu).should("be.visible").click()
     }
 
@@ -118,11 +122,11 @@ export class DashboardPage {
         cy.get(this.accountingEntriesMenuEle).trigger('mouseover')
     }
 
-    clickOnJournalVoucher () {
+    clickOnJournalVoucher() {
         cy.get(this.journalVoucherSubMenu).should("be.visible").click()
     }
 
-    verifyJournalVoucherUrl () {
+    verifyJournalVoucherUrl() {
         cy.url().should('include', this.journalVoucherUrl)
     }
 
@@ -135,28 +139,28 @@ export class DashboardPage {
         cy.get(this.generalLedgerReportSubMenuEle).trigger('mouseover')
     }
 
-    clickLedgerReport () {
+    clickLedgerReport() {
         cy.get(this.ledgerReportSubMenuEle).should("be.visible").click()
     }
 
-    verifyLedgerReportUrl (url) {
+    verifyLedgerReportUrl(url) {
         cy.url().should('include', url)
     }
 
-    openCashBookReport () {
+    openCashBookReport() {
         // cy.get(this.cashBookSubMenuEle).should("be.visible").click()
-        cy.contains('Cash Book').click({force:true})
+        cy.contains('Cash Book').click({ force: true })
     }
 
-    verifyCashBookReportUrl (url) {
+    verifyCashBookReportUrl(url) {
         cy.url().should('include', url)
     }
 
-    clickCustomerReport () {
+    clickCustomerReport() {
         cy.get(this.customerReportSubMenuEle).should("be.visible").click()
     }
 
-    verifyCustomerReportUrl (url) {
+    verifyCustomerReportUrl(url) {
         cy.url().should('include', url)
     }
 
@@ -165,19 +169,19 @@ export class DashboardPage {
         cy.get(this.salesReportSubMenuEle).trigger('mouseover')
     }
 
-    clickProductSalesReport () {
+    clickProductSalesReport() {
         cy.get(this.psrEle).should("be.visible").click()
     }
 
-    verifyProductSalesReportUrl (url) {
+    verifyProductSalesReportUrl(url) {
         cy.url().should('include', url)
     }
 
-    clickNetSalesReport () {
+    clickNetSalesReport() {
         cy.get(this.nsrEle).should("be.visible").click()
     }
 
-    verifyNetSalesReportUrl (url) {
+    verifyNetSalesReportUrl(url) {
         cy.url().should('include', url)
     }
 
@@ -185,19 +189,39 @@ export class DashboardPage {
 
     hoverMouseOverIrdReports() {
         cy.get(this.irdReportsEle).trigger('mouseover')
-    }   
+    }
 
-    openUpdatedSalesVatReport () {
+    openUpdatedSalesVatReport() {
         // cy.get(this.updateSalesVatReportEle).should("be.visible").click()
-        cy.contains('Updated Sales VAT').click({force:true})
+        cy.contains('Updated Sales VAT').click({ force: true })
+    }
+
+    openUpdatedPurchaseVatReport() {
+        // cy.get(this.updateSalesVatReportEle).should("be.visible").click()
+        cy.contains('Updated Purchase VAT').click({ force: true })
     }
 
     openSalesVatReport() {
         // cy.get(this.salesVatReportEle).should("be.visible").click()
-        cy.contains('Sales VAT Report').click({force:true})
+        cy.contains('Sales VAT Report').click({ force: true })
     }
 
+    openPurchaseVatReport() {
+        // cy.get(this.salesVatReportEle).should("be.visible").click()
+        cy.contains('Purchase VAT Report').click({ force: true })
+    }
 
+    hoverMouseOverCatalog() {
+        cy.get(this.catalogMenuELe).trigger('mouseover')
+    }
+
+    openBusinessUnits() {
+        cy.contains('Business Unit').click()
+    }
+
+    openBrand() {
+        cy.contains('Brand').click()
+    }
 
 }
 

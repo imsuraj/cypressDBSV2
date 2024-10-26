@@ -6,6 +6,7 @@ const { onDashboardPage } = require("../../../support/PageObjects/DashboardPage/
 describe('Open pages suite', ()=> {
     beforeEach('Open App and Login', ()=> {
         cy.login(Cypress.env('username'),Cypress.env('password'))
+        cy.visit('/')
     })
 
 
@@ -40,4 +41,15 @@ describe('Open pages suite', ()=> {
         onDashboardPage.verifyCustomerReportUrl('/reports/general-ledger-reports/ledger-customer-report')
     })
 
+    it.only('Open Buiness Units page ', () => {
+        onDashboardPage.hoverMouseOverConfiguration()
+        onDashboardPage.hoverMouseOverCatalog()
+        onDashboardPage.openBusinessUnits()
+    })
+
+    it.only('Open Promotion Page',() => {
+        onDashboardPage.hoverMouseOverConfiguration()
+        onDashboardPage.hoverMouseOverOther()
+        onDashboardPage.openPromotion()
+    })
 })

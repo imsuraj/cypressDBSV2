@@ -18,6 +18,11 @@ export class CreateJournalVoucher {
     filterIconEle = '.filter-icon > .sc-jSUZER'
     resetIconEle = '.filter-label > .sc-jSUZER'
 
+    datePickerEle = '.datepicker-content'
+    dateItemEle = '[class="date-item"]'
+    applyBtnEle = '.jKQpJu'
+
+
     searchIconEle = '.search-input > div > .sc-jSUZER'
     searchFieldEle = '#searchId'
 
@@ -26,6 +31,13 @@ export class CreateJournalVoucher {
         cy.get(this.filterIconEle).click({ force: true });
         cy.get(this.resetIconEle).click({ force: true });
         cy.wait(1000);
+    }
+
+
+    applyDateFilter(date) {
+        cy.get(this.datePickerEle).should('be.visible').click({ force: true })
+        cy.get(this.dateItemEle).should('be.visible').contains(date).click({ force: true })
+        cy.get(this.applyBtnEle).click({force:true})
     }
 
 

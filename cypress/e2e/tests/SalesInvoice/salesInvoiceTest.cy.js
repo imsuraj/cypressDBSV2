@@ -48,10 +48,6 @@ describe('Sales Invoice pages suite', () => {
         })
     })
 
-    it('Verify Search By Cusomter Ledger', () => {
-        onSalesInvoicePage.searchInvoiceByText("Jain Kirana Pasal")
-    })
-
     it('Verify user cannot create a sales Invoice without entering bill name for Cash Payment Mode', () => {
 
         onSalesInvoicePage.clickCreateBtn()
@@ -1686,6 +1682,10 @@ describe('Sales Invoice pages suite', () => {
             })
         })
 
+    })
+
+    it('Verify Search By Cusomter Ledger', () => {
+        onSalesInvoicePage.searchInvoiceByText("Jain Kirana Pasal")
     })
 })
 
