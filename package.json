@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "delete:reports": "rm -r cypress/reports/* || true",
+    "delete:reports": "rimraf cypress/reports/* || true",
     "prereport": "npm run delete:reports",
     "generate-report": "generate-mochawesome-report --set-exit-code",
     "cy:run_process": "cypress run --env environmentName=$npm_config_env",
