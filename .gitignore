@@ -1,6 +1,16 @@
+# Ignore Cypress directories and files
 node_modules
 cypress/reports/
 cypress/screenshots
 cypress/videos
 .DS_Store
-.abc
+runner-results
+multi-reporter-config.json
+parallel-weights.json
+.tmp
+tmp
+/allure-report
+/allure-result
+
+# environment files
+.env

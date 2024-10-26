@@ -1,0 +1,6 @@
+{
+  "baseUrl": "https://dev.dbs.rosia.one",
+  "env": {
+    "apiUrl": "https://dev.dbs.rosia.one"
+  }
+}
