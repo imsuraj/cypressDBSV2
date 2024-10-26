@@ -33,7 +33,7 @@ pipeline {
             steps {
                 // Run Cypress tests
                 script {
-                    sh 'DBS_USERNAME="suraj+amazon@evolveasia.co" DBS_PASSWORD="Evolve@123" npm run cy:run_process'
+                    sh 'npm run cy:run_test --env=qa'
                 }
             }
         }
