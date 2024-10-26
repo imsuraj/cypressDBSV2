@@ -11,6 +11,7 @@ parallel-weights.json
 tmp
 /allure-report
 /allure-result
+.vscode
 
 # environment files
 .env

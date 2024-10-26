@@ -1,6 +1,17 @@
+# CypressDBS
+
+This project is a test automation suite using [Cypress](https://www.cypress.io/) for the DBS v2 application. It includes various e2e tests and scripts for running tests in parallel, generating reports, and managing test environments.
+
+## Features
+
+- Automated end-to-end testing with Cypress.
+- Parallel test execution for improved efficiency.
+- Reporting integration with Mochawesome.
+- Environment-specific configurations.
+
 ## Getting Started
 
-1. **Navigate to the project directory**:
+1. **Clone the project and navigate to the project directory**:
    Replace `<path to /cypressDBSv2>` with the actual path to your project folder.
 
    ```bash
