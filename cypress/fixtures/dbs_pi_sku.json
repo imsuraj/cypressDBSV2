@@ -1,29 +1,29 @@
 [
-    {
-        "skuTitle": "Sunfeast 50-50 Top Buttery Bites 200 gm x 20 NPR 50 IN [96889]",
-        "sellable": 100,
-        "damages": 5,
-        "shortages": 2,
-        "rate": 5000,
-        "excise": 5,
-        "lineDisc": 2
-    },
-    {
-        "skuTitle": "Sunfeast Gobbles Choco Chill 30 gm x 72 NPR 50 IN [9000992]",
-        "sellable": 10,
-        "damages": 2,
-        "shortages": 1,
-        "rate": 455.55,
-        "excise": 10,
-        "lineDisc": 2.2
-    },
-    {
-        "skuTitle": "Sunfeast Good Day Butter Cookies 1 kg x 6 NPR 255 NP [99382]",
-        "sellable": 50,
-        "damages": 1,
-        "shortages": 2,
-        "rate": 300,
-        "excise": 0,
-        "lineDisc": 2
-    }
+  {
+    "skuTitle": "0Automation-Bode - Veum",
+    "sellable": 100,
+    "damages": 5,
+    "shortages": 2,
+    "rate": 5000,
+    "excise": 5,
+    "lineDisc": 2
+  },
+  {
+    "skuTitle": "0Automation-Graham - Quigley",
+    "sellable": 10,
+    "damages": 2,
+    "shortages": 1,
+    "rate": 455.55,
+    "excise": 10,
+    "lineDisc": 2.2
+  },
+  {
+    "skuTitle": "0Automation-Sauer, Hayes and Cormier",
+    "sellable": 50,
+    "damages": 1,
+    "shortages": 2,
+    "rate": 300,
+    "excise": 0,
+    "lineDisc": 2
+  }
 ]

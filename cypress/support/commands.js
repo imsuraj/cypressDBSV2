@@ -8,6 +8,7 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 import { authRequests } from "./api/requests/auth.requests";
+import { ENDPOINTS } from "./api/utils/endpoint";
 import CreatePurchaseInvoicePage from "./PageObjects/PurchaseInvoicePage/CreatePurchaseInvoicePage";
 
 //
@@ -48,7 +49,7 @@ Cypress.Commands.add("login", (email, password) => {
       cy.get("input[placeholder='Email']").type(email);
       cy.get("input[placeholder='Password']").type(password);
       cy.get("button").click();
-      cy.wait(2000);
+      cy.wait(8000);
       cy.url().should("include", "/dashboard");
     },
     {
@@ -66,19 +67,21 @@ Cypress.Commands.add("loginApi", (email, password) => {
   cy.session(
     [email, password],
     () => {
-      cy.request(
-        "POST",
-        "https://qa.dbs.rosia.one/api/v1/auth/login",
-        userCredentials
-      )
-        .its("body")
-        .then((body) => {
-          const token = body.data.access_token;
-          cy.log(token);
-
-          cy.visit("/dashboard");
-          window.localStorage.setItem("access_token", token);
-        });
+      cy.request({
+        method: "POST",
+        url: Cypress.env("apiUrl") + ENDPOINTS.AUTH.LOGIN,
+        body: userCredentials,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        failOnStatusCode: false,
+      }).then((response) => {
+        cy.log(response.body.data.access_token);
+        window.localStorage.setItem(
+          "access_token",
+          response.body.data.access_token
+        );
+      });
     },
     {
       cacheAcrossSpecs: true,
@@ -151,9 +154,15 @@ Cypress.Commands.add("compareTwoArrayValue", (locator, expectedValue) => {
  * Trim text and assign it to the alias
  */
 
-Cypress.Commands.add("getTextAndAlias", (elementSelector, aliasName) => {
-  cy.get(elementSelector)
-    .invoke("text")
+Cypress.Commands.add("getTextAndAlias", (labelText, aliasName) => {
+  return cy
+    .get(".total-section") // Start by getting all sections
+    .filter((_, section) => {
+      // Filter sections based on label text
+      return Cypress.$(section).find(".title").text().trim() === labelText;
+    })
+    .find(".calculated-value") // Find the value in the matched section
+    .invoke("text") // Get the text of the calculated value
     .then((text) => {
       cy.wrap(text.trim()).as(aliasName); //
     });

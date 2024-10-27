@@ -1,6 +1,6 @@
 {
-  "baseUrl": "https://qa.dbs.rosia.one",
+  "baseUrl": "https://qa2.dbs.rosia.one",
   "env": {
-    "apiUrl": "https://qa.dbs.rosia.one"
+    "apiUrl": "https://qa2.dbs.rosia.one"
   }
 }
