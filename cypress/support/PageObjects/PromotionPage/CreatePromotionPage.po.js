@@ -16,8 +16,6 @@ export class CreatePromotionPage {
   bUDropdownValEle = "div.zindex-2__option ";
 
   txtPromotionConditionVal = '.form-input > input[placeholder="Value"]';
-  dropdownPromotionDisbursementType =
-    ":nth-child(4) > .config-panel-card > .config-panel-contents > .row > :nth-child(1) > .sc-ftTHYK > .form-select-input > .select-css > .zindex-2__control > .zindex-2__value-container";
   txtDisbursementVal = '.form-input > input[placeholder="Value"]';
 
   alertMessage = ".alert-message";

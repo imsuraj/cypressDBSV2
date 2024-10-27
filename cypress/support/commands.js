@@ -7,6 +7,7 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
+import { authRequests } from "./api/requests/auth.requests";
 import CreatePurchaseInvoicePage from "./PageObjects/PurchaseInvoicePage/CreatePurchaseInvoicePage";
 
 //
@@ -256,3 +257,13 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add("loginViaApi", (username, password) => {
+  cy.log("Login via api");
+  return authRequests.login(username, password).then((response) => {
+    if (response.status === 200) {
+      Cypress.env("authToken", response.body.data.access_token);
+    }
+    return response;
+  });
+});
