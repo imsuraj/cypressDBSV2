@@ -1,0 +1,16 @@
+[
+  {
+    "skuTitle": "Test",
+    "quantity": 2,
+    "rate": 50,
+    "excise": 5,
+    "lineDisc": 2
+  },
+  {
+    "skuTitle": "-Herman, Hansen and Goyette",
+    "quantity": 2,
+    "rate": 500,
+    "excise": 5,
+    "lineDisc": 2
+  }
+]

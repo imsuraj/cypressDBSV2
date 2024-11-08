@@ -13,11 +13,11 @@ const {
 } = require("../../../support/PageObjects/PromotionPage/CreatePromotionPage.po");
 const {
   onCreatePI,
-} = require("../../../support/PageObjects/PurchaseInvoicePage/CreatePurchaseInvoicePage");
+} = require("../../../support/PageObjects/PurchaseInvoicePage/CreatePurchaseInvoice.po");
 const {
   onPurchaseInvoicePage,
   onPIPage,
-} = require("../../../support/PageObjects/PurchaseInvoicePage/PurchaseInvoicePage");
+} = require("../../../support/PageObjects/PurchaseInvoicePage/PurchaseInvoice.po");
 const {
   onCashBookPage,
 } = require("../../../support/PageObjects/Reports/GeneralLedgerReports/CashBookPage.po");

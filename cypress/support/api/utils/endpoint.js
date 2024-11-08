@@ -8,4 +8,10 @@ export const ENDPOINTS = {
   BRANCH: {
     LIST: "/api/v1/branch/list",
   },
+  SETTING: {
+    LIST: "/api/v1/setting/list",
+  },
+  BILLTERM: {
+    LIST: "/api/v1/bill-term/list",
+  },
 };

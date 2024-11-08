@@ -94,7 +94,7 @@ describe("API tests", () => {
         expect(response.status).to.eq(401);
         expect(response.body.errors[0]).to.have.property(
           "message",
-          "Unauthorized Access!"
+          MESSAGE.COMPANY.UNAUTHORIZED_ACCESS
         );
       });
     });

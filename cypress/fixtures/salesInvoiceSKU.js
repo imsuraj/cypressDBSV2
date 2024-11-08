@@ -1,0 +1,88 @@
+import { faker } from '@faker-js/faker';
+
+export const testDataSI = [
+  {
+    skuTitle: 'Test',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: '-Herman, Hansen and Goyette',
+    quantity: faker.number.float({ min: 2, max: 10, precision: 0.01 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: 'Test',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.float({ min: 50, max: 100, precision: 0.01 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: '-Herman, Hansen and Goyette',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: 'Test',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.float({ min: 50, max: 100, precision: 0.01 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: '-Herman, Hansen and Goyette',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: 'Test',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: '-Herman, Hansen and Goyette',
+    quantity: faker.number.float({ min: 2, max: 10, precision: 0.01 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: 'Test',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.float({ min: 50, max: 100, precision: 0.01 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: '-Herman, Hansen and Goyette',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: 'Test',
+    quantity: faker.number.float({ min: 2, max: 10, precision: 0.1 }),
+    rate: faker.number.float({ min: 50, max: 100, precision: 0.01 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+  {
+    skuTitle: '-Herman, Hansen and Goyette',
+    quantity: faker.number.int({ min: 2, max: 10 }),
+    rate: faker.number.int({ min: 50, max: 100 }),
+    excise: 5,
+    lineDisc: 2,
+  },
+];

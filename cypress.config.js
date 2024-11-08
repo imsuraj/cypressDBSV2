@@ -4,8 +4,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = defineConfig({
-  viewportWidth: 1920,
-  viewportHeight: 1080,
+  viewportWidth: 1366, //1920,
+  viewportHeight: 768, //1080,
   pageLoadTimeout: 120000,
   defaultCommandTimeout: 12000,
   video: false,
