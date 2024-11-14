@@ -35,7 +35,7 @@ jobs:
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v6
         with:
-          browser: firefox
+          browser: chrome
           command: npm run cy:run_test --env=qa
         env:
           username: ${{ secrets.username }}
