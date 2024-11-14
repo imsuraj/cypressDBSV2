@@ -1,240 +1,310 @@
-const { onDashboardPage } = require("../../../../../support/PageObjects/DashboardPage/DashboardPage.po");
-const { onCreatePromotionPage } = require("../../../../../support/PageObjects/PromotionPage/CreatePromotionPage.po");
-const { onPromotionsPage } = require("../../../../../support/PageObjects/PromotionPage/PromotionPage.po");
+const {
+  onDashboardPage,
+} = require('../../../../../support/PageObjects/DashboardPage/DashboardPage.po');
+const {
+  onCreatePromotionPage,
+} = require('../../../../../support/PageObjects/PromotionPage/CreatePromotionPage.po');
+const {
+  onPromotionsPage,
+} = require('../../../../../support/PageObjects/PromotionPage/PromotionPage.po');
 
-function getTime () {
-    let currentDate = new Date();
-    let timestamp = currentDate.getTime();
-    return timestamp
+function getTime() {
+  let currentDate = new Date();
+  let timestamp = currentDate.getTime();
+  return timestamp;
 }
 
+describe('Delete Promotion Test', () => {
+  let title;
 
-describe("Delete Promotion Test", () => {
-    let title
+  beforeEach(() => {
+    cy.fixture('promotions').as('data'); // Load the fixture data
+    cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
+    cy.login(Cypress.env('username'), Cypress.env('password'));
+    cy.visit('/');
+    cy.wait(2000);
+    onDashboardPage.hoverMouseOverConfiguration();
+    onDashboardPage.hoverMouseOverOther();
+    onDashboardPage.openPromotion();
 
-    beforeEach(() => {
-        cy.fixture('promotions').as('data'); // Load the fixture data
-        cy.fixture('promotionsSKU').as('data1'); // Load the fixture data
-        cy.login(Cypress.env('username'), Cypress.env('password'))
-        cy.visit('/')
-        cy.wait(2000)
-        onDashboardPage.hoverMouseOverConfiguration()
-        onDashboardPage.hoverMouseOverOther()
-        onDashboardPage.openPromotion()
+    cy.getHeaderText('headerText');
+    cy.get('@headerText').then((headerText) => {
+      try {
+        expect(headerText).to.eq('Promotions');
+      } catch (error) {
+        cy.log('Header Text does not match');
+      }
+    });
+  });
 
-        cy.getHeaderText('headerText')
-        cy.get('@headerText').then(headerText => {
-            try {
-                expect(headerText).to.eq('Promotions')
-            } catch (error) {
-                cy.log('Header Text does not match')
-            }
-        })
-        
-    })
+  it('Verify user can delete promotion using three dot menu', () => {
+    cy.get('@data1').then((data) => {
+      data.forEach((promotion) => {
+        let time = getTime();
+        let title =
+          'Buy' +
+          ' ' +
+          promotion.bu +
+          ' ' +
+          promotion.sku +
+          ' ' +
+          promotion.condition +
+          ' ' +
+          promotion.criteria +
+          '  ' +
+          promotion.criteriaValue +
+          ' and get ' +
+          promotion.disbursementType +
+          ' of ' +
+          promotion.disbursementValue +
+          ' ' +
+          time;
 
-    it("Verify user can delete promotion using three dot menu", () => {
+        onPromotionsPage.clickCreateIcon();
+        onCreatePromotionPage
+          .getHeaderText()
+          .should('have.text', 'Create Promotions');
+        onCreatePromotionPage.isSaveBtnDisplayed();
 
+        onCreatePromotionPage.enterPromotionTitle(title);
+        onCreatePromotionPage.enterPromotionDescription(title);
 
-        cy.get('@data1').then((data) => {
-            data.forEach((promotion) => {
+        onCreatePromotionPage.selectStartDate();
+        onCreatePromotionPage.selectEndDate();
 
-                let time = getTime()
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
+        onCreatePromotionPage.clickBusinessUnitDropdown();
+        onCreatePromotionPage.selectBusinessUnitValue(promotion.bu);
 
-                onPromotionsPage.clickCreateIcon()
-                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
-                onCreatePromotionPage.isSaveBtnDisplayed()
+        onCreatePromotionPage.clickBrandDropdown();
+        onCreatePromotionPage.selectBrandValue(promotion.brand);
 
-                onCreatePromotionPage.enterPromotionTitle(title)
-                onCreatePromotionPage.enterPromotionDescription(title)
+        onCreatePromotionPage.clickSkuDropdown();
+        onCreatePromotionPage.selectSkuValue(promotion.sku);
 
-                onCreatePromotionPage.selectStartDate()
-                onCreatePromotionPage.selectEndDate()
+        onCreatePromotionPage.clickPromotionTypeDropdown();
+        onCreatePromotionPage.selectPromotionTypeValue('Normal');
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
-                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+        onCreatePromotionPage.clickPromotionConditionDropdown();
+        onCreatePromotionPage.selectPromotionConditionValue(
+          promotion.condition
+        );
 
-                onCreatePromotionPage.clickBrandDropdown()
-                onCreatePromotionPage.selectBrandValue(promotion.brand)
+        onCreatePromotionPage.clickPromotionCriteriaDropdown();
+        onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria);
 
-                onCreatePromotionPage.clickSkuDropdown()
-                onCreatePromotionPage.selectSkuValue(promotion.sku)
+        onCreatePromotionPage.enterPromotionConditionValue(
+          promotion.criteriaValue
+        );
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
-                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+        onCreatePromotionPage.clickPromotionDisbursementDropdown();
+        onCreatePromotionPage.selectPromotionDisbursement(
+          promotion.disbursementType
+        );
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
-                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+        onCreatePromotionPage.enterPromotionDisbursementValue(
+          promotion.disbursementValue
+        );
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
-                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+        onCreatePromotionPage.clickSaveBtn();
 
-                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+        onCreatePromotionPage
+          .getAlertMessage()
+          .should('contain', 'Promotion Created Successfully');
+        cy.url().should('not.include', '/create');
+        cy.getHeaderText('headerText');
+        cy.get('@headerText').then((headerText) => {
+          try {
+            expect(headerText).to.eq('Promotions');
+          } catch (error) {
+            cy.log('Header Text does not match');
+          }
+        });
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
-                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+        onPromotionsPage.searchPromotion(time);
+        onPromotionsPage.checkSearchedValueIsDisplayed(time);
+        onPromotionsPage.checkSearchedValueIsDisplayed('Active');
 
-                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+        onPromotionsPage.clickThreeDotMenu();
+        onPromotionsPage.clickDelete();
+        onPromotionsPage
+          .getDeleteDialogHeaderText()
+          .should('have.text', 'Confirmation Dialog');
+        onPromotionsPage
+          .getDialogMessage()
+          .should('have.text', 'Are you sure you want to delete 1 promotion?');
 
-                onCreatePromotionPage.clickSaveBtn()
+        onPromotionsPage.clickOkButton();
+        onPromotionsPage
+          .getAlertMessage()
+          .should('contain', 'Promotion Deleted Successfully');
+        cy.url().should('not.include', '/create');
+        cy.getHeaderText('headerText');
+        cy.get('@headerText').then((headerText) => {
+          try {
+            expect(headerText).to.eq('Promotions');
+          } catch (error) {
+            cy.log('Header Text does not match');
+          }
+        });
+        // onPromotionsPage.searchPromotion(time)
+        onPromotionsPage.checkElementIsDisplayed().should('not.exist');
+      });
+    });
+  });
 
-                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
-                cy.url().should('not.include', '/create')
-                cy.getHeaderText('headerText')
-                cy.get('@headerText').then(headerText => {
-                    try {
-                        expect(headerText).to.eq('Promotions')
-                    } catch (error) {
-                        cy.log('Header Text does not match')
-                    }
-                })
+  it('Verify promotion is not deleted when user clicks on cancel button', () => {
+    cy.get('@data1').then((data) => {
+      data.forEach((promotion) => {
+        let time = getTime();
+        let title =
+          'Buy' +
+          ' ' +
+          promotion.bu +
+          ' ' +
+          promotion.sku +
+          ' ' +
+          promotion.condition +
+          ' ' +
+          promotion.criteria +
+          '  ' +
+          promotion.criteriaValue +
+          ' and get ' +
+          promotion.disbursementType +
+          ' of ' +
+          promotion.disbursementValue +
+          ' ' +
+          time;
 
-                onPromotionsPage.searchPromotion(time)
-                onPromotionsPage.checkSearchedValueIsDisplayed(time)
-                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+        onPromotionsPage.clickCreateIcon();
+        onCreatePromotionPage
+          .getHeaderText()
+          .should('have.text', 'Create Promotions');
+        onCreatePromotionPage.isSaveBtnDisplayed();
 
-                onPromotionsPage.clickThreeDotMenu()
-                onPromotionsPage.clickDelete()
-                onPromotionsPage.getDeleteDialogHeaderText().should('have.text', "Confirmation Dialog")
-                onPromotionsPage.getDialogMessage().should('have.text', "Are you sure you want to delete 1 promotion?")
+        onCreatePromotionPage.enterPromotionTitle(title);
+        onCreatePromotionPage.enterPromotionDescription(title);
 
-                onPromotionsPage.clickOkButton()
-                onPromotionsPage.getAlertMessage().should('contain', 'Promotion Deleted Successfully')
-                cy.url().should('not.include', '/create')
-                cy.getHeaderText('headerText')
-                cy.get('@headerText').then(headerText => {
-                    try {
-                        expect(headerText).to.eq('Promotions')
-                    } catch (error) {
-                        cy.log('Header Text does not match')
-                    }
-                })
-                // onPromotionsPage.searchPromotion(time)
-                onPromotionsPage.checkElementIsDisplayed().should('not.exist')
-            })
-        })
-    })
+        // onCreatePromotionPage.selectStartDate()
+        // onCreatePromotionPage.selectEndDate()
 
-    it("Verify promotion is not deleted when user clicks on cancel button", () => {
+        onCreatePromotionPage.clickBusinessUnitDropdown();
+        onCreatePromotionPage.selectBusinessUnitValue(promotion.bu);
 
-   
-        cy.get('@data1').then((data) => {
-            data.forEach((promotion) => {
+        onCreatePromotionPage.clickBrandDropdown();
+        onCreatePromotionPage.selectBrandValue(promotion.brand);
 
-                let time = getTime()
-                let title = "Buy" + " " + promotion.bu + " " + promotion.sku + " " + promotion.condition + " " + promotion.criteria + "  " + promotion.criteriaValue + " and get " + promotion.disbursementType + " of " + promotion.disbursementValue + " " + time
+        onCreatePromotionPage.clickSkuDropdown();
+        onCreatePromotionPage.selectSkuValue(promotion.sku);
 
-                onPromotionsPage.clickCreateIcon()
-                onCreatePromotionPage.getHeaderText().should("have.text", "Create Promotions")
-                onCreatePromotionPage.isSaveBtnDisplayed()
+        onCreatePromotionPage.clickPromotionTypeDropdown();
+        onCreatePromotionPage.selectPromotionTypeValue('Normal');
 
-                onCreatePromotionPage.enterPromotionTitle(title)
-                onCreatePromotionPage.enterPromotionDescription(title)
+        onCreatePromotionPage.clickPromotionConditionDropdown();
+        onCreatePromotionPage.selectPromotionConditionValue(
+          promotion.condition
+        );
 
-                // onCreatePromotionPage.selectStartDate()
-                // onCreatePromotionPage.selectEndDate()
+        onCreatePromotionPage.clickPromotionCriteriaDropdown();
+        onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria);
 
-                onCreatePromotionPage.clickBusinessUnitDropdown()
-                onCreatePromotionPage.selectBusinessUnitValue(promotion.bu)
+        onCreatePromotionPage.enterPromotionConditionValue(
+          promotion.criteriaValue
+        );
 
-                onCreatePromotionPage.clickBrandDropdown()
-                onCreatePromotionPage.selectBrandValue(promotion.brand)
+        onCreatePromotionPage.clickPromotionDisbursementDropdown();
+        onCreatePromotionPage.selectPromotionDisbursement(
+          promotion.disbursementType
+        );
 
-                onCreatePromotionPage.clickSkuDropdown()
-                onCreatePromotionPage.selectSkuValue(promotion.sku)
+        onCreatePromotionPage.enterPromotionDisbursementValue(
+          promotion.disbursementValue
+        );
 
-                onCreatePromotionPage.clickPromotionTypeDropdown()
-                onCreatePromotionPage.selectPromotionTypeValue('Normal')
+        onCreatePromotionPage.clickSaveBtn();
 
-                onCreatePromotionPage.clickPromotionConditionDropdown()
-                onCreatePromotionPage.selectPromotionConditionValue(promotion.condition)
+        onCreatePromotionPage
+          .getAlertMessage()
+          .should('contain', 'Promotion Created Successfully');
+        cy.url().should('not.include', '/create');
+        cy.getHeaderText('headerText');
+        cy.get('@headerText').then((headerText) => {
+          try {
+            expect(headerText).to.eq('Promotions');
+          } catch (error) {
+            cy.log('Header Text does not match');
+          }
+        });
 
-                onCreatePromotionPage.clickPromotionCriteriaDropdown()
-                onCreatePromotionPage.selectPromotionCriteriaValue(promotion.criteria)
+        onPromotionsPage.searchPromotion(time);
+        onPromotionsPage.checkSearchedValueIsDisplayed(time);
+        onPromotionsPage.checkSearchedValueIsDisplayed('Active');
 
-                onCreatePromotionPage.enterPromotionConditionValue(promotion.criteriaValue)
+        onPromotionsPage.clickThreeDotMenu();
+        onPromotionsPage.clickDelete();
+        onPromotionsPage
+          .getDeleteDialogHeaderText()
+          .should('have.text', 'Confirmation Dialog');
+        onPromotionsPage
+          .getDialogMessage()
+          .should('have.text', 'Are you sure you want to delete 1 promotion?');
 
-                onCreatePromotionPage.clickPromotionDisbursementDropdown()
-                onCreatePromotionPage.selectPromotionDisbursement(promotion.disbursementType)
+        onPromotionsPage.clickCancelButton();
+        onPromotionsPage.checkSearchedValueIsDisplayed(time);
+        onPromotionsPage.checkSearchedValueIsDisplayed('Active');
+      });
+    });
+  });
 
-                onCreatePromotionPage.enterPromotionDisbursementValue(promotion.disbursementValue)
+  it('Verify user can delete multiple promotion', () => {
+    try {
+      onPromotionsPage.selectCheckBoxes(1);
+      onPromotionsPage.selectCheckBoxes(3);
+      onPromotionsPage.selectCheckBoxes(4);
+    } catch (error) {
+      cy.log('Promotion are not available to delete.');
+    }
 
-                onCreatePromotionPage.clickSaveBtn()
+    onPromotionsPage.clickOnDeleteIcon();
+    onPromotionsPage
+      .getDeleteDialogHeaderText()
+      .should('have.text', 'Confirmation Dialog');
+    onPromotionsPage
+      .getDialogMessage()
+      .should('have.text', 'Are you sure you want to delete 3 promotions?');
 
-                onCreatePromotionPage.getAlertMessage().should('contain', 'Promotion Created Successfully')
-                cy.url().should('not.include', '/create')
-                cy.getHeaderText('headerText')
-                cy.get('@headerText').then(headerText => {
-                    try {
-                        expect(headerText).to.eq('Promotions')
-                    } catch (error) {
-                        cy.log('Header Text does not match')
-                    }
-                })
+    onPromotionsPage.clickOkButton();
+    onPromotionsPage
+      .getAlertMessage()
+      .should('contain', 'Promotion Deleted Successfully');
+    cy.url().should('not.include', '/create');
+    cy.getHeaderText('headerText');
+    cy.get('@headerText').then((headerText) => {
+      try {
+        expect(headerText).to.eq('Promotions');
+      } catch (error) {
+        cy.log('Header Text does not match');
+      }
+    });
+  });
 
-                onPromotionsPage.searchPromotion(time)
-                onPromotionsPage.checkSearchedValueIsDisplayed(time)
-                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
+  it('Verify promotion is not deleted when user clicks on cancel button in case of bulk delete', () => {
+    try {
+      onPromotionsPage.selectCheckBoxes(1);
+      onPromotionsPage.selectCheckBoxes(3);
+      onPromotionsPage.selectCheckBoxes(4);
+    } catch (error) {
+      cy.log('Promotion are not available to delete.');
+    }
 
-                onPromotionsPage.clickThreeDotMenu()
-                onPromotionsPage.clickDelete()
-                onPromotionsPage.getDeleteDialogHeaderText().should('have.text', "Confirmation Dialog")
-                onPromotionsPage.getDialogMessage().should('have.text', "Are you sure you want to delete 1 promotion?")
+    onPromotionsPage.clickOnDeleteIcon();
+    onPromotionsPage
+      .getDeleteDialogHeaderText()
+      .should('have.text', 'Confirmation Dialog');
+    onPromotionsPage
+      .getDialogMessage()
+      .should('have.text', 'Are you sure you want to delete 3 promotions?');
 
-                onPromotionsPage.clickCancelButton()
-                onPromotionsPage.checkSearchedValueIsDisplayed(time)
-                onPromotionsPage.checkSearchedValueIsDisplayed("Active")
-            })
-        })
-    })
-
-    it("Verify user can delete multiple promotion", () => {
-
-        
-        try {
-            onPromotionsPage.selectCheckBoxes(1)
-            onPromotionsPage.selectCheckBoxes(3)
-            onPromotionsPage.selectCheckBoxes(4)
-        } catch (error) {
-            cy.log("Promotion are not available to delete.")
-        }
-
-        onPromotionsPage.clickOnDeleteIcon()
-        onPromotionsPage.getDeleteDialogHeaderText().should('have.text', "Confirmation Dialog")
-        onPromotionsPage.getDialogMessage().should('have.text', "Are you sure you want to delete 3 promotions?")
-
-        onPromotionsPage.clickOkButton()
-        onPromotionsPage.getAlertMessage().should('contain', 'Promotion Deleted Successfully')
-        cy.url().should('not.include', '/create')
-        cy.getHeaderText('headerText')
-        cy.get('@headerText').then(headerText => {
-            try {
-                expect(headerText).to.eq('Promotions')
-            } catch (error) {
-                cy.log('Header Text does not match')
-            }
-        })
-    })
-
-    it("Verify promotion is not deleted when user clicks on cancel button in case of bulk delete", () => {
-
-
-        try {
-            onPromotionsPage.selectCheckBoxes(1)
-            onPromotionsPage.selectCheckBoxes(3)
-            onPromotionsPage.selectCheckBoxes(4)
-        } catch (error) {
-            cy.log("Promotion are not available to delete.")
-        }
-
-        onPromotionsPage.clickOnDeleteIcon()
-        onPromotionsPage.getDeleteDialogHeaderText().should('have.text', "Confirmation Dialog")
-        onPromotionsPage.getDialogMessage().should('have.text', "Are you sure you want to delete 3 promotions?")
-
-        onPromotionsPage.clickCancelButton()
-        onPromotionsPage.getDeleteDialogHeaderText().should('not.exist')
-
-
-    })
-})
+    onPromotionsPage.clickCancelButton();
+    onPromotionsPage.getDeleteDialogHeaderText().should('not.exist');
+  });
+});
