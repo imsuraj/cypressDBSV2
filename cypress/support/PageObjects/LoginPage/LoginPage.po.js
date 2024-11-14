@@ -3,7 +3,7 @@ export class LoginPage {
   // CSS selectors for page elements
   email = "input[placeholder='Email']";
   password = "input[placeholder='Password']";
-  signInButton = 'buttons';
+  signInButton = 'button';
   forgetPassword = 'Forgot Password?';
 
   emailError =
