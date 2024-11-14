@@ -1,41 +1,41 @@
-const { faker } = require("@faker-js/faker");
+const { faker } = require('@faker-js/faker');
 const {
   onDashboardPage,
-} = require("../../../support/PageObjects/DashboardPage/DashboardPage.po");
+} = require('../../../support/PageObjects/DashboardPage/DashboardPage.po');
 const {
   onJvDetailPage,
-} = require("../../../support/PageObjects/JournalVoucherPage/JournalVoucherDetailPage");
+} = require('../../../support/PageObjects/JournalVoucherPage/JournalVoucherDetailPage');
 const {
   onJVPage,
-} = require("../../../support/PageObjects/JournalVoucherPage/JournalVoucherPage");
+} = require('../../../support/PageObjects/JournalVoucherPage/JournalVoucherPage');
 const {
   onCreatePromotionPage,
-} = require("../../../support/PageObjects/PromotionPage/CreatePromotionPage.po");
+} = require('../../../support/PageObjects/PromotionPage/CreatePromotionPage.po');
 const {
   onCreatePI,
-} = require("../../../support/PageObjects/PurchaseInvoicePage/CreatePurchaseInvoice.po");
+} = require('../../../support/PageObjects/PurchaseInvoicePage/CreatePurchaseInvoice.po');
 const {
   onPurchaseInvoicePage,
   onPIPage,
-} = require("../../../support/PageObjects/PurchaseInvoicePage/PurchaseInvoice.po");
+} = require('../../../support/PageObjects/PurchaseInvoicePage/PurchaseInvoice.po');
 const {
   onCashBookPage,
-} = require("../../../support/PageObjects/Reports/GeneralLedgerReports/CashBookPage.po");
+} = require('../../../support/PageObjects/Reports/GeneralLedgerReports/CashBookPage.po');
 const {
   onLedgerReportPage,
-} = require("../../../support/PageObjects/Reports/GeneralLedgerReports/LedgerReportPage.po");
+} = require('../../../support/PageObjects/Reports/GeneralLedgerReports/LedgerReportPage.po');
 const {
   onPurchaseVatReport,
-} = require("../../../support/PageObjects/Reports/IRDReports/PurchaseVatReportPage.po");
+} = require('../../../support/PageObjects/Reports/IRDReports/PurchaseVatReportPage.po');
 const {
   onSalesVatReport,
-} = require("../../../support/PageObjects/Reports/IRDReports/SalesVatReportPage.po");
+} = require('../../../support/PageObjects/Reports/IRDReports/SalesVatReportPage.po');
 const {
   onUpdatePurchaseVatReport,
-} = require("../../../support/PageObjects/Reports/IRDReports/UpdagtePurchaseVatReportPage.po");
+} = require('../../../support/PageObjects/Reports/IRDReports/UpdagtePurchaseVatReportPage.po');
 const {
   onUpdateSalesVatReport,
-} = require("../../../support/PageObjects/Reports/IRDReports/UpdagteSalesVatReportPage.po");
+} = require('../../../support/PageObjects/Reports/IRDReports/UpdatedSalesVatReportPage.po');
 
 function getTime() {
   let currentDate = new Date();
@@ -59,47 +59,47 @@ function getAdjustedDateValues(adjustmentDays) {
   };
 }
 
-describe("Create Purchase Invoice Test", () => {
+describe('Create Purchase Invoice Test', () => {
   const discount = {
     billDiscount: 10,
     tradeDiscount: 5,
   };
-  beforeEach("Login and Open Create Purchase Invoice Page", () => {
-    cy.login(Cypress.env("username"), Cypress.env("password"));
-    cy.visit("/");
+  beforeEach('Login and Open Create Purchase Invoice Page', () => {
+    cy.login(Cypress.env('username'), Cypress.env('password'));
+    cy.visit('/');
     onDashboardPage.hoverMouserOverPurchase();
     onDashboardPage.clickPurchaseInvoice();
     onPIPage.clickCreateIcon();
 
-    cy.fixture("dbs_pi_sku").as("data"); //loading fixture
+    cy.fixture('dbs_pi_sku').as('data'); //loading fixture
 
-    cy.getHeaderText("headerText");
-    cy.get("@headerText").then((headerText) => {
+    cy.getHeaderText('headerText');
+    cy.get('@headerText').then((headerText) => {
       try {
-        expect(headerText).to.eq("Create Purchase Invoice");
+        expect(headerText).to.eq('Create Purchase Invoice');
       } catch (error) {
-        cy.log("Header Text does not match");
+        cy.log('Header Text does not match');
       }
     });
   });
 
-  it.only("Verify user can create a purchase invoice by entering value for mandatory fields for cash", () => {
+  it.only('Verify user can create a purchase invoice by entering value for mandatory fields for cash', () => {
     const adjustedDate = getAdjustedDateValues(122);
 
-    onCreatePI.selectPaymentMode("Cash");
+    onCreatePI.selectPaymentMode('Cash');
     onCreatePI.clickOnDocumentDate();
     onCreatePI.selectDateOnCalender(
       adjustedDate.year,
       adjustedDate.month,
       adjustedDate.day
     );
-    onCreatePI.enterVendorInvoiceNumber("ARI" + getTime());
-    onCreatePI.clickOnDropdown("BU");
-    onCreatePI.selectBusinessUnitValue("All");
-    onCreatePI.selectVendorLedger("VendorQA");
+    onCreatePI.enterVendorInvoiceNumber('ARI' + getTime());
+    onCreatePI.clickOnDropdown('BU');
+    onCreatePI.selectBusinessUnitValue('All');
+    onCreatePI.selectVendorLedger('VendorQA');
     onCreatePI.enterRemarks(faker.lorem.sentence());
 
-    cy.get("@data").then((data) => {
+    cy.get('@data').then((data) => {
       data.forEach((sku, index) => {
         onCreatePI.selectSKU(sku.skuTitle);
         // onCreatePI.selectSKUBatch();
@@ -120,8 +120,8 @@ describe("Create Purchase Invoice Test", () => {
       });
     });
 
-    onCreatePI.enterBillLevelDiscount("Bill Discount", discount.billDiscount);
-    onCreatePI.enterBillLevelDiscount("Trade Discount", discount.tradeDiscount);
+    onCreatePI.enterBillLevelDiscount('Bill Discount', discount.billDiscount);
+    onCreatePI.enterBillLevelDiscount('Trade Discount', discount.tradeDiscount);
     onCreatePI.checkPurchaseOrderCalculations(
       discount.billDiscount,
       discount.tradeDiscount
@@ -133,11 +133,11 @@ describe("Create Purchase Invoice Test", () => {
     // );
   });
 
-  it("Verify JV, Ledger Report and IRD report after creating a PI for Cash", () => {
+  it('Verify JV, Ledger Report and IRD report after creating a PI for Cash', () => {
     const adjustedDate = getAdjustedDateValues(0);
-    const vendorInvoiceNum = "ARI" + getTime();
+    const vendorInvoiceNum = 'ARI' + getTime();
 
-    onCreatePI.selectPaymentMode("Cash");
+    onCreatePI.selectPaymentMode('Cash');
     onCreatePI.clickOnDocumentDate();
     onCreatePI.selectDateOnCalender(
       adjustedDate.year,
@@ -145,12 +145,12 @@ describe("Create Purchase Invoice Test", () => {
       adjustedDate.day
     );
     onCreatePI.enterVendorInvoiceNumber(vendorInvoiceNum);
-    onCreatePI.clickOnDropdown("BU");
-    onCreatePI.selectBusinessUnitValue("Sunfeast");
-    onCreatePI.selectVendorLedger("Sunfeast Vendor");
-    onCreatePI.enterRemarks("Testing 123 hello, o hello ");
+    onCreatePI.clickOnDropdown('BU');
+    onCreatePI.selectBusinessUnitValue('Sunfeast');
+    onCreatePI.selectVendorLedger('Sunfeast Vendor');
+    onCreatePI.enterRemarks('Testing 123 hello, o hello ');
 
-    cy.get("@data").then((data) => {
+    cy.get('@data').then((data) => {
       let lineDiscAmt = 0;
       let exciseAmount = 0;
       let amount = 0;
@@ -187,41 +187,41 @@ describe("Create Purchase Invoice Test", () => {
             sku.excise) /
           100;
 
-        cy.wrap(amount).as("amount");
-        cy.wrap(lineDiscAmt).as("lineDiscAmt");
-        cy.wrap(exciseAmount).as("exciseAmount");
+        cy.wrap(amount).as('amount');
+        cy.wrap(lineDiscAmt).as('lineDiscAmt');
+        cy.wrap(exciseAmount).as('exciseAmount');
       });
     });
 
-    onCreatePI.enterBillLevelDiscount("Bill Discount", 1);
-    onCreatePI.enterBillLevelDiscount("Trade Discount", 0.51);
+    onCreatePI.enterBillLevelDiscount('Bill Discount', 1);
+    onCreatePI.enterBillLevelDiscount('Trade Discount', 0.51);
     onCreatePI.checkPurchaseOrderCalculations(1, 0.51);
 
-    cy.get("@amount").then((amount) => {
-      cy.get("@lineDiscAmt").then((lineDiscAmt) => {
-        cy.get("@exciseAmount").then((exciseAmount) => {
+    cy.get('@amount').then((amount) => {
+      cy.get('@lineDiscAmt').then((lineDiscAmt) => {
+        cy.get('@exciseAmount').then((exciseAmount) => {
           cy.log(amount);
           cy.log(lineDiscAmt);
           cy.log(exciseAmount);
         });
       });
     });
-    onCreatePI.getSubTotal("subTotal");
-    onCreatePI.getBillDiscount("billDiscountAmount");
-    onCreatePI.getTradeDiscount("tradeDiscountAmount");
-    onCreatePI.getTaxableAmount("taxableAmount");
-    onCreatePI.getVat("totalTaxAmount");
-    onCreatePI.getTotal("totalAmount");
+    onCreatePI.getSubTotal('subTotal');
+    onCreatePI.getBillDiscount('billDiscountAmount');
+    onCreatePI.getTradeDiscount('tradeDiscountAmount');
+    onCreatePI.getTaxableAmount('taxableAmount');
+    onCreatePI.getVat('totalTaxAmount');
+    onCreatePI.getTotal('totalAmount');
 
     onCreatePI.clickSaveButton();
     onCreatePI.verifySuccessMessage(
-      "Success: Purchase invoice has been created!"
+      'Success: Purchase invoice has been created!'
     );
 
-    onPIPage.applyDateFilter("P3M");
+    onPIPage.applyDateFilter('P3M');
     onPIPage.getPurchaseDocNumberOfAVendorInvoiceNumber(
       vendorInvoiceNum,
-      "purchaseDocNum"
+      'purchaseDocNum'
     );
 
     onDashboardPage.hoverMouserOverAccountingEntries();
@@ -229,49 +229,49 @@ describe("Create Purchase Invoice Test", () => {
     onDashboardPage.verifyJournalVoucherUrl();
 
     onJVPage.removeFilterInJV();
-    onJVPage.applyDateFilter("MTD");
+    onJVPage.applyDateFilter('MTD');
 
-    cy.get("@purchaseDocNum").then((purchaseDocNum) => {
+    cy.get('@purchaseDocNum').then((purchaseDocNum) => {
       cy.log(purchaseDocNum);
       onJVPage.searchJVwithInvoiceNumber(purchaseDocNum);
       onJVPage.openJvDetailsOfSearchedInvoice(purchaseDocNum);
       onJvDetailPage.verifySearchedInvoiceJvIsDisplayed(purchaseDocNum);
 
-      onJvDetailPage.getCreditValueForLedger("CASH A/C", "cashAcAmount");
+      onJvDetailPage.getCreditValueForLedger('CASH A/C', 'cashAcAmount');
       onJvDetailPage.getCreditValueForLedger(
-        "Bill Discount A/c",
-        "billDiscAmount"
+        'Bill Discount A/c',
+        'billDiscAmount'
       );
       onJvDetailPage.getCreditValueForLedger(
-        "Trade Discount A/c",
-        "tradeDiscAmount"
+        'Trade Discount A/c',
+        'tradeDiscAmount'
       );
       // onJvDetailPage.getDebitValueForLedger('Sunfeast Vendor', 'vendorAmount')
-      onJvDetailPage.getDebitValueForLedger("VAT A/C", "vatAmount");
-      onJvDetailPage.getDebitValueForLedger("PURCHASE A/C", "purchaseAmount");
+      onJvDetailPage.getDebitValueForLedger('VAT A/C', 'vatAmount');
+      onJvDetailPage.getDebitValueForLedger('PURCHASE A/C', 'purchaseAmount');
 
-      onJvDetailPage.getTotalsValue(0, "totalDebit");
-      onJvDetailPage.getTotalsValue(1, "totalCredit");
-      onJvDetailPage.getTotalsValue(2, "difference");
+      onJvDetailPage.getTotalsValue(0, 'totalDebit');
+      onJvDetailPage.getTotalsValue(1, 'totalCredit');
+      onJvDetailPage.getTotalsValue(2, 'difference');
 
-      cy.get("@amount").then((amount) => {
-        cy.get("@lineDiscAmt").then((lineDiscAmt) => {
-          cy.get("@exciseAmount").then((exciseAmount) => {
-            cy.get("@subTotal").then((subTotal) => {
-              cy.get("@billDiscountAmount").then((billDiscountAmount) => {
-                cy.get("@tradeDiscountAmount").then((tradeDiscountAmount) => {
-                  cy.get("@taxableAmount").then((taxableAmount) => {
-                    cy.get("@totalTaxAmount").then((totalVatAmount) => {
-                      cy.get("@totalAmount").then((totalAmount) => {
-                        cy.get("@purchaseAmount").then((purchaseAmount) => {
-                          cy.get("@billDiscAmount").then((billDiscAmount) => {
-                            cy.get("@tradeDiscAmount").then(
+      cy.get('@amount').then((amount) => {
+        cy.get('@lineDiscAmt').then((lineDiscAmt) => {
+          cy.get('@exciseAmount').then((exciseAmount) => {
+            cy.get('@subTotal').then((subTotal) => {
+              cy.get('@billDiscountAmount').then((billDiscountAmount) => {
+                cy.get('@tradeDiscountAmount').then((tradeDiscountAmount) => {
+                  cy.get('@taxableAmount').then((taxableAmount) => {
+                    cy.get('@totalTaxAmount').then((totalVatAmount) => {
+                      cy.get('@totalAmount').then((totalAmount) => {
+                        cy.get('@purchaseAmount').then((purchaseAmount) => {
+                          cy.get('@billDiscAmount').then((billDiscAmount) => {
+                            cy.get('@tradeDiscAmount').then(
                               (tradeDiscAmount) => {
-                                cy.get("@vatAmount").then((vatAmount) => {
-                                  cy.get("@totalDebit").then((totalDebit) => {
-                                    cy.get("@totalCredit").then(
+                                cy.get('@vatAmount').then((vatAmount) => {
+                                  cy.get('@totalDebit').then((totalDebit) => {
+                                    cy.get('@totalCredit').then(
                                       (totalCredit) => {
-                                        cy.get("@difference").then(
+                                        cy.get('@difference').then(
                                           (difference) => {
                                             // let expectedPurchaseAcAmount = parseFloat(amount.replace(/,/g, '')).toString()
                                             let expectedPurchaseAcAmount =
@@ -280,47 +280,47 @@ describe("Create Purchase Invoice Test", () => {
                                               parseFloat(
                                                 billDiscountAmount.replace(
                                                   /,/g,
-                                                  ""
+                                                  ''
                                                 )
                                               ).toString();
                                             let expectedTradeDiscountAmount =
                                               parseFloat(
                                                 tradeDiscountAmount.replace(
                                                   /,/g,
-                                                  ""
+                                                  ''
                                                 )
                                               ).toString();
                                             let expectedVatAmount = parseFloat(
-                                              totalVatAmount.replace(/,/g, "")
+                                              totalVatAmount.replace(/,/g, '')
                                             ).toString();
                                             let expectedTotalAmount =
                                               parseFloat(
-                                                totalAmount.replace(/,/g, "")
+                                                totalAmount.replace(/,/g, '')
                                               ).toString();
 
                                             let totalAmt = parseFloat(
                                               expectedTotalAmount.replace(
                                                 /,/g,
-                                                ""
+                                                ''
                                               )
                                             );
                                             // let subTotalAmt = parseFloat(expectedPurchaseAcAmount.replace(/,/g, ''))
                                             let billDiscAmt = parseFloat(
                                               expectedBillDiscountAmount.replace(
                                                 /,/g,
-                                                ""
+                                                ''
                                               )
                                             );
                                             let tradeDiscAmt = parseFloat(
                                               expectedTradeDiscountAmount.replace(
                                                 /,/g,
-                                                ""
+                                                ''
                                               )
                                             );
                                             let vatAmt = parseFloat(
                                               expectedVatAmount.replace(
                                                 /,/g,
-                                                ""
+                                                ''
                                               )
                                             );
 
@@ -328,31 +328,31 @@ describe("Create Purchase Invoice Test", () => {
 
                                             let actualPurchaseAcAmount =
                                               parseFloat(
-                                                purchaseAmount.replace(/,/g, "")
+                                                purchaseAmount.replace(/,/g, '')
                                               ).toString();
                                             let actualBillDiscountAmount =
                                               parseFloat(
-                                                billDiscAmount.replace(/,/g, "")
+                                                billDiscAmount.replace(/,/g, '')
                                               ).toString();
                                             let actualTradeDiscountAmount =
                                               parseFloat(
                                                 tradeDiscAmount.replace(
                                                   /,/g,
-                                                  ""
+                                                  ''
                                                 )
                                               ).toString();
                                             let actualVatAmount = parseFloat(
-                                              vatAmount.replace(/,/g, "")
+                                              vatAmount.replace(/,/g, '')
                                             ).toString();
                                             // let actualRoundAmount = parseFloat(roundAmount.replace(/,/g, '')).toString()
                                             let actualTotalAmount = parseFloat(
-                                              totalAmount.replace(/,/g, "")
+                                              totalAmount.replace(/,/g, '')
                                             ).toString();
 
                                             let a =
                                               parseFloat(amount).toFixed(2);
                                             let b = parseFloat(
-                                              vatAmount.replace(/,/g, "")
+                                              vatAmount.replace(/,/g, '')
                                             );
                                             let c = parseFloat(exciseAmount);
 
@@ -361,13 +361,13 @@ describe("Create Purchase Invoice Test", () => {
                                             let expectedDebitTotal =
                                               parseFloat(totalDeb).toFixed(2);
                                             let actualTotalDebit = parseFloat(
-                                              totalDebit.replace(/,/g, "")
+                                              totalDebit.replace(/,/g, '')
                                             );
                                             let actualTotalCredit = parseFloat(
-                                              totalCredit.replace(/,/g, "")
+                                              totalCredit.replace(/,/g, '')
                                             );
                                             let actualDifference = parseFloat(
-                                              difference.replace(/,/g, "")
+                                              difference.replace(/,/g, '')
                                             );
 
                                             // cy.log(expectedDebitTotal + ' ' + actualTotalDebit)
@@ -380,7 +380,7 @@ describe("Create Purchase Invoice Test", () => {
                                               );
                                             } catch (error) {
                                               cy.log(
-                                                "Purchase A/c Amount is not matching"
+                                                'Purchase A/c Amount is not matching'
                                               );
                                             }
                                             try {
@@ -391,7 +391,7 @@ describe("Create Purchase Invoice Test", () => {
                                               );
                                             } catch (error) {
                                               cy.log(
-                                                "Bill Disocunt A/c Amount is not matching"
+                                                'Bill Disocunt A/c Amount is not matching'
                                               );
                                             }
                                             try {
@@ -402,7 +402,7 @@ describe("Create Purchase Invoice Test", () => {
                                               );
                                             } catch (error) {
                                               cy.log(
-                                                "Trade Discount A/c Amount is not matching"
+                                                'Trade Discount A/c Amount is not matching'
                                               );
                                             }
                                             try {
@@ -411,7 +411,7 @@ describe("Create Purchase Invoice Test", () => {
                                               );
                                             } catch (error) {
                                               cy.log(
-                                                "VAT A/c Amount is not matching"
+                                                'VAT A/c Amount is not matching'
                                               );
                                             }
                                             // expect(actualRoundAmount).to.equal(expectedRoundAmount.toString())
@@ -421,7 +421,7 @@ describe("Create Purchase Invoice Test", () => {
                                               ).to.equal(expectedTotalAmount);
                                             } catch (error) {
                                               cy.log(
-                                                "Total Amount is not matching"
+                                                'Total Amount is not matching'
                                               );
                                             }
 
@@ -431,7 +431,7 @@ describe("Create Purchase Invoice Test", () => {
                                               );
                                             } catch (error) {
                                               cy.log(
-                                                "Total Debit is not matching"
+                                                'Total Debit is not matching'
                                               );
                                             }
 
@@ -441,42 +441,42 @@ describe("Create Purchase Invoice Test", () => {
                                               ).to.equal(expectedDebitTotal);
                                             } catch (error) {
                                               cy.log(
-                                                "Total Credit is not matching"
+                                                'Total Credit is not matching'
                                               );
                                             }
 
                                             try {
                                               expect(
                                                 actualDifference.toFixed(2)
-                                              ).to.equal("0.00");
+                                              ).to.equal('0.00');
                                             } catch (error) {
                                               cy.log(
-                                                "Difference is not matching"
+                                                'Difference is not matching'
                                               );
                                             }
 
                                             cy.log(
-                                              "***********************************Verifying Cash Ledger Report Starting***********************************"
+                                              '***********************************Verifying Cash Ledger Report Starting***********************************'
                                             );
                                             onDashboardPage.hoverMouseOverReports();
                                             onDashboardPage.hoverMouseOverGeneralLedgerReport();
                                             onDashboardPage.openCashBookReport();
 
                                             onCashBookPage.searchLedgerWithName(
-                                              "CASH A/C"
+                                              'CASH A/C'
                                             );
                                             onCashBookPage.openLedgerReport(
-                                              "CASH A/C"
+                                              'CASH A/C'
                                             );
                                             onCashBookPage.openReconciledDetails();
 
                                             onCashBookPage.getHeaderText(
-                                              "headerText"
+                                              'headerText'
                                             );
-                                            cy.get("@headerText").then(
+                                            cy.get('@headerText').then(
                                               (headerText) => {
                                                 expect(headerText).to.eq(
-                                                  "CASH A/C reconciled"
+                                                  'CASH A/C reconciled'
                                                 );
                                               }
                                             );
@@ -487,29 +487,29 @@ describe("Create Purchase Invoice Test", () => {
 
                                             onCashBookPage.getDebitValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "debitValue"
+                                              'debitValue'
                                             );
                                             onCashBookPage.getCreditValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "creditValue"
+                                              'creditValue'
                                             );
 
-                                            cy.get("@debitValue").then(
+                                            cy.get('@debitValue').then(
                                               (debitValue) => {
-                                                cy.get("@creditValue").then(
+                                                cy.get('@creditValue').then(
                                                   (creditValue) => {
                                                     let actualDebitValue =
                                                       parseFloat(
                                                         debitValue.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
                                                     let actualCreditValue =
                                                       parseFloat(
                                                         creditValue.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
 
@@ -521,16 +521,16 @@ describe("Create Purchase Invoice Test", () => {
                                                       );
                                                     } catch (error) {
                                                       cy.log(
-                                                        "Debit  Amount is not matching"
+                                                        'Debit  Amount is not matching'
                                                       );
                                                     }
                                                     try {
                                                       expect(
                                                         actualDebitValue
-                                                      ).to.equal("0");
+                                                      ).to.equal('0');
                                                     } catch (error) {
                                                       cy.log(
-                                                        "Credit Amount is not matching"
+                                                        'Credit Amount is not matching'
                                                       );
                                                     }
                                                   }
@@ -538,10 +538,10 @@ describe("Create Purchase Invoice Test", () => {
                                               }
                                             );
                                             cy.log(
-                                              "***********************************Verifying Cash Report Finished***********************************"
+                                              '***********************************Verifying Cash Report Finished***********************************'
                                             );
                                             cy.log(
-                                              "***********************************Verifying PURCHASE A/c Ledger Report Starting***********************************"
+                                              '***********************************Verifying PURCHASE A/c Ledger Report Starting***********************************'
                                             );
 
                                             onDashboardPage.hoverMouseOverReports();
@@ -549,19 +549,19 @@ describe("Create Purchase Invoice Test", () => {
                                             onDashboardPage.clickLedgerReport();
 
                                             onLedgerReportPage.searchLedgerWithName(
-                                              "PURCHASE A/C"
+                                              'PURCHASE A/C'
                                             );
                                             onLedgerReportPage.openLedgerReport(
-                                              "PURCHASE A/C"
+                                              'PURCHASE A/C'
                                             );
                                             onLedgerReportPage.openReconciledDetails();
                                             onLedgerReportPage.getHeaderText(
-                                              "headerText"
+                                              'headerText'
                                             );
-                                            cy.get("@headerText").then(
+                                            cy.get('@headerText').then(
                                               (headerText) => {
                                                 expect(headerText).to.eq(
-                                                  "PURCHASE A/C reconciled"
+                                                  'PURCHASE A/C reconciled'
                                                 );
                                               }
                                             );
@@ -571,41 +571,41 @@ describe("Create Purchase Invoice Test", () => {
                                             );
                                             onLedgerReportPage.getDebitValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "debitValueOfSalesAc"
+                                              'debitValueOfSalesAc'
                                             );
                                             onLedgerReportPage.getCreditValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "creditValueOfSalesAc"
+                                              'creditValueOfSalesAc'
                                             );
 
-                                            cy.get("@debitValueOfSalesAc").then(
+                                            cy.get('@debitValueOfSalesAc').then(
                                               (debitValueOfSalesAc) => {
                                                 cy.get(
-                                                  "@creditValueOfSalesAc"
+                                                  '@creditValueOfSalesAc'
                                                 ).then(
                                                   (creditValueOfSalesAc) => {
                                                     let actualDebitValue =
                                                       parseFloat(
                                                         debitValueOfSalesAc.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
                                                     let actualCreditValue =
                                                       parseFloat(
                                                         creditValueOfSalesAc.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
 
                                                     try {
                                                       expect(
                                                         actualCreditValue
-                                                      ).to.equal("0");
+                                                      ).to.equal('0');
                                                     } catch (error) {
                                                       cy.log(
-                                                        "Debit  Amount is not matching"
+                                                        'Debit  Amount is not matching'
                                                       );
                                                     }
 
@@ -617,7 +617,7 @@ describe("Create Purchase Invoice Test", () => {
                                                       );
                                                     } catch (error) {
                                                       cy.log(
-                                                        "Credit Amount is not matching"
+                                                        'Credit Amount is not matching'
                                                       );
                                                     }
                                                   }
@@ -626,30 +626,30 @@ describe("Create Purchase Invoice Test", () => {
                                             );
 
                                             cy.log(
-                                              "***********************************Verifying Purchase A/c Ledger Report Finished***********************************"
+                                              '***********************************Verifying Purchase A/c Ledger Report Finished***********************************'
                                             );
 
                                             cy.log(
-                                              "***********************************Verifying VAT A/c Ledger Report Starting***********************************"
+                                              '***********************************Verifying VAT A/c Ledger Report Starting***********************************'
                                             );
                                             onDashboardPage.hoverMouseOverReports();
                                             onDashboardPage.hoverMouseOverGeneralLedgerReport();
                                             onDashboardPage.clickLedgerReport();
 
                                             onLedgerReportPage.searchVatBIllDiscTradeDiscLedger(
-                                              "VAT A/C"
+                                              'VAT A/C'
                                             );
                                             onLedgerReportPage.openLedgerReport(
-                                              "VAT A/C"
+                                              'VAT A/C'
                                             );
                                             onLedgerReportPage.openReconciledDetails();
                                             onLedgerReportPage.getHeaderText(
-                                              "headerText"
+                                              'headerText'
                                             );
-                                            cy.get("@headerText").then(
+                                            cy.get('@headerText').then(
                                               (headerText) => {
                                                 expect(headerText).to.eq(
-                                                  "VAT A/C reconciled"
+                                                  'VAT A/C reconciled'
                                                 );
                                               }
                                             );
@@ -660,40 +660,40 @@ describe("Create Purchase Invoice Test", () => {
 
                                             onLedgerReportPage.getDebitValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "debitValueOfSVatAc"
+                                              'debitValueOfSVatAc'
                                             );
                                             onLedgerReportPage.getCreditValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "creditValueOfVatAc"
+                                              'creditValueOfVatAc'
                                             );
 
-                                            cy.get("@debitValueOfSVatAc").then(
+                                            cy.get('@debitValueOfSVatAc').then(
                                               (debitValueOfSVatAc) => {
                                                 cy.get(
-                                                  "@creditValueOfVatAc"
+                                                  '@creditValueOfVatAc'
                                                 ).then((creditValueOfVatAc) => {
                                                   let actualDebitValue =
                                                     parseFloat(
                                                       debitValueOfSVatAc.replace(
                                                         /,/g,
-                                                        ""
+                                                        ''
                                                       )
                                                     ).toString();
                                                   let actualCreditValue =
                                                     parseFloat(
                                                       creditValueOfVatAc.replace(
                                                         /,/g,
-                                                        ""
+                                                        ''
                                                       )
                                                     ).toString();
 
                                                   try {
                                                     expect(
                                                       actualCreditValue
-                                                    ).to.equal("0");
+                                                    ).to.equal('0');
                                                   } catch (error) {
                                                     cy.log(
-                                                      "Debit  Amount is not matching"
+                                                      'Debit  Amount is not matching'
                                                     );
                                                   }
 
@@ -705,37 +705,37 @@ describe("Create Purchase Invoice Test", () => {
                                                     );
                                                   } catch (error) {
                                                     cy.log(
-                                                      "Credit Amount is not matching"
+                                                      'Credit Amount is not matching'
                                                     );
                                                   }
                                                 });
                                               }
                                             );
                                             cy.log(
-                                              "***********************************Verifying VAT A/c Ledger Report Finished***********************************"
+                                              '***********************************Verifying VAT A/c Ledger Report Finished***********************************'
                                             );
 
                                             cy.log(
-                                              "***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************"
+                                              '***********************************Verifying Bill Discount A/c Ledger Report Starting***********************************'
                                             );
                                             onDashboardPage.hoverMouseOverReports();
                                             onDashboardPage.hoverMouseOverGeneralLedgerReport();
                                             onDashboardPage.clickLedgerReport();
 
                                             onLedgerReportPage.searchVatBIllDiscTradeDiscLedger(
-                                              "Bill Discount A/c"
+                                              'Bill Discount A/c'
                                             );
                                             onLedgerReportPage.openLedgerReport(
-                                              "Bill Discount A/c"
+                                              'Bill Discount A/c'
                                             );
                                             onLedgerReportPage.openReconciledDetails();
                                             onLedgerReportPage.getHeaderText(
-                                              "headerText"
+                                              'headerText'
                                             );
-                                            cy.get("@headerText").then(
+                                            cy.get('@headerText').then(
                                               (headerText) => {
                                                 expect(headerText).to.eq(
-                                                  "Bill Discount A/c reconciled"
+                                                  'Bill Discount A/c reconciled'
                                                 );
                                               }
                                             );
@@ -746,19 +746,19 @@ describe("Create Purchase Invoice Test", () => {
 
                                             onLedgerReportPage.getDebitValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "debitValueOfBillDisctAc"
+                                              'debitValueOfBillDisctAc'
                                             );
                                             onLedgerReportPage.getCreditValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "creditValueOfBillDiscAc"
+                                              'creditValueOfBillDiscAc'
                                             );
 
                                             cy.get(
-                                              "@debitValueOfBillDisctAc"
+                                              '@debitValueOfBillDisctAc'
                                             ).then(
                                               (debitValueOfBillDisctAc) => {
                                                 cy.get(
-                                                  "@creditValueOfBillDiscAc"
+                                                  '@creditValueOfBillDiscAc'
                                                 ).then(
                                                   (creditValueOfBillDiscAc) => {
                                                     //cy.log(debitValueOfBillDisctAc)
@@ -768,14 +768,14 @@ describe("Create Purchase Invoice Test", () => {
                                                       parseFloat(
                                                         debitValueOfBillDisctAc.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
                                                     let actualCreditValue =
                                                       parseFloat(
                                                         creditValueOfBillDiscAc.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
 
@@ -786,17 +786,17 @@ describe("Create Purchase Invoice Test", () => {
                                                     );
                                                     expect(
                                                       actualDebitValue
-                                                    ).to.equal("0");
+                                                    ).to.equal('0');
                                                   }
                                                 );
                                               }
                                             );
                                             cy.log(
-                                              "***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************"
+                                              '***********************************Verifying Bill DIscount A/c Ledger Report Finished***********************************'
                                             );
 
                                             cy.log(
-                                              "***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************"
+                                              '***********************************Verifying Trade Discount A/c Ledger Report Starting***********************************'
                                             );
 
                                             onDashboardPage.hoverMouseOverReports();
@@ -804,19 +804,19 @@ describe("Create Purchase Invoice Test", () => {
                                             onDashboardPage.clickLedgerReport();
 
                                             onLedgerReportPage.searchVatBIllDiscTradeDiscLedger(
-                                              "Trade Discount A/c"
+                                              'Trade Discount A/c'
                                             );
                                             onLedgerReportPage.openLedgerReport(
-                                              "Trade Discount A/c"
+                                              'Trade Discount A/c'
                                             );
                                             onLedgerReportPage.openReconciledDetails();
                                             onLedgerReportPage.getHeaderText(
-                                              "headerText"
+                                              'headerText'
                                             );
-                                            cy.get("@headerText").then(
+                                            cy.get('@headerText').then(
                                               (headerText) => {
                                                 expect(headerText).to.eq(
-                                                  "Trade Discount A/c reconciled"
+                                                  'Trade Discount A/c reconciled'
                                                 );
                                               }
                                             );
@@ -827,19 +827,19 @@ describe("Create Purchase Invoice Test", () => {
 
                                             onLedgerReportPage.getDebitValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "debitValueOfTradeDisctAc"
+                                              'debitValueOfTradeDisctAc'
                                             );
                                             onLedgerReportPage.getCreditValueByInvoiceNum(
                                               purchaseDocNum,
-                                              "creditValueOfTradeDiscAc"
+                                              'creditValueOfTradeDiscAc'
                                             );
 
                                             cy.get(
-                                              "@debitValueOfTradeDisctAc"
+                                              '@debitValueOfTradeDisctAc'
                                             ).then(
                                               (debitValueOfTradeDisctAc) => {
                                                 cy.get(
-                                                  "@creditValueOfTradeDiscAc"
+                                                  '@creditValueOfTradeDiscAc'
                                                 ).then(
                                                   (
                                                     creditValueOfTradeDiscAc
@@ -855,14 +855,14 @@ describe("Create Purchase Invoice Test", () => {
                                                       parseFloat(
                                                         debitValueOfTradeDisctAc.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
                                                     let actualCreditValue =
                                                       parseFloat(
                                                         creditValueOfTradeDiscAc.replace(
                                                           /,/g,
-                                                          ""
+                                                          ''
                                                         )
                                                       ).toString();
 
@@ -873,28 +873,28 @@ describe("Create Purchase Invoice Test", () => {
                                                     );
                                                     expect(
                                                       actualDebitValue
-                                                    ).to.equal("0");
+                                                    ).to.equal('0');
                                                   }
                                                 );
                                               }
                                             );
                                             cy.log(
-                                              "***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************"
+                                              '***********************************Verifying Trade DIscount A/c Ledger Report Finished***********************************'
                                             );
 
                                             cy.log(
-                                              "*********************************** Verifying Updated Purchase VAT Report Starting ***********************************"
+                                              '*********************************** Verifying Updated Purchase VAT Report Starting ***********************************'
                                             );
 
                                             onDashboardPage.hoverMouseOverReports();
                                             onDashboardPage.hoverMouseOverIrdReports();
                                             onDashboardPage.openUpdatedPurchaseVatReport();
 
-                                            cy.getHeaderText("headerText");
-                                            cy.get("@headerText").then(
+                                            cy.getHeaderText('headerText');
+                                            cy.get('@headerText').then(
                                               (headerText) => {
                                                 expect(headerText).to.eq(
-                                                  "Updated Purchase VAT Report"
+                                                  'Updated Purchase VAT Report'
                                                 );
                                               }
                                             );
@@ -904,56 +904,56 @@ describe("Create Purchase Invoice Test", () => {
                                             );
                                             onUpdatePurchaseVatReport.getTotalPurchase(
                                               purchaseDocNum,
-                                              "totalPurchase"
+                                              'totalPurchase'
                                             );
                                             onUpdatePurchaseVatReport.getTaxExempted(
                                               purchaseDocNum,
-                                              "taxExempted"
+                                              'taxExempted'
                                             );
                                             onUpdatePurchaseVatReport.getTaxablePurchase(
                                               purchaseDocNum,
-                                              "taxableSales"
+                                              'taxableSales'
                                             );
                                             onUpdatePurchaseVatReport.getVat(
                                               purchaseDocNum,
-                                              "vat"
+                                              'vat'
                                             );
 
-                                            cy.get("@totalPurchase").then(
+                                            cy.get('@totalPurchase').then(
                                               (totalPurchase) => {
-                                                cy.get("@taxExempted").then(
+                                                cy.get('@taxExempted').then(
                                                   (taxExempted) => {
                                                     cy.get(
-                                                      "@taxableSales"
+                                                      '@taxableSales'
                                                     ).then((taxableSales) => {
-                                                      cy.get("@vat").then(
+                                                      cy.get('@vat').then(
                                                         (vat) => {
                                                           let actualtotalPurchase =
                                                             parseFloat(
                                                               totalPurchase.replace(
                                                                 /,/g,
-                                                                ""
+                                                                ''
                                                               )
                                                             ).toString();
                                                           let actualTaxExempted =
                                                             parseFloat(
                                                               taxExempted.replace(
                                                                 /,/g,
-                                                                ""
+                                                                ''
                                                               )
                                                             ).toString();
                                                           let actualTaxableSales =
                                                             parseFloat(
                                                               taxableSales.replace(
                                                                 /,/g,
-                                                                ""
+                                                                ''
                                                               )
                                                             ).toString();
                                                           let actualVat =
                                                             parseFloat(
                                                               vat.replace(
                                                                 /,/g,
-                                                                ""
+                                                                ''
                                                               )
                                                             ).toString();
 
@@ -961,7 +961,7 @@ describe("Create Purchase Invoice Test", () => {
                                                             parseFloat(
                                                               taxableAmount.replace(
                                                                 /,/g,
-                                                                ""
+                                                                ''
                                                               )
                                                             ).toString();
 
@@ -973,7 +973,7 @@ describe("Create Purchase Invoice Test", () => {
                                                             );
                                                           } catch (error) {
                                                             cy.log(
-                                                              "Total Sales is not matching"
+                                                              'Total Sales is not matching'
                                                             );
                                                           }
                                                           try {
@@ -984,16 +984,16 @@ describe("Create Purchase Invoice Test", () => {
                                                             );
                                                           } catch (error) {
                                                             cy.log(
-                                                              "Taxable Sales is not matching"
+                                                              'Taxable Sales is not matching'
                                                             );
                                                           }
                                                           try {
                                                             expect(
                                                               actualTaxExempted
-                                                            ).to.equal("0");
+                                                            ).to.equal('0');
                                                           } catch (error) {
                                                             cy.log(
-                                                              "Tax Exempted is not matching"
+                                                              'Tax Exempted is not matching'
                                                             );
                                                           }
                                                           try {
@@ -1004,7 +1004,7 @@ describe("Create Purchase Invoice Test", () => {
                                                             );
                                                           } catch (error) {
                                                             cy.log(
-                                                              "VAT is not matching"
+                                                              'VAT is not matching'
                                                             );
                                                           }
                                                         }
@@ -1016,22 +1016,22 @@ describe("Create Purchase Invoice Test", () => {
                                             );
 
                                             cy.log(
-                                              "*********************************** Verifying Updated Sales VAT Report Finsihed ***********************************"
+                                              '*********************************** Verifying Updated Sales VAT Report Finsihed ***********************************'
                                             );
 
                                             cy.log(
-                                              "*********************************** Verifying  Sales VAT Report Starting ***********************************"
+                                              '*********************************** Verifying  Sales VAT Report Starting ***********************************'
                                             );
 
                                             onDashboardPage.hoverMouseOverReports();
                                             onDashboardPage.hoverMouseOverIrdReports();
                                             onDashboardPage.openPurchaseVatReport();
 
-                                            cy.getHeaderText("headerText");
-                                            cy.get("@headerText").then(
+                                            cy.getHeaderText('headerText');
+                                            cy.get('@headerText').then(
                                               (headerText) => {
                                                 expect(headerText).to.eq(
-                                                  "Purchase VAT Report"
+                                                  'Purchase VAT Report'
                                                 );
                                               }
                                             );
@@ -1040,57 +1040,57 @@ describe("Create Purchase Invoice Test", () => {
                                               purchaseDocNum
                                             );
                                             onPurchaseVatReport.getTotalPurchase(
-                                              "totalPurchaseVatReport"
+                                              'totalPurchaseVatReport'
                                             );
                                             onPurchaseVatReport.getTaxExempted(
-                                              "taxExemptedVatReport"
+                                              'taxExemptedVatReport'
                                             );
                                             onPurchaseVatReport.getTaxablePurchase(
-                                              "taxableSalesVatReport"
+                                              'taxableSalesVatReport'
                                             );
                                             onPurchaseVatReport.getVat(
-                                              "vatVatReport"
+                                              'vatVatReport'
                                             );
 
                                             cy.get(
-                                              "@totalPurchaseVatReport"
+                                              '@totalPurchaseVatReport'
                                             ).then((totalPurchaseVatReport) => {
                                               cy.get(
-                                                "@taxExemptedVatReport"
+                                                '@taxExemptedVatReport'
                                               ).then((taxExemptedVatReport) => {
                                                 cy.get(
-                                                  "@taxableSalesVatReport"
+                                                  '@taxableSalesVatReport'
                                                 ).then(
                                                   (taxableSalesVatReport) => {
                                                     cy.get(
-                                                      "@vatVatReport"
+                                                      '@vatVatReport'
                                                     ).then((vatVatReport) => {
                                                       let actualtotalPurchase =
                                                         parseFloat(
                                                           totalPurchaseVatReport.replace(
                                                             /,/g,
-                                                            ""
+                                                            ''
                                                           )
                                                         ).toString();
                                                       let actualTaxExempted =
                                                         parseFloat(
                                                           taxExemptedVatReport.replace(
                                                             /,/g,
-                                                            ""
+                                                            ''
                                                           )
                                                         ).toString();
                                                       let actualTaxableSales =
                                                         parseFloat(
                                                           taxableSalesVatReport.replace(
                                                             /,/g,
-                                                            ""
+                                                            ''
                                                           )
                                                         ).toString();
                                                       let actualVat =
                                                         parseFloat(
                                                           vatVatReport.replace(
                                                             /,/g,
-                                                            ""
+                                                            ''
                                                           )
                                                         ).toString();
 
@@ -1098,7 +1098,7 @@ describe("Create Purchase Invoice Test", () => {
                                                         parseFloat(
                                                           taxableAmount.replace(
                                                             /,/g,
-                                                            ""
+                                                            ''
                                                           )
                                                         ).toString();
 
@@ -1110,7 +1110,7 @@ describe("Create Purchase Invoice Test", () => {
                                                         );
                                                       } catch (error) {
                                                         cy.log(
-                                                          "Total Sales is not matching"
+                                                          'Total Sales is not matching'
                                                         );
                                                       }
                                                       try {
@@ -1121,16 +1121,16 @@ describe("Create Purchase Invoice Test", () => {
                                                         );
                                                       } catch (error) {
                                                         cy.log(
-                                                          "Taxable Sales is not matching"
+                                                          'Taxable Sales is not matching'
                                                         );
                                                       }
                                                       try {
                                                         expect(
                                                           actualTaxExempted
-                                                        ).to.equal("0");
+                                                        ).to.equal('0');
                                                       } catch (error) {
                                                         cy.log(
-                                                          "Tax Exempted is not matching"
+                                                          'Tax Exempted is not matching'
                                                         );
                                                       }
                                                       try {
@@ -1141,7 +1141,7 @@ describe("Create Purchase Invoice Test", () => {
                                                         );
                                                       } catch (error) {
                                                         cy.log(
-                                                          "VAT is not matching"
+                                                          'VAT is not matching'
                                                         );
                                                       }
                                                     });
@@ -1150,7 +1150,7 @@ describe("Create Purchase Invoice Test", () => {
                                               });
                                             });
                                             cy.log(
-                                              "*********************************** Verifying  Purchase VAT Report Finsihed ***********************************"
+                                              '*********************************** Verifying  Purchase VAT Report Finsihed ***********************************'
                                             );
                                           }
                                         );
@@ -1174,7 +1174,7 @@ describe("Create Purchase Invoice Test", () => {
     });
   });
 
-  it("Verify JV, Ledger Report and IRD report after creating a PI for Credit", () => {
+  it('Verify JV, Ledger Report and IRD report after creating a PI for Credit', () => {
     onCreatePI.checkSaveBtnIsDisabled();
   });
 });

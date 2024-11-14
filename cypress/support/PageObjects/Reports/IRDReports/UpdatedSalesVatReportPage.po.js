@@ -1,6 +1,6 @@
 // Helper function to parse currency strings
 function parseCurrency(value) {
-  return parseFloat(value.replace(/,/g, ""));
+  return parseFloat(value.replace(/,/g, ''));
 }
 
 // Format function, if not already defined
@@ -9,21 +9,21 @@ function formatToTwoDecimalPlaces(value) {
 }
 
 export class UpdatedSalesVatReportPage {
-  searchByInvoiceNumnber(invoiceNumber) {
+  searchByInvoiceNumber(invoiceNumber) {
     cy.searchByText(invoiceNumber);
     // cy.wait(2000)
-    cy.contains("tbody tr td", invoiceNumber);
+    cy.contains('tbody tr td', invoiceNumber);
   }
 
   selectRowOnShowPage(rowNum) {
     cy.selectRowValueOnPage(rowNum);
   }
   getTotalSales(invoiceNumber, alias) {
-    cy.contains("tr", invoiceNumber).then((tableRow) => {
+    cy.contains('tr', invoiceNumber).then((tableRow) => {
       cy.wrap(tableRow)
-        .find("td")
+        .find('td')
         .eq(4)
-        .invoke("text")
+        .invoke('text')
         .then((totalSales) => {
           cy.wrap(totalSales).as(alias);
         });
@@ -31,11 +31,11 @@ export class UpdatedSalesVatReportPage {
   }
 
   getTaxExempted(invoiceNumber, alias) {
-    cy.contains("tr", invoiceNumber).then((tableRow) => {
+    cy.contains('tr', invoiceNumber).then((tableRow) => {
       cy.wrap(tableRow)
-        .find("td")
+        .find('td')
         .eq(5)
-        .invoke("text")
+        .invoke('text')
         .then((totalSales) => {
           cy.wrap(totalSales).as(alias);
         });
@@ -43,11 +43,11 @@ export class UpdatedSalesVatReportPage {
   }
 
   getTaxableSales(invoiceNumber, alias) {
-    cy.contains("tr", invoiceNumber).then((tableRow) => {
+    cy.contains('tr', invoiceNumber).then((tableRow) => {
       cy.wrap(tableRow)
-        .find("td")
+        .find('td')
         .eq(6)
-        .invoke("text")
+        .invoke('text')
         .then((totalSales) => {
           cy.wrap(totalSales).as(alias);
         });
@@ -55,11 +55,11 @@ export class UpdatedSalesVatReportPage {
   }
 
   getVat(invoiceNumber, alias) {
-    cy.contains("tr", invoiceNumber).then((tableRow) => {
+    cy.contains('tr', invoiceNumber).then((tableRow) => {
       cy.wrap(tableRow)
-        .find("td")
+        .find('td')
         .eq(7)
-        .invoke("text")
+        .invoke('text')
         .then((totalSales) => {
           cy.wrap(totalSales).as(alias);
         });
@@ -72,13 +72,13 @@ export class UpdatedSalesVatReportPage {
     let grandTaxableSales = 0;
     let grandVAT = 0;
 
-    cy.get("tbody")
-      .find("tr")
+    cy.get('tbody')
+      .find('tr')
       .each(($row) => {
-        const totalSales = parseCurrency($row.find("td").eq(4).text());
-        const taxExempted = parseCurrency($row.find("td").eq(5).text());
-        const taxableSales = parseCurrency($row.find("td").eq(6).text());
-        const vat = parseCurrency($row.find("td").eq(7).text());
+        const totalSales = parseCurrency($row.find('td').eq(4).text());
+        const taxExempted = parseCurrency($row.find('td').eq(5).text());
+        const taxableSales = parseCurrency($row.find('td').eq(6).text());
+        const vat = parseCurrency($row.find('td').eq(7).text());
 
         const expectedTotalSales = formatToTwoDecimalPlaces(
           taxExempted + taxableSales
@@ -87,7 +87,7 @@ export class UpdatedSalesVatReportPage {
         expect(totalSales.toFixed(2)).to.equal(expectedTotalSales);
 
         const expectedVat = (taxableSales * 0.13).toFixed(2);
-        expect(formatToTwoDecimalPlaces(vat), "Vat check").to.equal(
+        expect(formatToTwoDecimalPlaces(vat), 'Vat check').to.equal(
           expectedVat
         );
 
@@ -98,32 +98,32 @@ export class UpdatedSalesVatReportPage {
       })
       .then(() => {
         cy.wrap(formatToTwoDecimalPlaces(grandTotalSales)).as(
-          "expectedGrandTotalSales"
+          'expectedGrandTotalSales'
         );
         cy.wrap(formatToTwoDecimalPlaces(grandTaxExempted)).as(
-          "expectedGrandTaxExempted"
+          'expectedGrandTaxExempted'
         );
         cy.wrap(formatToTwoDecimalPlaces(grandTaxableSales)).as(
-          "expectedGrandTaxableSales"
+          'expectedGrandTaxableSales'
         );
-        cy.wrap(formatToTwoDecimalPlaces(grandVAT)).as("expectedGrandVat");
+        cy.wrap(formatToTwoDecimalPlaces(grandVAT)).as('expectedGrandVat');
       });
 
-    this.getGrandTotalSalesValue("actualGrandTotalSales");
-    this.getGrandTaxExemptedSalesValue("actualGrandTaxExemptedSales");
-    this.getGrandTaxableSalesValue("actualGrandTaxableSales");
-    this.getGrandVatValue("actualGrandVatSales");
+    this.getGrandTotalSalesValue('actualGrandTotalSales');
+    this.getGrandTaxExemptedSalesValue('actualGrandTaxExemptedSales');
+    this.getGrandTaxableSalesValue('actualGrandTaxableSales');
+    this.getGrandVatValue('actualGrandVatSales');
 
-    cy.get("@expectedGrandTotalSales").then((expectedGrandTotalSales) => {
-      cy.get("@actualGrandTotalSales").then((actualGrandTotalSales) => {
+    cy.get('@expectedGrandTotalSales').then((expectedGrandTotalSales) => {
+      cy.get('@actualGrandTotalSales').then((actualGrandTotalSales) => {
         expect(
           formatToTwoDecimalPlaces(parseCurrency(actualGrandTotalSales))
         ).to.equal(expectedGrandTotalSales);
       });
     });
 
-    cy.get("@expectedGrandTaxExempted").then((expectedGrandTaxExempted) => {
-      cy.get("@actualGrandTaxExemptedSales").then(
+    cy.get('@expectedGrandTaxExempted').then((expectedGrandTaxExempted) => {
+      cy.get('@actualGrandTaxExemptedSales').then(
         (actualGrandTaxExemptedSales) => {
           expect(
             formatToTwoDecimalPlaces(parseCurrency(actualGrandTaxExemptedSales))
@@ -132,16 +132,16 @@ export class UpdatedSalesVatReportPage {
       );
     });
 
-    cy.get("@expectedGrandTaxableSales").then((expectedGrandTaxableSales) => {
-      cy.get("@actualGrandTaxableSales").then((actualGrandTaxableSales) => {
+    cy.get('@expectedGrandTaxableSales').then((expectedGrandTaxableSales) => {
+      cy.get('@actualGrandTaxableSales').then((actualGrandTaxableSales) => {
         expect(
           formatToTwoDecimalPlaces(parseCurrency(actualGrandTaxableSales))
         ).to.equal(expectedGrandTaxableSales);
       });
     });
 
-    cy.get("@expectedGrandVat").then((expectedGrandVat) => {
-      cy.get("@actualGrandVatSales").then((actualGrandVatSales) => {
+    cy.get('@expectedGrandVat').then((expectedGrandVat) => {
+      cy.get('@actualGrandVatSales').then((actualGrandVatSales) => {
         expect(
           formatToTwoDecimalPlaces(parseCurrency(actualGrandVatSales))
         ).to.equal(expectedGrandVat);
@@ -150,10 +150,10 @@ export class UpdatedSalesVatReportPage {
   }
 
   getGrandValue(index, aliasName) {
-    cy.get("tfoot.MuiTableFooter-root tr.MuiTableRow-footer").within(() => {
-      cy.get("td")
+    cy.get('tfoot.MuiTableFooter-root tr.MuiTableRow-footer').within(() => {
+      cy.get('td')
         .eq(index)
-        .invoke("text")
+        .invoke('text')
         .then((text) => {
           cy.wrap(text.trim()).as(aliasName);
         });
@@ -175,6 +175,10 @@ export class UpdatedSalesVatReportPage {
 
   getGrandVatValue(aliasName) {
     this.getGrandValue(5, aliasName);
+  }
+
+  clickOnDatePicker() {
+    cy.get('.datepicker-content').click();
   }
 }
 

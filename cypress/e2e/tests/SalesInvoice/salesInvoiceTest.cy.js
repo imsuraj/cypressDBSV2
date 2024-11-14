@@ -18,7 +18,7 @@ const {
 } = require('../../../support/PageObjects/Reports/GeneralLedgerReports/LedgerReportPage.po');
 const {
   onUpdateSalesVatReport,
-} = require('../../../support/PageObjects/Reports/IRDReports/UpdagteSalesVatReportPage.po');
+} = require('../../../support/PageObjects/Reports/IRDReports/UpdatedSalesVatReportPage.po');
 const {
   onSalesVatReport,
 } = require('../../../support/PageObjects/Reports/IRDReports/SalesVatReportPage.po');

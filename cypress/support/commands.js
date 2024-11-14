@@ -339,3 +339,32 @@ Cypress.Commands.add('clickAddNewLineBtn', () => {
 Cypress.Commands.add('clickOnCreateIcon', () => {
   cy.get("svg[class$='icon plus']").click({ force: true });
 });
+
+Cypress.Commands.add(
+  'waitForFileToDownload',
+  (folderPath, filePrefix, fileExtension, timeout = 10000) => {
+    const endTime = Date.now() + timeout;
+
+    const checkForFile = () => {
+      return new Cypress.Promise((resolve, reject) => {
+        fs.readdir(folderPath, (err, files) => {
+          if (err) return reject(err);
+
+          const matchedFile = files.find(
+            (file) =>
+              file.startsWith(filePrefix) && file.endsWith(fileExtension)
+          );
+          if (matchedFile) {
+            resolve(path.join(folderPath, matchedFile));
+          } else if (Date.now() > endTime) {
+            reject(new Error('File download timed out'));
+          } else {
+            setTimeout(() => checkForFile().then(resolve).catch(reject), 500);
+          }
+        });
+      });
+    };
+
+    return checkForFile();
+  }
+);

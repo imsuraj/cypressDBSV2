@@ -5,21 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "clean:downloads": "rimraf cypress/downloads/*",
     "delete:reports": "rimraf cypress/reports/* || true",
     "prereport": "npm run delete:reports",
     "generate-report": "generate-mochawesome-report --set-exit-code",
-    "cy:run_process": "cypress run --env environmentName=$npm_config_env",
+    "cy:run_process": "cypress run --env elearnvironmentName=$npm_config_env",
     "cy:run:parallel": "cypress-parallel -s cy:run_process  -t 2 -d 'cypress/e2e/tests/Login/*.js' -r 'cypress-mochawesome-reporter' -o 'cypressParallel=true,charts=true,embeddedScreenshots=true,inlineAssets=true,embeddedScreenshots=true,reportFilename=E2E_test_report_[status]_[datetime]-report,reportTitle=E2E Automation Test Report'",
     "cy:run:smoke": "cypress-parallel -s cy:run_process  -t 2 -d 'cypress/e2e/tests/smokeTests/**/*.js' -r 'cypress-mochawesome-reporter' -o 'cypressParallel=true,charts=true,embeddedScreenshots=true,inlineAssets=true,embeddedScreenshots=true,reportFilename=Smoke_test_report_[status]_[datetime]-report,reportTitle=Smoke Test Report'",
     "cy:run_test": "npm run prereport && npm run cy:run:parallel || true && npm run generate-report",
     "cy:run_smoke_test": "npm run prereport && npm run cy:run:smoke || true && npm run generate-report",
-    "cy:open_test": "cypress open --env environmentName=$npm_config_env"
+    "cy:open_test": "cypress open --env environmentName=$npm_config_env",
+    "pretest": "npm run clean:downloads"
   },
   "author": "Suraj",
   "license": "ISC",
   "dependencies": {
-    "@faker-js/faker": "^8.0.2",
-    "ajv": "^8.12.0",
+    "@faker-js/faker": "^9.2.0",
+    "ajv": "^8.17.1",
     "cypress-dotenv": "^2.0.0",
     "cypress-gitlab-parallel-runner": "^1.1.3",
     "cypress-mochawesome-reporter": "^3.5.0",
@@ -30,6 +32,7 @@
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.3.0",
     "mochawesome-report-generator": "^6.2.0",
+    "neat-csv": "^5.2.0",
     "playwright-webkit": "^1.42.1",
     "rimraf": "^5.0.1",
     "webpack-cli": "^5.1.4"
