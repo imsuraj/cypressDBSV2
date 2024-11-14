@@ -9,7 +9,7 @@
     "delete:reports": "rimraf cypress/reports/* || true",
     "prereport": "npm run delete:reports",
     "generate-report": "generate-mochawesome-report --set-exit-code",
-    "cy:run_process": "cypress run --env elearnvironmentName=$npm_config_env",
+    "cy:run_process": "cypress run --env environmentName=$npm_config_env --browser chrome",
     "cy:run:parallel": "cypress-parallel -s cy:run_process  -t 2 -d 'cypress/e2e/tests/Login/*.js' -r 'cypress-mochawesome-reporter' -o 'cypressParallel=true,charts=true,embeddedScreenshots=true,inlineAssets=true,embeddedScreenshots=true,reportFilename=E2E_test_report_[status]_[datetime]-report,reportTitle=E2E Automation Test Report'",
     "cy:run:smoke": "cypress-parallel -s cy:run_process  -t 2 -d 'cypress/e2e/tests/smokeTests/**/*.js' -r 'cypress-mochawesome-reporter' -o 'cypressParallel=true,charts=true,embeddedScreenshots=true,inlineAssets=true,embeddedScreenshots=true,reportFilename=Smoke_test_report_[status]_[datetime]-report,reportTitle=Smoke Test Report'",
     "cy:run_test": "npm run prereport && npm run cy:run:parallel || true && npm run generate-report",
