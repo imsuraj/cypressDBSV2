@@ -1,7 +1,7 @@
-name: Run Cypress tests
+name: Run Cypress tests Parallel
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
