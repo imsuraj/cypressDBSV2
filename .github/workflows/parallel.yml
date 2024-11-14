@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Test-execution-report
+          name: Test-execution-report1
           path: cypress/reports/
           retention-days: 30
   cypress-run2:
@@ -69,6 +69,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Test-execution-report
+          name: Test-execution-report2
           path: cypress/reports/
           retention-days: 30
