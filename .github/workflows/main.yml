@@ -1,7 +1,7 @@
 name: Run Cypress tests
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -47,3 +47,12 @@ jobs:
           name: Test-execution-report
           path: cypress/reports/
           retention-days: 30
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'Test Automation Report: https://github.com/imsuraj/cypressDBSV2/actions/runs/${{github.run_id}}'
+          SLACK_TITLE: Automation Test
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
