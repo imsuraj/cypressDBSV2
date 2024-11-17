@@ -31,4 +31,4 @@ export class EditPromotionPage {
 
 }
 
-export const onEditPromotionPage = new EditPromotionPage()
+export const onEditPromotionPage = new EditPromotionPage(
