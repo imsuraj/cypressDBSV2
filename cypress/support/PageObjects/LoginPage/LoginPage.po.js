@@ -36,7 +36,7 @@ export class LoginPage {
 
   // Method to enter the provided email into the email input field
   enterEmail(username) {
-    cy.get(this.email).type(username);
+    cy.get(this.email).type(username, { log: false });
   }
 
   // Method to check if the password input field is displayed
@@ -46,7 +46,7 @@ export class LoginPage {
 
   // Method to enter the provided password into the password input field
   enterPassword(password) {
-    cy.get(this.password).type(password);
+    cy.get(this.password).type(password, { log: false });
   }
 
   // Method to check if the sign-in button is displayed

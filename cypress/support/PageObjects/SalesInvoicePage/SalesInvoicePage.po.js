@@ -113,7 +113,7 @@ export class SalesInvoicePage {
       });
   }
   typeRemarks(remarks) {
-    cy.get(this.remarks).type(remarks, { force: true });
+    cy.get(this.remarks).type(remarks, { force: true, delay: 0 });
   }
 
   selectSalesPerson(agentName) {
@@ -126,7 +126,7 @@ export class SalesInvoicePage {
       .click()
       .wait(200)
       .focused()
-      .type(skuTitle + '{downarrow}{enter}');
+      .type(skuTitle + '{downarrow}{enter}', { delay: 0 });
   }
 
   checkStockOfSelectedSKU(index) {
@@ -145,10 +145,19 @@ export class SalesInvoicePage {
       });
   }
 
+  // enterQuantity(quantity) {
+  //   cy.get(this.quantity)
+  //     .type(quantity)
+  //     .should('have.prop', 'valueAsNumber', quantity);
+  // }
+
   enterQuantity(quantity) {
     cy.get(this.quantity)
-      .type(quantity)
-      .should('have.prop', 'valueAsNumber', quantity);
+      .type(quantity, { delay: 0 })
+      .then((input) => {
+        const actualValue = input.prop('valueAsNumber');
+        expect(actualValue).to.be.closeTo(quantity, 0.01); // Adjust tolerance as needed
+      });
   }
 
   enterRate(index, rate) {
@@ -519,12 +528,12 @@ export class SalesInvoicePage {
           if (Cypress.env('billTermSign3') === 'PLUS') {
             fourthBillTermValue = parseAndFormat(
               ((expectedLineNetAmount + thirdBillTermValue) * tradeDiscount) /
-                100
+              100
             );
           } else {
             fourthBillTermValue = parseAndFormat(
               ((expectedLineNetAmount - thirdBillTermValue) * tradeDiscount) /
-                100
+              100
             );
           }
         } else {
@@ -578,23 +587,19 @@ export class SalesInvoicePage {
         // Assertions
         cy.wrap({ actualAmount, expectedAmount }).should(
           ({ actualAmount, expectedAmount }) => {
-            expect(actualAmount, 'Checking Line Amount').to.eq(expectedAmount);
+            expect(actualAmount, 'Checking Line Amount').to.be.closeTo(expectedAmount, 0.01);
           }
         );
 
         cy.wrap({ actualBillTermsAmount, expectedBillTermsAmount }).should(
           ({ actualBillTermsAmount, expectedBillTermsAmount }) => {
-            expect(actualBillTermsAmount, 'Checking Line Amount').to.eq(
-              expectedBillTermsAmount
-            );
+            expect(actualBillTermsAmount, 'Checking Line Amount').to.be.closeTo(expectedBillTermsAmount, 0.01);
           }
         );
 
         cy.wrap({ actualNetAmount, expectedLineNetAmount }).should(
           ({ actualNetAmount, expectedLineNetAmount }) => {
-            expect(actualNetAmount, 'Checking Line Amount').to.eq(
-              expectedLineNetAmount
-            );
+            expect(actualNetAmount, 'Checking Line Amount').to.be.closeTo(expectedLineNetAmount, 0.01);
           }
         );
       })

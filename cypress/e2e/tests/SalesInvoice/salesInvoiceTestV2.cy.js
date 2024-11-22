@@ -30,7 +30,7 @@ describe('Sales Invoice pages suite', () => {
       'getBillTermsSettings'
     );
     // Login using provided username and password
-    cy.visit('/');
+    cy.visit('/', { log: false });
     onLoginPage.login(Cypress.env('username'), Cypress.env('password'));
   });
   beforeEach('Open App and Login', () => {
