@@ -96,7 +96,7 @@ describe('Sales Invoice pages suite', () => {
     onDashboardPage.verifySalesInvoiceUrl();
   });
 
-  it.only('should validate calculations of a sales invoice', () => {
+  it('should validate calculations of a sales invoice', () => {
     onSalesInvoicePage.clickCreateBtn();
     cy.wait(2000);
 
